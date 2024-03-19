@@ -6,7 +6,8 @@ import { authReducer } from "./authorization";
 
 import contactFormSlice from "./contactForm/contactFormSlice";
 import getDataSlice from "./getData/getDataSlice";
-
+import getLocationsViewSlice from "./getLocationsView/getLocationsViewSlice";
+import feedbackForm from "./feedbackForm/feedbackForm";
 import type { EnhancedStore } from "@reduxjs/toolkit";
 
 let store: EnhancedStore;
@@ -18,6 +19,8 @@ const createStore = (preloadedState?: any) =>
 			auth: authReducer,
 			contact: contactFormSlice,
 			data: getDataSlice,
+			locationView: getLocationsViewSlice,
+			feedback: feedbackForm,
 		},
 		preloadedState,
 	});

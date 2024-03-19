@@ -35,7 +35,7 @@ function FooterDesktop() {
 						<Link href={""}>COOPERATION</Link>
 						<Link href={""}>JOIN OUR TEAM</Link>
 					</div>
-					<div className="w-[648px]">
+					<div className="max-w-[648px]">
 						<div className="font-bold mb-[24px]">CONTACTS</div>
 						<div className="grid grid-cols-2 gap-6 text-[16px] mb-[60px]">
 							<div className="flex flex-col gap-4">

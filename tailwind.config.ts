@@ -29,6 +29,7 @@ const config: Config = {
 			primary: "#FD84C7",
 			grey_dark: "#898C93",
 			backgroundOpacity: "#00000066",
+			addition: "#F7F262",
 		},
 	},
 	plugins: [],
