@@ -1,3 +1,5 @@
+"use client";
+
 import MenuIcon from "@/assets/menu-icon.png";
 import HeaderLogo from "@/assets/header-logo.svg";
 import IconAccount from "@/assets/icon-account.svg";
@@ -7,8 +9,17 @@ import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
 import ContactUsButton from "../ContactUsButton/ContactUsButton";
 import Link from "next/link";
 import MenuDropdown from "../MenuDropdown/MenuDropdown";
+import { useEffect } from "react";
+import { useDispatch } from "@/hooks";
+import { getAllData } from "@/redux/getData/getDataSlice";
 
 function Header() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getAllData());
+	}, []);
+
 	return (
 		<header className="border-b-2">
 			<div className="desktop:max-w-[1440px] desktop:m-auto desktop:relative ">

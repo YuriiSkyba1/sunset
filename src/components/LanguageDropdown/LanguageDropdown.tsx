@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import UpArrow from "@/assets/up-arrow.svg";
 import BottomArrow from "@/assets/bot-arrow.svg";
+import { useSelector, useDispatch } from "@/hooks";
+import { getAllData } from "@/redux/getData/getDataSlice";
 
 function LanguageDropdown({ style, variant = "common" }: { style?: string; variant?: "common" | "popup" }) {
 	const [language, setLanguage] = useState(variant === "common" ? "EN" : "LANGUAGE");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getAllData());
+	}, []);
+
+	const languages = useSelector((state) => state.data.success?.languages);
 
 	return (
 		<>
@@ -30,45 +40,18 @@ function LanguageDropdown({ style, variant = "common" }: { style?: string; varia
 
 					{isOpen && (
 						<div className="absolute z-20 bg-white flex flex-col w-full border-x-2 border-b-2">
-							<button
-								className="px-3 py-[6px] text-start  "
-								onClick={() => {
-									setLanguage("EN");
-									setIsOpen(!isOpen);
-								}}
-							>
-								EN
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start "
-								onClick={() => {
-									setLanguage("PL");
-									setIsOpen(!isOpen);
-								}}
-							>
-								PL
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start "
-								onClick={() => {
-									setLanguage("UA");
-									setIsOpen(!isOpen);
-								}}
-							>
-								UA
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start"
-								onClick={() => {
-									setLanguage("CZ");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZ
-							</button>
+							{languages?.map((language) => (
+								<button
+									key={language.iso_code}
+									className="px-3 py-[6px] text-start  "
+									onClick={() => {
+										setLanguage(language.iso_code.toUpperCase());
+										setIsOpen(!isOpen);
+									}}
+								>
+									{language.iso_code.toUpperCase()}
+								</button>
+							))}
 						</div>
 					)}
 				</div>
@@ -91,45 +74,18 @@ function LanguageDropdown({ style, variant = "common" }: { style?: string; varia
 
 					{isOpen && (
 						<div className="absolute z-20  bg-white flex flex-col w-full border-x-2 border-b-2">
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setLanguage("EN");
-									setIsOpen(!isOpen);
-								}}
-							>
-								EN
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setLanguage("PL");
-									setIsOpen(!isOpen);
-								}}
-							>
-								PL
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setLanguage("UA");
-									setIsOpen(!isOpen);
-								}}
-							>
-								UA
-							</button>
-							<hr className="w-3/4 m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setLanguage("CZ");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZ
-							</button>
+							{languages?.map((language) => (
+								<button
+									key={language.iso_code}
+									className="px-3 py-[6px] text-start  "
+									onClick={() => {
+										setLanguage(language.iso_code.toUpperCase());
+										setIsOpen(!isOpen);
+									}}
+								>
+									{language.name.toUpperCase()}
+								</button>
+							))}
 						</div>
 					)}
 				</div>

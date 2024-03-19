@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import UpArrow from "@/assets/up-arrow.svg";
 import BottomArrow from "@/assets/bot-arrow.svg";
+import { useSelector } from "@/hooks";
 
 function CountryDropdown({ variant = "common" }: { variant?: "common" | "popup" }) {
-	const [country, setCountry] = useState("CZECH REPUBLIC");
+	const countries = useSelector((state) => state.data.success?.countries);
+	const [country, setCountry] = useState("COUNTRY");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
@@ -28,35 +30,20 @@ function CountryDropdown({ variant = "common" }: { variant?: "common" | "popup" 
 
 					{isOpen && (
 						<div className="absolute z-20 bg-white flex flex-col w-full border-x-2 border-b-2">
-							<button
-								className="px-3 py-[6px] text-start  "
-								onClick={() => {
-									setCountry("EN");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
-							<hr className="w-full m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start "
-								onClick={() => {
-									setCountry("PL");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
-							<hr className="w-full m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start "
-								onClick={() => {
-									setCountry("UA");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
+							{countries?.map((country) => (
+								<div key={country.iso_code}>
+									<button
+										className="px-3 py-[6px] text-start  "
+										onClick={() => {
+											setCountry(country.name.toUpperCase());
+											setIsOpen(!isOpen);
+										}}
+									>
+										{country.name.toUpperCase()}
+									</button>
+									<hr />
+								</div>
+							))}
 						</div>
 					)}
 				</div>
@@ -77,35 +64,20 @@ function CountryDropdown({ variant = "common" }: { variant?: "common" | "popup" 
 
 					{isOpen && (
 						<div className="absolute z-20 bg-white flex flex-col w-full border-x-2 border-b-2">
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px] "
-								onClick={() => {
-									setCountry("EN");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
-							<hr className="w-full m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setCountry("PL");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
-							<hr className="w-full m-auto bg-grey_medium" />
-							<button
-								className="px-3 py-[6px] text-start text-[10px] desktop:[12px]"
-								onClick={() => {
-									setCountry("UA");
-									setIsOpen(!isOpen);
-								}}
-							>
-								CZECH REPUBLIC
-							</button>
+							{countries?.map((country) => (
+								<div key={country.iso_code}>
+									<button
+										className="px-3 py-[6px] text-start  "
+										onClick={() => {
+											setCountry(country.name.toUpperCase());
+											setIsOpen(!isOpen);
+										}}
+									>
+										{country.name.toUpperCase()}
+									</button>
+									<hr />
+								</div>
+							))}
 						</div>
 					)}
 				</div>
