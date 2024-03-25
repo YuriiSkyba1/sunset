@@ -3,23 +3,22 @@ import { useSelector } from "@/hooks";
 import FilmCard from "../FilmCard/FilmCard";
 import { number } from "yup";
 import FilmsPagination from "../FilmsPagination/FilmsPagination";
+import FilterBar from "../FilterBar/FilterBar";
 
 function FilmsList() {
-	const movies = useSelector((state) => state.locationView.success?.movies);
-
-	//It's created only for checking paginator work
-	const doubleMovies = [...(movies?.movies ?? []).concat(...(movies?.movies ?? []))];
-	const doubleDoubleMovies = [...(doubleMovies ?? []).concat(...(doubleMovies ?? []))];
+	const movies = useSelector((state) => state.genres.movies);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [filmsPerPage, setFilmsPerPage] = useState<number>(8);
+	const [filmsPerPage, setFilmsPerPage] = useState<number>(12);
 
 	const lastFilmIndex = currentPage * filmsPerPage;
 	const firstFilmIndex = lastFilmIndex - filmsPerPage;
-	const currentFilms = doubleDoubleMovies.slice(firstFilmIndex, lastFilmIndex);
+
+	const currentFilms = movies?.slice(firstFilmIndex, lastFilmIndex);
 
 	return (
 		<div>
+			<FilterBar />
 			<div className="grid pt-4 grid-cols-2 gap-x-3 gap-y-5 mb-8 desktop:grid-cols-4 desktop:gap-6 items-stretch desktop:mb-10">
 				{currentFilms?.map((movie, index) => (
 					<FilmCard
@@ -40,7 +39,7 @@ function FilmsList() {
 				))}
 			</div>
 			<FilmsPagination
-				totalPosts={doubleDoubleMovies.length}
+				totalPosts={movies?.length as number}
 				postsPerPage={filmsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
