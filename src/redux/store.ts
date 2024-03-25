@@ -8,6 +8,7 @@ import contactFormSlice from "./contactForm/contactFormSlice";
 import getDataSlice from "./getData/getDataSlice";
 import getLocationsViewSlice from "./getLocationsView/getLocationsViewSlice";
 import feedbackForm from "./feedbackForm/feedbackForm";
+import getGenersFilms from "./getFilteredFilms/getGenersFilms";
 import type { EnhancedStore } from "@reduxjs/toolkit";
 
 let store: EnhancedStore;
@@ -21,6 +22,7 @@ const createStore = (preloadedState?: any) =>
 			data: getDataSlice,
 			locationView: getLocationsViewSlice,
 			feedback: feedbackForm,
+			genres: getGenersFilms,
 		},
 		preloadedState,
 	});

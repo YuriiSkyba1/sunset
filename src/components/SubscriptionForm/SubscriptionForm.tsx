@@ -11,9 +11,7 @@ function SubscriptionForm() {
 		email: Yup.string().email("Invalid email format").required("Required"),
 	});
 
-	const onSubmit = (email: { email: string }) => {
-		console.log("Form data", email);
-	};
+	const onSubmit = (email: { email: string }) => {};
 
 	return (
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>

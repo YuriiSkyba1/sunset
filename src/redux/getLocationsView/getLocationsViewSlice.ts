@@ -17,7 +17,7 @@ const initialState: getLocationsViewState = {
 export const getView = createAsyncThunk("getLocationsView/getView", async () => {
 	try {
 		const response = await axios.get("https://sunset.loc/api/en/location/location-title");
-		console.log(response.data);
+
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {
