@@ -18,7 +18,6 @@ const HomePage = () => (
 		<Header></Header>
 		<PopUpCountry />
 		<div className="flex-1"></div>
-		<TemporaryLocationPage />
 		<Footer></Footer>
 	</div>
 );

@@ -17,7 +17,7 @@ interface IFilmCard {
 	description: string;
 }
 
-function FilmCard({ title }: IFilmCard) {
+function FilmCard({ title, poster }: IFilmCard) {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
 
 	return (
@@ -33,7 +33,15 @@ function FilmCard({ title }: IFilmCard) {
 				style={{ transition: "top 0.2s ease-in-out" }}
 			>
 				<div className="flex-1">
-					<Image src={FilmPoster} alt="FilmPoster" />
+					<Image
+						src={poster}
+						alt={title}
+						width={168}
+						height={200}
+						layout="responsive"
+						unoptimized={true}
+						loading="lazy"
+					/>
 				</div>
 				<div className="p-[10px] gap-3 flex flex-1 flex-col justify-between border border-grey_medium desktop:gap-4 desktop:p-6 ">
 					<div className="uppercase font-bold text-[10px] leading-4 desktop:text-[14px] desktop:leading-5">
@@ -61,9 +69,9 @@ function FilmCard({ title }: IFilmCard) {
 
 			<button
 				className={`max-desktop:hidden uppercase font-bold w-full  border-black_main bg-primary text-black_main desktop:text-white desktop:text-xs desktop:leading-[18px] 
-				desktop:absolute bottom-0 left-0 ${
-					isHovered ? "h-[50px] desktop:py-[13px] border" : "h-[0px]  desktop:py-[0px] border-none"
-				}`}
+    desktop:absolute bottom-0 left-0 ${
+		isHovered ? "h-[50px] desktop:py-[13px] border" : "h-[0px]  desktop:py-[0px] border-none"
+	}`}
 				style={{ transition: "height 0.2s ease-in-out, padding 0.2s ease-in-out, border 0.2s ease-in-out" }}
 			>
 				buy a ticket

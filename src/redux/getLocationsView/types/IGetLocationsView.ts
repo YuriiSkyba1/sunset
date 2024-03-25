@@ -14,7 +14,7 @@ export interface IFAQItem {
 	answer: string;
 }
 
-interface Movie {
+export interface Movie {
 	slug: string;
 	poster: string;
 	title: string;
@@ -44,10 +44,10 @@ interface Filter {
 	type: string;
 	label: string;
 	placeholder: string;
-	values?: {
+	values?: Array<{
 		id: number;
 		name: string;
-	};
+	}>;
 	value: string;
 	required: boolean;
 }
