@@ -9,14 +9,25 @@
 			
 			@font-face {
     			font-family: "GothamProMedium";
-    			src: url("../fonts/GothamPro/GothamProMedium/GothamProMedium.eot");
-			    src: url("../fonts/GothamPro/GothamProMedium/GothamProMedium.eot?#iefix")format("embedded-opentype"),
-    			url("../fonts/GothamPro/GothamProMedium/GothamProMedium.woff") format("woff"),
-    			url("../fonts/GothamPro/GothamProMedium/GothamProMedium.ttf") format("truetype");
+    			src: url("../../fonts/GothamProMedium/GothamProMedium.eot");
+			    src: url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.eot?#iefix")format("embedded-opentype"),
+    			url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.woff") format("woff"),
+    			url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.ttf") format("truetype");
     			font-style: normal;
     			font-weight: normal;
     			font-display: swap;
 			}
+
+			@font-face {
+   				font-family: "GothamProRegular";
+    			src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot");
+    			src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot?#iefix")format("embedded-opentype"),
+    			url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.woff") format("woff"),
+    			url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.ttf") format("truetype");
+    			font-style: normal;
+    			font-weight: normal;
+    			font-display: swap;
+  			}
 
         html, body, div, span, applet, object, iframe,
         h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -93,7 +104,7 @@
 
 			.location__advice{
 				font-family: "GothamProMedium", sans-serif;
-				
+				font-weight: 400;				
 				margin-top: 8px	;
 				font-size: 12px;
 				line-height: 18px;
@@ -138,21 +149,19 @@
 				gap: 8px;
 			}
 
-			.list-item {				
-				font-family: "GothamProMedium", sans-serif;
+			.list-item {								
 				display: flex;
-				gap: 6px;
-				
+				gap: 6px;		
 			}
 
 			.list-item__info {
-	    		font-style: normal;
+				font-family: "GothamProMedium", sans-serif;
 				font-size: 8px;
 				line-height: 12px;
 			}
 
 			footer {
-				font-family: "GothamProMedium", sans-serif;
+				
 				padding: 20px 22px;
 				background-color: #F7F262;
 				display: grid;
@@ -165,13 +174,14 @@
 			}
 
 			.footer__label {
+				font-family: "GothamProRegular", sans-serif;
 				font-size: 10px;
 				line-height: 10px;
 				margin-bottom: 6px;
 			}
 
 			.footer__data {
-				font-weight: bold;
+				font-family: "GothamProMedium", sans-serif;
 				font-size: 12px;
 				line-height: 12px;				
 			}
