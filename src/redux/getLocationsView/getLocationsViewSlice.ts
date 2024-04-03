@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IGetLocationsView } from "./types/IGetLocationsView";
+import apiClient from "../../constants/baseApi";
 
 interface getLocationsViewState {
 	loading: boolean;
@@ -16,8 +17,7 @@ const initialState: getLocationsViewState = {
 
 export const getView = createAsyncThunk("getLocationsView/getView", async () => {
 	try {
-		const response = await axios.get("https://sunset.loc/api/en/location/location-title");
-
+		const response = await apiClient.get('en/location/location-title');
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {
