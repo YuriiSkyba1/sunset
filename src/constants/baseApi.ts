@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-	baseURL: "https://sunset.loc/api",
+	baseURL: "https://api.sunsetcinema.in-create.online/api/",
 });
 
 export default apiClient;

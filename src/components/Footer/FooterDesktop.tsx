@@ -26,7 +26,7 @@ function FooterDesktop() {
 				</div>
 				<div className="flex gap-6">
 					<div className="w-[312px] flex flex-col gap-9 font-bold text-[14px] leading-5">
-						<Link href={""}>LOCATION</Link>
+						<Link href={"/location"}>LOCATION</Link>
 						<Link href={""}>SUNSET FAMILY</Link>
 						<Link href={""}>
 							<p>ADDITIONAL SERVICES</p>

@@ -27,7 +27,7 @@ function FooterMobile() {
 					</div>
 					<div className="grid grid-cols-2 font-bold text-[12px]">
 						<div>
-							<Link href={""} className="block">
+							<Link href={"/location"} className="block">
 								LOCATION
 							</Link>
 							<Link href={""} className="block">
