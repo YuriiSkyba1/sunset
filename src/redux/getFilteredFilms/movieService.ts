@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import apiClient from "../../constants/baseApi";
 
 export const fetchFilteredMovies = createAsyncThunk(
 	"movies/fetchFiltered",
@@ -10,10 +11,9 @@ export const fetchFilteredMovies = createAsyncThunk(
 				}
 			});
 
-			const response = await fetch(`https://sunset.loc/api/en/movie/?${queryString}`);
-			if (!response.ok) throw new Error("Network response was not ok");
-			const data = await response.json();
-			return data.movies;
+			const response = await apiClient.get(`en/movie/?${queryString}`);
+			console.log()
+			return response.data.movies;
 		} catch (error: any) {
 			return rejectWithValue(error.message);
 		}

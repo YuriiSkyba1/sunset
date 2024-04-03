@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IGetState } from "./types/IGetState";
+import apiClient from "../../constants/baseApi";
 
 interface getDataState {
 	loading: boolean;
@@ -16,7 +17,7 @@ const initialState: getDataState = {
 
 export const getAllData = createAsyncThunk("getData/getAllData", async () => {
 	try {
-		const response = await axios.get("https://sunset.loc/api/en");
+		const response = await apiClient.get('en');
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {

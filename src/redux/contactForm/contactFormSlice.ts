@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import axios from "axios";
 import { SendData, ErrorResponse } from "@/components/ContactUsForm/ContactUsForm";
+import apiClient from "../../constants/baseApi";
 
 interface ContactFormState {
 	loading: boolean;
@@ -18,7 +19,7 @@ export const submitContactForm = createAsyncThunk(
 	"contactForm/submit",
 	async (formData: SendData, { rejectWithValue }) => {
 		try {
-			await axios.post("https://sunset.loc/api/en/contact-us", formData);
+			await apiClient.post('en/contact-us', formData);
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response) {
 				return rejectWithValue(error.response.data);
