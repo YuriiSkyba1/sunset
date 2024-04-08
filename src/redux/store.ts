@@ -9,6 +9,8 @@ import getDataSlice from "./getData/getDataSlice";
 import getLocationsViewSlice from "./getLocationsView/getLocationsViewSlice";
 import feedbackForm from "./feedbackForm/feedbackForm";
 import getGenersFilms from "./getFilteredFilms/getGenersFilms";
+import getFilmView from "./getFilmView/getFilmView";
+import getSessionSelection from "./sessionSelection/sessionSelection";
 import type { EnhancedStore } from "@reduxjs/toolkit";
 
 let store: EnhancedStore;
@@ -23,6 +25,8 @@ const createStore = (preloadedState?: any) =>
 			locationView: getLocationsViewSlice,
 			feedback: feedbackForm,
 			genres: getGenersFilms,
+			filmView: getFilmView,
+			sessionSelection: getSessionSelection,
 		},
 		preloadedState,
 	});
