@@ -12,7 +12,6 @@ export const fetchFilteredMovies = createAsyncThunk(
 			});
 
 			const response = await apiClient.get(`en/movie/?${queryString}`);
-			console.log()
 			return response.data.movies;
 		} catch (error: any) {
 			return rejectWithValue(error.message);

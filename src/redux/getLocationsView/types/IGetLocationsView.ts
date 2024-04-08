@@ -39,7 +39,7 @@ export interface Movie {
 	description: string;
 }
 
-interface Filter {
+export interface Filter {
 	name: string;
 	type: string;
 	label: string;
