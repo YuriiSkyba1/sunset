@@ -4,11 +4,11 @@ import Link from "next/link";
 import FacebookIcon from "@/assets/social-icons/icon-facebook.svg";
 import InstagramIcon from "@/assets/social-icons/icon-instagram.svg";
 import TelegramIcon from "@/assets/social-icons/icon-telegram.svg";
-import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
-import CountryDropdown from "../CountryDropdown/CountryDropdown";
 import IconAccount from "@/assets/icon-account.svg";
 import IncreateLogo from "@/assets/increate-logo-footer.svg";
 import SubscriptionForm from "../SubscriptionForm/SubscriptionForm";
+import LanguageDropdownSmall from "../LanguageDropdown/LanguageDropdownSmall";
+import CountryDropdownSmall from "../CountryDropdown/CountryDropdownSmall";
 
 function FooterDesktop() {
 	return (
@@ -71,9 +71,9 @@ function FooterDesktop() {
 						</div>
 						<div className="flex  justify-between pt-6 border-t border-grey_medium ">
 							<div className="flex items-center">
-								<LanguageDropdown />
+								<LanguageDropdownSmall />
 								<div className=" w-[1px] h-[21px] bg-grey_medium mx-8"></div>
-								<CountryDropdown />
+								<CountryDropdownSmall />
 							</div>
 							<div className="flex items-center font-bold">
 								<Link href={""} className="flex items-center gap-2">
