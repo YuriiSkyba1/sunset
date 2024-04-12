@@ -8,7 +8,7 @@ import { useSelector } from "@/hooks";
 import axios from "axios";
 
 export default function PopUpCountry() {
-	const [showPopup, setShowPopup] = useState(true);
+	const [showPopup, setShowPopup] = useState(false);
 	const [country, setCountry] = useState("");
 	const [language, setLanguage] = useState("");
 
@@ -18,8 +18,8 @@ export default function PopUpCountry() {
 	useEffect(() => {
 		const storedCountry = Cookies.get("country");
 		const storedLanguage = Cookies.get("language");
-		if (storedCountry && storedLanguage) {
-			setShowPopup(false);
+		if (!storedCountry || !storedLanguage) {
+			setShowPopup(true);
 		}
 		if (!storedCountry) {
 			axios
@@ -60,17 +60,9 @@ export default function PopUpCountry() {
 							</div>
 						</div>
 						<div className="flex flex-col desktop:flex-row desktop:gap-6 gap-3 mx-[112px] desktop:mb-8 mb-[56px]">
-							{availableLanguages && (
-								<LanguageDropdown
-									variant="popup"
-									language={language}
-									setLanguage={setLanguage}
-									availableLanguages={availableLanguages}
-								/>
-							)}
+							{availableLanguages && <LanguageDropdown language={language} setLanguage={setLanguage} />}
 							{availableCountries && (
 								<CountryDropdown
-									variant="popup"
 									country={country}
 									setCountry={setCountry}
 									availableCountries={availableCountries}

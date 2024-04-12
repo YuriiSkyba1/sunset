@@ -4,13 +4,13 @@ import HeaderLogo from "@/assets/header-logo.svg";
 import IconAccount from "@/assets/icon-account.svg";
 import Image from "next/image";
 import LocationBanner from "../LocationBanner/LocationBanner";
-import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
 import ContactUsButton from "../ContactUsButton/ContactUsButton";
 import Link from "next/link";
 import MenuDropdown from "../MenuDropdown/MenuDropdown";
 import { useEffect } from "react";
 import { useDispatch } from "@/hooks";
 import { getAllData } from "@/redux/getData/getDataSlice";
+import LanguageDropdownSmall from "../LanguageDropdown/LanguageDropdownSmall";
 
 function Header() {
 	const dispatch = useDispatch();
@@ -48,7 +48,7 @@ function Header() {
 							SIGN UP
 						</Link>
 						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium "></div>
-						<LanguageDropdown style="hidden desktop:block" />
+						<LanguageDropdownSmall style="hidden desktop:block" />
 						<ContactUsButton style="primary" />
 					</div>
 				</div>

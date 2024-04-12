@@ -3,16 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import ContactUsButton from "../ContactUsButton/ContactUsButton";
-import CountryDropdown from "../CountryDropdown/CountryDropdown";
-import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
 import FacebookIcon from "@/assets/social-icons/icon-facebook.svg";
 import InstagramIcon from "@/assets/social-icons/icon-instagram.svg";
 import TelegramIcon from "@/assets/social-icons/icon-telegram.svg";
 import MenuBanner from "@/assets/menu-banner.png";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "@/hooks";
+import { useState } from "react";
+import { useSelector } from "@/hooks";
 import BottomBlackArrow from "../../assets/bottom-black-arrow.svg";
-import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice";
+import CountryDropdownSmall from "../CountryDropdown/CountryDropdownSmall";
+import LanguageDropdownSmall from "../LanguageDropdown/LanguageDropdownSmall";
 
 function MenuDropdownDesktop() {
 	const [isLocationDropdownOpen, setLocationDropdownOpen] = useState<boolean>();
@@ -104,9 +103,9 @@ function MenuDropdownDesktop() {
 					</div>
 					<div className="flex py-6 items-center">
 						<div className="flex items-center mr-[60px]">
-							<LanguageDropdown />
+							<LanguageDropdownSmall />
 							<div className="w-[1px] h-[21px] bg-grey_medium mx-3"></div>
-							<CountryDropdown />
+							<CountryDropdownSmall />
 						</div>
 
 						<ContactUsButton style="black" width="200px" />

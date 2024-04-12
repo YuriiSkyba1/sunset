@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import ContactUsButton from "../ContactUsButton/ContactUsButton";
-import CountryDropdown from "../CountryDropdown/CountryDropdown";
-import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
 import LocationDropdown from "../LocationDropdown/LocationDropdown";
 import FacebookIcon from "@/assets/social-icons/icon-facebook.svg";
 import InstagramIcon from "@/assets/social-icons/icon-instagram.svg";
@@ -10,8 +8,8 @@ import TelegramIcon from "@/assets/social-icons/icon-telegram.svg";
 import IconAccount from "@/assets/icon-account.svg";
 import BlackRightArrow from "@/assets/right-black-arrow.svg";
 import { useDispatch } from "@/hooks";
-import { useEffect } from "react";
-import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice";
+import LanguageDropdownSmall from "../LanguageDropdown/LanguageDropdownSmall";
+import CountryDropdownSmall from "../CountryDropdown/CountryDropdownSmall";
 
 function MenuDropdownMobile() {
 	const dispatch = useDispatch();
@@ -91,8 +89,8 @@ function MenuDropdownMobile() {
 					<div className=" mb-10">
 						<div className=" bg-black_main h-[1px] flex flex-col gap-4" />
 						<div className="flex justify-between items-center">
-							<LanguageDropdown />
-							<CountryDropdown />
+							<LanguageDropdownSmall />
+							<CountryDropdownSmall />
 						</div>
 
 						<div className=" bg-black_main h-[1px] " />
