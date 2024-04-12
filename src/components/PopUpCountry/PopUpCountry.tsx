@@ -8,7 +8,7 @@ import { useSelector } from "@/hooks";
 import axios from "axios";
 
 export default function PopUpCountry() {
-	const [showPopup, setShowPopup] = useState(false);
+	const [showPopup, setShowPopup] = useState(true);
 	const [country, setCountry] = useState("");
 	const [language, setLanguage] = useState("");
 
@@ -19,7 +19,7 @@ export default function PopUpCountry() {
 		const storedCountry = Cookies.get("country");
 		const storedLanguage = Cookies.get("language");
 		if (storedCountry && storedLanguage) {
-			setShowPopup(true);
+			setShowPopup(false);
 		}
 		if (!storedCountry) {
 			axios
@@ -48,7 +48,7 @@ export default function PopUpCountry() {
 
 	return (
 		<>
-			{!showPopup && (
+			{showPopup && (
 				<div className="fixed z-20 w-screen h-screen bg-backgroundOpacity flex justify-center items-center">
 					<div className="w-[348px] desktop:w-[872px] bg-white py-[60px] desktop:py-20 flex flex-col items-center">
 						<div className="mx-10 mb-12 flex flex-col items-center gap-4">
