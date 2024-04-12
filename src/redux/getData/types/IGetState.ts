@@ -1,4 +1,4 @@
-interface Language {
+export interface Language {
 	name: string;
 	iso_code: string;
 	is_default: boolean;

@@ -3,9 +3,7 @@ import Image from "next/image";
 import CloseIcon from "@/assets/close-icon.svg";
 import Underline from "@/assets/primary_underline.svg";
 import ContactUsForm from "../ContactUsForm/ContactUsForm";
-import { useSelector, useDispatch } from "@/hooks";
-import { useEffect } from "react";
-import { getAllData } from "@/redux/getData/getDataSlice";
+import { useSelector } from "@/hooks";
 
 interface ContactUsModalInterface {
 	active: boolean;
@@ -18,12 +16,6 @@ function ContactUsModal({ active, setActive }: ContactUsModalInterface) {
 	};
 
 	const contactUsModal = useSelector((state) => state.data);
-
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getAllData());
-	}, []);
 
 	if (!contactUsModal?.success?.contact_us_form?.translations) {
 		return null; // или заглушка, если данные не загружены

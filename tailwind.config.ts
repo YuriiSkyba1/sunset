@@ -31,6 +31,12 @@ const config: Config = {
 			backgroundOpacity: "#00000066",
 			addition: "#F7F262",
 		},
+		fontFamily: {
+			druk_wide: ["Druk Wide Bold"],
+			gotham_pro_regular: ["GothamProRegular"],
+			gotham_pro_medium: ["GothamProMedium"],
+			gotham_pro_bold: ["GothamProBold"],
+		},
 	},
 	plugins: [],
 };

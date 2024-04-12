@@ -1,27 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import UpArrow from "@/assets/up-arrow.svg";
 import BottomArrow from "@/assets/bot-arrow.svg";
 import RightPrimaryButton from "@/assets/right-primary-arrow.svg";
 import BottomBlackArrow from "@/assets/bottom-black-arrow.svg";
 import TopBlackArrow from "@/assets/top-black-arrow.svg";
+import { useDispatch, useSelector } from "@/hooks";
+import Link from "next/link";
+import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice";
 
 function LocationDropdown() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [location, setLocation] = useState<string>("Location");
+
+	const locationsList = useSelector((state) => state.locationList);
 
 	return (
 		<div className="relative">
 			<button
 				onClick={() => setIsOpen((prev) => !prev)}
 				className={
-					"flex justify-between items-center w-full bg-white px-4 py-[10px] font-bold border-black_main border-[1px]" +
+					"flex justify-between items-center w-full bg-white px-4 py-[10px] font-druk_wide text-[14px] leading-6 border-black_main border-[1px]" +
 					(isOpen ? " " : "")
 				}
 			>
-				{location}
+				LOCATIONS
 				{!isOpen ? (
 					<Image src={BottomBlackArrow} className="" alt="BottomBlackArrow" width={24} />
 				) : (
@@ -29,39 +33,13 @@ function LocationDropdown() {
 				)}
 			</button>
 			{isOpen && (
-				<div className=" bg-white flex flex-col w-full border-x-[1px] border-b-[1px] font-bold">
-					<button
-						className="px-3 py-[6px] text-start flex items-center justify-between"
-						onClick={() => {
-							setLocation("Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift");
-							setIsOpen(!isOpen);
-						}}
-					>
-						Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift
-						<Image src={RightPrimaryButton} alt="RightPrimaryButton" />
-					</button>
-					<hr className="w-full m-auto bg-grey_medium" />
-					<button
-						className="px-3 py-[6px] text-start flex items-center justify-between"
-						onClick={() => {
-							setLocation("Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift");
-							setIsOpen(!isOpen);
-						}}
-					>
-						Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift
-						<Image src={RightPrimaryButton} alt="RightPrimaryButton" />
-					</button>
-					<hr className="w-full m-auto bg-grey_medium" />
-					<button
-						className="px-3 py-[6px] text-start flex items-center justify-between"
-						onClick={() => {
-							setLocation("Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift");
-							setIsOpen(!isOpen);
-						}}
-					>
-						Rooftop of the shopping mall Arkády Pankrác 4th floor by the lift
-						<Image src={RightPrimaryButton} alt="RightPrimaryButton" />
-					</button>
+				<div className=" bg-white flex flex-col w-full border-x-[1px] border-b-[1px] font-druk_wide text-[10px] leading-[18px]">
+					{locationsList?.success?.map((location) => (
+						<div className="px-3 py-[6px] text-start flex items-center justify-between">
+							<Link href={"/location"}>{location.title}</Link>
+							<Image src={RightPrimaryButton} alt="RightPrimaryButton" />
+						</div>
+					))}
 				</div>
 			)}
 		</div>
