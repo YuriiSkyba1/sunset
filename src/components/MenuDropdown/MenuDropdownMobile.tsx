@@ -9,9 +9,13 @@ import InstagramIcon from "@/assets/social-icons/icon-instagram.svg";
 import TelegramIcon from "@/assets/social-icons/icon-telegram.svg";
 import IconAccount from "@/assets/icon-account.svg";
 import BlackRightArrow from "@/assets/right-black-arrow.svg";
-import PrimaryRightArrow from "@/assets/right-black-arrow.svg";
+import { useDispatch } from "@/hooks";
+import { useEffect } from "react";
+import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice";
 
 function MenuDropdownMobile() {
+	const dispatch = useDispatch();
+
 	return (
 		<div className="block desktop:hidden">
 			<div className="absolute z-10 top-[50px] left-0 bg-pink_light flex flex-col items-center w-full">
@@ -19,7 +23,7 @@ function MenuDropdownMobile() {
 					<div className="mt-5">
 						<LocationDropdown />
 					</div>
-					<div className="mt-8 text-sm leading-6 font-bold flex flex-col gap-[20px] mb-20">
+					<div className="mt-8 font-druk_wide text-[14px] leading-[24px] flex flex-col gap-[20px] mb-20">
 						<Link href={""} className="flex justify-between">
 							<div className="font-bold">
 								<p>SUNSET FAMILY</p>
@@ -46,25 +50,29 @@ function MenuDropdownMobile() {
 						</Link>
 					</div>
 					<div className="mb-8">
-						<p className="mb-3 font-bold text-[12px] leading-4">CONTACTS</p>
+						<p className="mb-3 font-druk_wide text-[12px] leading-4">CONTACTS</p>
 						<div className=" grid grid-cols-1 gap-4 text-[16px] mb-6">
 							<div className="flex flex-col gap-2">
 								<div className="flex flex-col gap-[2px]">
-									<p>Location</p>
-									<p className=" font-bold">Na Pankráci 86, 140 00 Praha 4-Nusle</p>
+									<p className="font-gotham_pro_regular text-[14px] leading-5">Location</p>
+									<p className="font-gotham_pro_medium text-[14px] leading-5">
+										Na Pankráci 86, 140 00 Praha 4-Nusle
+									</p>
 								</div>
 								<div className="flex flex-col gap-[2px]">
-									<p>Phone number</p>
-									<p className=" font-bold">+420 737 316 542</p>
+									<p className="font-gotham_pro_regular text-[14px] leading-5">Phone number</p>
+									<p className="font-gotham_pro_medium text-[14px] leading-5">+420 737 316 542</p>
 								</div>
 							</div>
 							<div className="flex flex-col gap-2">
 								<div className="flex flex-col gap-[2px]">
-									<p>E-mail</p>
-									<p className=" font-bold">sunset.cinema.cz.info@gmail.com</p>
+									<p className="font-gotham_pro_regular text-[14px] leading-5">E-mail</p>
+									<p className="font-gotham_pro_medium text-[14px] leading-5">
+										sunset.cinema.cz.info@gmail.com
+									</p>
 								</div>
 								<div className="flex flex-col gap-[2px]">
-									<p>Networks</p>
+									<p className="font-gotham_pro_regular text-[14px] leading-5">Networks</p>
 									<div className="flex gap-4">
 										<Link href={""}>
 											<Image src={FacebookIcon} alt="FacebookIcon"></Image>
@@ -95,10 +103,10 @@ function MenuDropdownMobile() {
 					<div className="flex justify-evenly items-center font-bold">
 						<Link href={""} className="flex items-center py-4 gap-2">
 							<Image src={IconAccount} alt="IconAccount" />
-							<p>LOG IN</p>
+							<p className="font-druk_wide text-[12px] leading-[18px]">LOG IN</p>
 						</Link>
 						<div className=" w-[1px] h-[21px] bg-grey_medium mx-3"></div>
-						<Link href={""} className=" font-bold py-4">
+						<Link href={""} className="font-druk_wide text-[12px] leading-[18px] py-4">
 							SIGN UP
 						</Link>
 					</div>

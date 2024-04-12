@@ -4,12 +4,11 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
-		<link href="https://fonts.cdnfonts.com/css/druk-wide-bold" rel="stylesheet">                
+		<link href="https://fonts.cdnfonts.com/css/druk-wide-bold" rel="stylesheet" />
 		<style>
-			
 			@font-face {
-    			font-family: "GothamProMedium";
-    			src: url("../../fonts/GothamProMedium/GothamProMedium.eot");
+				font-family: "GothamProMedium";
+				src: url("../../fonts/GothamProMedium/GothamProMedium.eot");
 			    src: url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.eot?#iefix")format("embedded-opentype"),
     			url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.woff") format("woff"),
     			url("../../fonts/GothamPro/GothamProMedium/GothamProMedium.ttf") format("truetype");
@@ -19,36 +18,105 @@
 			}
 
 			@font-face {
-   				font-family: "GothamProRegular";
-    			src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot");
-    			src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot?#iefix")format("embedded-opentype"),
-    			url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.woff") format("woff"),
-    			url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.ttf") format("truetype");
-    			font-style: normal;
-    			font-weight: normal;
-    			font-display: swap;
-  			}
+				font-family: "GothamProRegular";
+				src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot");
+				src: url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.eot?#iefix")
+						format("embedded-opentype"),
+					url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.woff") format("woff"),
+					url("../../fonts/GothamPro/GothamProRegular/GothamProRegular.ttf") format("truetype");
+				font-style: normal;
+				font-weight: normal;
+				font-display: swap;
+			}
 
-        html, body, div, span, applet, object, iframe,
-        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-        a, abbr, acronym, address, big, cite, code,
-        del, dfn, em, img, ins, kbd, q, s, samp,
-        small, strike, strong, sub, sup, tt, var,
-        b, u, i, center,
-        dl, dt, dd, ol, ul, li,
-        fieldset, form, label, legend,
-        table, caption, tbody, tfoot, thead, tr, th, td,
-        article, aside, canvas, details, embed,
-        figure, figcaption, footer, header, hgroup,
-        menu, nav, output, ruby, section, summary,
-        time, mark, audio, video {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            font: inherit;
-            vertical-align: baseline;
-        }
+			html,
+			body,
+			div,
+			span,
+			applet,
+			object,
+			iframe,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			p,
+			blockquote,
+			pre,
+			a,
+			abbr,
+			acronym,
+			address,
+			big,
+			cite,
+			code,
+			del,
+			dfn,
+			em,
+			img,
+			ins,
+			kbd,
+			q,
+			s,
+			samp,
+			small,
+			strike,
+			strong,
+			sub,
+			sup,
+			tt,
+			var,
+			b,
+			u,
+			i,
+			center,
+			dl,
+			dt,
+			dd,
+			ol,
+			ul,
+			li,
+			fieldset,
+			form,
+			label,
+			legend,
+			table,
+			caption,
+			tbody,
+			tfoot,
+			thead,
+			tr,
+			th,
+			td,
+			article,
+			aside,
+			canvas,
+			details,
+			embed,
+			figure,
+			figcaption,
+			footer,
+			header,
+			hgroup,
+			menu,
+			nav,
+			output,
+			ruby,
+			section,
+			summary,
+			time,
+			mark,
+			audio,
+			video {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 100%;
+				font: inherit;
+				vertical-align: baseline;
+			}
 			body {
 				width: 595px;
 			}
@@ -73,13 +141,13 @@
 				border-bottom: 1px solid black;
 			}
 
-			.movie-info{
+			.movie-info {
 				padding-bottom: 24px;
 				border-bottom: 1px solid black;
 			}
 
 			.movie-info__title {
-				font-family: 'Druk Wide Bold', sans-serif;                                            
+				font-family: "Druk Wide Bold", sans-serif;
 				font-size: 20px;
 				line-height: 28px;
 				font-weight: bold;
@@ -93,8 +161,8 @@
 				justify-content: space-between;
 			}
 
-			h3{
-				font-family: 'Druk Wide Bold', sans-serif;     
+			h3 {
+				font-family: "Druk Wide Bold", sans-serif;
 				font-size: 10px;
 				line-height: 10px;
 				text-transform: uppercase;
@@ -102,15 +170,15 @@
 				margin-bottom: 8px;
 			}
 
-			.location__advice{
+			.location__advice {
 				font-family: "GothamProMedium", sans-serif;
-				font-weight: 400;				
-				margin-top: 8px	;
+				font-weight: 400;
+				margin-top: 8px;
 				font-size: 12px;
 				line-height: 18px;
 			}
 
-			.data-input {				
+			.data-input {
 				font-family: "GothamProMedium", sans-serif;
 				padding: 10px 12px;
 				font-size: 12px;
@@ -126,9 +194,8 @@
 				border-bottom: 1px solid black;
 				display: flex;
 				justify-content: space-between;
-
 			}
-			
+
 			.ticket-info__content {
 				display: grid;
 				grid-template-columns: 120px 120px;
@@ -149,9 +216,9 @@
 				gap: 8px;
 			}
 
-			.list-item {								
+			.list-item {
 				display: flex;
-				gap: 6px;		
+				gap: 6px;
 			}
 
 			.list-item__info {
@@ -161,14 +228,13 @@
 			}
 
 			footer {
-				
 				padding: 20px 22px;
-				background-color: #F7F262;
+				background-color: #f7f262;
 				display: grid;
 				grid-template-columns: repeat(2, minmax(0, 1fr));
 			}
 
-			.footer__right-col{
+			.footer__right-col {
 				display: flex;
 				gap: 24px;
 			}
@@ -183,9 +249,8 @@
 			.footer__data {
 				font-family: "GothamProMedium", sans-serif;
 				font-size: 12px;
-				line-height: 12px;				
+				line-height: 12px;
 			}
-
 		</style>
 	</head>
 	<body>
@@ -200,7 +265,10 @@
 						<div class="content__location">
 							<h3 class="">LOCATION</h3>
 							<div class="data-input">Na Pankráci 86, 140 00 Praha 4-Nusle</div>
-							<p class="location__advice">You can find us by coming to the Mall, go up <br> to the second floor - find the location</p>
+							<p class="location__advice">
+								You can find us by coming to the Mall, go up <br />
+								to the second floor - find the location
+							</p>
 						</div>
 						<div class="content__date">
 							<h3 class="">DATE</h3>
@@ -227,22 +295,28 @@
 							<div class="data-input">250 $</div>
 						</div>
 					</div>
-					<img src="../../assets/ticket-pdf/ticket_qr.png" alt="ticket_qr">
+					<img src="../../assets/ticket-pdf/ticket_qr.png" alt="ticket_qr" />
 				</div>
 				<div class="rules-section">
 					<h3>RULES</h3>
 					<div class="rules-section__list">
 						<div class="list-item">
-							<img src="../../assets/ticket-pdf/attention-icon.svg" alt="attention-icon">
-							<p class="list-item__info">This document is the basis for the visit session without going to the box office</p>
+							<img src="../../assets/ticket-pdf/attention-icon.svg" alt="attention-icon" />
+							<p class="list-item__info">
+								This document is the basis for the visit session without going to the box office
+							</p>
 						</div>
 						<div class="list-item">
-							<img src="../../assets/ticket-pdf/refresh-icon.svg" alt="refresh-icon">
-							<p class="list-item__info">Tickets can be returned on the website in the section"Write to us"</p>
+							<img src="../../assets/ticket-pdf/refresh-icon.svg" alt="refresh-icon" />
+							<p class="list-item__info">
+								Tickets can be returned on the website in the section"Write to us"
+							</p>
 						</div>
 						<div class="list-item">
-							<img src="../../assets/ticket-pdf/pen-icon.svg" alt="pen-icon">
-							<p class="list-item__info">By purchasing a ticket, you automatically agree to the rules of the cinema</p>
+							<img src="../../assets/ticket-pdf/pen-icon.svg" alt="pen-icon" />
+							<p class="list-item__info">
+								By purchasing a ticket, you automatically agree to the rules of the cinema
+							</p>
 						</div>
 					</div>
 				</div>
@@ -258,13 +332,15 @@
 					<p class="footer__label">Phone number</p>
 					<p class="footer__data">+420 737 316 542</p>
 				</div>
-				<div >
+				<div>
 					<p class="footer__label">Website</p>
 					<p class="footer__data">sunsetcinema.com</p>
 				</div>
 			</div>
 		</footer>
 		</body>
+		</body>
+		
+	</body>
 		
 </html>
-		

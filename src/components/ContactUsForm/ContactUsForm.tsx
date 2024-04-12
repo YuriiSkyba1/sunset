@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from "@/hooks";
 import { submitContactForm } from "@/redux/contactForm/contactFormSlice";
 import { initialValues } from "./initialValues";
 import { validationSchema } from "./validationSchema";
-import { useEffect } from "react";
-import { getAllData } from "@/redux/getData/getDataSlice";
 
 export interface SendData {
 	name: string;
