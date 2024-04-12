@@ -1,6 +1,7 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import TextErrorMessage from "../TextErrorMessage/TextErrorMessage";
 import * as Yup from "yup";
+import axios from "axios";
 
 function SubscriptionForm() {
 	const initialValues = {
@@ -11,7 +12,14 @@ function SubscriptionForm() {
 		email: Yup.string().email("Invalid email format").required("Required"),
 	});
 
-	const onSubmit = (email: { email: string }) => {};
+	const onSubmit = async (email: { email: string }, { resetForm }: FormikHelpers<{ email: string }>) => {
+		try {
+			const response = await axios.post("https://api.sunsetcinema.in-create.online/api/en/subscribe", email);
+			resetForm();
+		} catch (error) {
+			console.error("Ошибка отправки данных:", error);
+		}
+	};
 
 	return (
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>

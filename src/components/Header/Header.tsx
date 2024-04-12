@@ -1,6 +1,5 @@
 "use client";
 
-import MenuIcon from "@/assets/menu-icon.png";
 import HeaderLogo from "@/assets/header-logo.svg";
 import IconAccount from "@/assets/icon-account.svg";
 import Image from "next/image";
@@ -31,25 +30,25 @@ function Header() {
 						<div className="flex items-center gap-3">
 							<div className=" desktop:hidden">
 								<Link href={""}>
-									<Image src={IconAccount} alt="IconAccount" />
+									<Image src={IconAccount} alt="IconAccount" width={24} />
 								</Link>
 							</div>
 							<MenuDropdown />
 						</div>
 						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium mx-3"></div>
 						<LocationBanner style="hidden desktop:block" />
-						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium mx-3"></div>
-						<LanguageDropdown style="hidden desktop:block" />
 					</div>
 					<div className="hidden font-bold desktop:flex desktop:gap-8 desktop:items-center">
 						<Link href={""} className="flex items-center gap-2">
 							<Image src={IconAccount} alt="IconAccount" />
 							<p>LOG IN</p>
 						</Link>
-						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium mx-3"></div>
+						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium "></div>
 						<Link href={""} className="">
 							SIGN UP
 						</Link>
+						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium "></div>
+						<LanguageDropdown style="hidden desktop:block" />
 						<ContactUsButton style="primary" />
 					</div>
 				</div>

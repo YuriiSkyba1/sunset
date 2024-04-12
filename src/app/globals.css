@@ -1,3 +1,42 @@
+@import url("https://fonts.cdnfonts.com/css/druk-wide-bold");
+
+@layer base {
+	@font-face {
+		font-family: "GothamProMedium";
+		src: url("/fonts/GothamPro/GothamProMedium/GothamProMedium.eot");
+		src: url("/fonts/GothamPro/GothamProMedium/GothamProMedium.eot?#iefix") format("embedded-opentype"),
+			url("/fonts/GothamPro/GothamProMedium/GothamProMedium.woff") format("woff"),
+			url("/fonts/GothamPro/GothamProMedium/GothamProMedium.ttf") format("truetype");
+		font-style: normal;
+		font-weight: normal;
+		font-display: swap;
+	}
+}
+
+@layer base {
+	@font-face {
+		font-family: "GothamProRegular";
+		src: url("/fonts/GothamProRegular/GothamProRegular.eot");
+		src: url("/fonts/GothamProRegular/GothamProRegular.eot?#iefix") format("embedded-opentype"),
+			url("/fonts/GothamProRegular/GothamProRegular.woff") format("woff"),
+			url("/fonts/GothamProRegular/GothamProRegular.ttf") format("truetype");
+		font-style: normal;
+		font-weight: normal;
+		font-display: swap;
+	}
+}
+
+@font-face {
+	font-family: "GothamProBold";
+	src: url("/fonts/GothamProBold/GothamProBold.eot");
+	src: url("/fonts/GothamProBold/GothamProBold.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/GothamProBold/GothamProBold.woff") format("woff"),
+		url("/fonts/GothamProBold/GothamProBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

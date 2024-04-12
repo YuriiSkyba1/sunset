@@ -21,7 +21,12 @@ function AboutLocation() {
 				/>
 				<div className="grid grid-cols-2 gap-3 desktop:gap-6 max-desktop:mb-8">
 					{renderingData?.about_cards.map((card) => (
-						<AboutCard key={card.title} title={card.title} description={card.description} icon={""} />
+						<AboutCard
+							key={card.title}
+							title={card.title}
+							description={card.description}
+							icon={card.icon}
+						/>
 					))}
 				</div>
 				<button className="w-full py-[14px] desktop:px-8 desktop:max-w-[200px] bg-primary text-black_main text-xs leading-[18px] uppercase font-bold">
