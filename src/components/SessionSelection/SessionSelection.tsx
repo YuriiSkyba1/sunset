@@ -96,11 +96,11 @@ const SessionSelection: React.FC = () => {
 				<div className="flex flex-wrap gap-2">
 					{tickets.map((ticket) => (
 						<div key={ticket.event_ticket_id} className="flex flex-col gap-2">
-							<div className="uppercase font-bold text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
+							<div className="uppercase font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
 								PLACE:
 							</div>
-							<div className="bg-addition py-[2px] px-[10px] text-[12px] leading-[18px]">
-								#{ticket.seat}$
+							<div className="font-gotham_pro_regular bg-addition py-[2px] px-[10px] text-[12px] leading-[20px] text-center">
+								#{ticket.seat}
 							</div>
 						</div>
 					))}
@@ -112,18 +112,18 @@ const SessionSelection: React.FC = () => {
 	return (
 		<div>
 			<div className="p-6 border border-black_main w-full max-w-[348px] desktop:max-w-[424px] m-0">
-				<h3 className="uppercase font-bold text-[14px] leading-[14px] mb-5 desktop:mb-6 desktop:text-[18px] desktop:leading-[24px]">
+				<h3 className="uppercase font-druk_wide text-[14px] leading-[14px] mb-5 desktop:mb-6 desktop:text-[18px] desktop:leading-[24px]">
 					session selection
 				</h3>
 				<div className="flex flex-col gap-4">
 					<div className="pb-[20px] border-b border-grey_medium">
-						<p className="font-bold uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
+						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							LOCATION
 						</p>
 						<SelectLocation options={locations!}></SelectLocation>
 					</div>
 					<div className="pb-[20px] border-b border-grey_medium">
-						<p className="font-bold uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
+						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							DATE
 						</p>
 						<div className="flex gap-1 flex-wrap">
@@ -140,7 +140,7 @@ const SessionSelection: React.FC = () => {
 						</div>
 					</div>
 					<div className="pb-[20px] border-b border-grey_medium">
-						<p className="font-bold uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
+						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							SESSION
 						</p>
 						<div className="flex gap-1 flex-wrap">
@@ -157,12 +157,14 @@ const SessionSelection: React.FC = () => {
 
 					{showCheckedTickets()}
 					<div className=" desktop:pb-[20px]">
-						<p className="font-bold uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
+						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							PLACE
 						</p>
 						<div className="w-full border border-black_main max-w-[376px] desktop:max-w-[376px] ">
 							<div className="mx-auto w-5/6 border border-black_main mt-6"></div>
-							<p className="text-center mt-[10px]">screen</p>
+							<p className="text-center mt-[10px] font-gotham_pro_regular text-[12px] leading-5">
+								screen
+							</p>
 							<div className="mt-10 desktop:mt-20">{seats}</div>
 						</div>
 						{checkedTicketsAdaptive()}
@@ -172,9 +174,11 @@ const SessionSelection: React.FC = () => {
 									uniquePriceColorPairs.map((pair) => (
 										<div key={pair.price} className="flex items-center gap-2">
 											<div className={`w-3 h-3 `} style={{ backgroundColor: pair.color }}></div>
-											<div className="flex">
-												<p className="text-[12px] leading-5">Price:</p>
-												<p className="text-[12px] leading-5 font-bold">{pair.price}$</p>
+											<div className="flex gap-1">
+												<p className="font-gotham_pro_regular text-[12px] leading-5">Price:</p>
+												<p className="text-[12px] leading-5 font-gotham_pro_bold">
+													{pair.price}$
+												</p>
 											</div>
 										</div>
 									))}
@@ -184,7 +188,7 @@ const SessionSelection: React.FC = () => {
 				</div>
 			</div>
 			<button
-				className="uppercase font-bold text-[12px] leading-[18px] w-full max-w-[348px] desktop:max-w-[424px] bg-primary py-[14px] border border-t-0"
+				className="uppercase font-druk_wide text-[12px] leading-[18px] w-full max-w-[348px] desktop:max-w-[424px] bg-primary py-[14px] border border-t-0"
 				disabled={!selectedDataStore.date || !selectedDataStore.location || !selectedDataStore.time}
 				onClick={() => setRegisterOpen(!isRegisterOpen)}
 			>

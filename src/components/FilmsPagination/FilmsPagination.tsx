@@ -44,7 +44,7 @@ function FilmsPagination({ totalPosts, postsPerPage, currentPage, setCurrentPage
 	return (
 		<div className="flex flex-col items-center desktop:gap-4 gap-3">
 			<button
-				className="uppercase text-[12px] leading-[18px] font-bold border border-primary px-[56px] py-[14px] desktop:px-[42px] desktop:py-[12px]"
+				className="uppercase text-[12px] leading-[18px] font-druk_wide border border-primary px-[56px] py-[14px] desktop:px-[42px] desktop:py-[12px]"
 				onClick={handleShowMore}
 			>
 				show more
@@ -66,7 +66,7 @@ function FilmsPagination({ totalPosts, postsPerPage, currentPage, setCurrentPage
 								onClick={() => setCurrentPage(page)}
 								className={`${
 									page === currentPage ? "text-primary underline" : ""
-								} desktop:text-[18px] leading-[28px] `}
+								} desktop:text-[18px] leading-[28px] font-gotham_pro_regular`}
 							>
 								{page}
 							</button>

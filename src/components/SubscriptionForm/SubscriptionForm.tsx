@@ -31,7 +31,7 @@ function SubscriptionForm() {
 								type="email"
 								id="email"
 								name="email"
-								className="max-desktop:h-[34px] max-desktop:2/3 w-full pl-3 py-3 border border-grey_medium mr-2"
+								className="max-desktop:h-[34px] w-[] desktop:w-full pl-3 py-3 border border-grey_medium mr-2"
 								placeholder="E-mail"
 							></Field>
 							<div className="hidden desktop:block">
@@ -40,7 +40,7 @@ function SubscriptionForm() {
 							<button
 								type="submit"
 								disabled={!formik.isValid}
-								className="w-1/3 text-[10px] leading-[10px] py-3 desktop:w-full desktop:h-[44px]  desktop:mt-4 bg-primary text-black_main font-bold"
+								className="w-[143px] font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] py-[11px] desktop:py-[13px] desktop:w-full desktop:h-[44px]  desktop:mt-4 bg-primary text-black_main font-bold"
 							>
 								SUBSCRIPTION
 							</button>

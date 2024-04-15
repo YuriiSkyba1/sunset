@@ -22,7 +22,10 @@ function LocationBanner({ style }: { style?: string }) {
 	return (
 		<div className={style}>
 			{locationList.success?.length! > 1 && (
-				<button onClick={() => setIsOpen((prev) => !prev)} className="flex gap-2 items-center font-bold">
+				<button
+					onClick={() => setIsOpen((prev) => !prev)}
+					className="flex gap-2 items-center font-bold font-druk_wide text-[12px] leading-[18px] uppercase"
+				>
 					LOCATION
 					{!isOpen ? <Image src={BottomArrow} alt="BottomArrow" /> : <Image src={UpArrow} alt="UpArrow" />}
 				</button>
@@ -51,7 +54,7 @@ function LocationBanner({ style }: { style?: string }) {
 					</div>
 				</div>
 			)}
-			<Link href={"/location"} className="font-bold">
+			<Link href={"/location"} className="font-druk_wide text-[12px] leading-[18px] uppercase">
 				LOCATION
 			</Link>
 		</div>

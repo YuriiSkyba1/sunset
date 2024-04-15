@@ -39,12 +39,12 @@ function Header() {
 						<LocationBanner style="hidden desktop:block" />
 					</div>
 					<div className="hidden font-bold desktop:flex desktop:gap-8 desktop:items-center">
-						<Link href={""} className="flex items-center gap-2">
+						<Link href={""} className="flex items-center gap-2 font-druk_wide text-[12px] leading-[18px]">
 							<Image src={IconAccount} alt="IconAccount" />
 							<p>LOG IN</p>
 						</Link>
 						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium "></div>
-						<Link href={""} className="">
+						<Link href={""} className="font-druk_wide text-[12px] leading-[18px]">
 							SIGN UP
 						</Link>
 						<div className="hidden desktop:block w-[1px] h-[21px] bg-grey_medium "></div>
