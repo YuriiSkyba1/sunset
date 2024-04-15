@@ -10,7 +10,7 @@ function AboutLocation() {
 	return (
 		<div className="px-4 py-10 desktop:flex desktop:px-[60px] desktop:py-20 desktop:flex-row desktop:justify-between desktop:gap-[26px]">
 			<div className="desktop:flex flex-col desktop:gap-10">
-				<div className="w-full text-[24px] leading-[32px] desktop:text-[40px] desktop:leading-[48px] uppercase font-bold max-desktop:mb-4 desktop:max-w-[312px]">
+				<div className="font-druk_wide w-full text-[24px] leading-[32px] desktop:text-[40px] desktop:leading-[48px] uppercase max-desktop:mb-4 desktop:max-w-[312px]">
 					{renderingData?.about_title}
 					<Image src={Underline} alt={"Underline"} />
 				</div>
@@ -29,7 +29,7 @@ function AboutLocation() {
 						/>
 					))}
 				</div>
-				<button className="w-full py-[14px] desktop:px-8 desktop:max-w-[200px] bg-primary text-black_main text-xs leading-[18px] uppercase font-bold">
+				<button className="w-full py-[14px] desktop:px-8 desktop:max-w-[200px] bg-primary text-black_main text-xs leading-[18px] uppercase font-druk_wide">
 					buy a ticket
 				</button>
 			</div>

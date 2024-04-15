@@ -16,7 +16,7 @@ const styles = {
 function LocationItem({ title, photo, slug, isHovered }: ILocationItem) {
 	return (
 		<div
-			className=" pb-5 border-b-[1px] font-bold text-black_main "
+			className=" pb-5 border-b-[1px] font-bold text-black_main font-druk_wide text-[12px] leading-[18px] uppercase"
 			onMouseEnter={() => isHovered(photo)}
 			onMouseLeave={() => isHovered("")}
 		>

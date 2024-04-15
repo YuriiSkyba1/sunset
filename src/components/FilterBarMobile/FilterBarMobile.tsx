@@ -36,7 +36,7 @@ function FilterBarMobile() {
 			>
 				<div className="flex gap-1">
 					<Image src={FilterIcon} alt="FilterIcon" />
-					<div className="font-bold uppercase text-[14px] leading-6">FILTER</div>
+					<div className="font-druk_wide uppercase text-[14px] leading-6">FILTER</div>
 				</div>
 				<Image src={RightBlackArrow} alt="RightBlackArrow" />
 			</button>
@@ -53,7 +53,7 @@ function FilterBarMobile() {
 					<div className="flex justify-between py-6 px-4 border-b border-[#DFDDE3]">
 						<div className="flex gap-1">
 							<Image src={FilterIcon} alt="FilterIcon" />
-							<div className="font-bold uppercase text-[14px] leading-6">FILTER</div>
+							<div className="font-druk_wide uppercase text-[14px] leading-6">FILTER</div>
 						</div>
 						<button onClick={() => setFilterBarOpen(false)}>
 							<Image src={CloseIcon} alt="CloseIcon" />
@@ -62,7 +62,7 @@ function FilterBarMobile() {
 
 					<div className="py-6 border-b px-4 ">
 						<button
-							className="w-full flex justify-between items-center uppercase font-bold text-[14px] leading-6"
+							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
 							onClick={() => setGenreIsOpen(!genreIsOpen)}
 						>
 							film genre
@@ -99,7 +99,7 @@ function FilterBarMobile() {
 					</div>
 					<div className="py-6 border-b px-4 ">
 						<button
-							className="w-full flex justify-between items-center uppercase font-bold text-[14px] leading-6"
+							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
 							onClick={() => setTitleIsOpen(!titleIsOpen)}
 						>
 							Film title
@@ -112,7 +112,7 @@ function FilterBarMobile() {
 					</div>
 					<div className="py-6 border-b px-4 ">
 						<button
-							className="w-full flex justify-between items-center uppercase font-bold text-[14px] leading-6"
+							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
 							onClick={() => setSessionIsOpen(!sessionIsOpen)}
 						>
 							session
@@ -126,9 +126,9 @@ function FilterBarMobile() {
 				</div>
 
 				{choosenGenres.filters.length > 0 && (
-					<div className="w-full max-w-[350px] flex flex-col gap-4 px-4 mb-10">
+					<div className="w-full flex flex-col gap-4 px-4 mb-10">
 						<div className="flex flex-col gap-[12px]">
-							<div className="uppercase font-bold text-[14px] leading-5 ">CHOOSEN</div>
+							<div className="uppercase font-druk_wide text-[14px] leading-5 ">CHOOSEN</div>
 							<div className="flex gap-1 flex-wrap">
 								{choosenGenres.filters.map((filter) => (
 									<FIlmGenreCard
@@ -144,7 +144,7 @@ function FilterBarMobile() {
 							</div>
 							<div>
 								<button
-									className="underline text-[12px] leading-5 capitalize px-[10px] py-[2px]"
+									className="underline font-gotham_pro_medium text-[12px] leading-5 capitalize px-[10px] py-[2px]"
 									onClick={() => dispatch(resetGenres())}
 								>
 									Clean all filters
@@ -153,7 +153,7 @@ function FilterBarMobile() {
 						</div>
 
 						<button
-							className="uppercase font-bold py-[14px] d w-full max-w-[350px] text-[14px] leading-5 bg-primary"
+							className="uppercase font-druk_wide py-[14px] w-full  text-[14px] leading-5 bg-primary"
 							onClick={() => setFilterBarOpen(false)}
 						>
 							CONFIRM

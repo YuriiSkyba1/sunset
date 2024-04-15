@@ -46,31 +46,35 @@ function FilmCard({ title, poster, slug }: IFilmCard) {
 						/>
 					</div>
 					<div className="p-[10px] gap-3 flex flex-1 flex-col justify-between border border-grey_medium desktop:gap-4 desktop:p-6 ">
-						<div className="uppercase font-bold text-[10px] leading-4 desktop:text-[14px] desktop:leading-5">
+						<div className="uppercase font-druk_wide text-[10px] leading-4 desktop:text-[14px] desktop:leading-5">
 							{title}
 						</div>
 						<div className="flex flex-col gap-2 desktop:flex-row desktop:justify-between">
 							<div>
-								<p className="text-xs leading-3 p-2 desktop:text-xs desktop:leading-3">Date:</p>
-								<p className="text-xs leading-3 font-bold bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px]">
+								<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
+									Date:
+								</p>
+								<p className="font-gotham_pro_bold text-xs leading-3 bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px]">
 									Mon, 2 November
 								</p>
 							</div>
 							<div className="w-fit">
-								<p className="text-xs leading-3 p-2 desktop:text-xs desktop:leading-3">Time:</p>
-								<p className="text-xs leading-3 font-bold bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px] ">
+								<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
+									Time:
+								</p>
+								<p className="font-gotham_pro_bold text-xs leading-3 bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px] ">
 									19 : 00
 								</p>
 							</div>
 						</div>
 					</div>
-					<button className="desktop:hidden uppercase font-bold w-full border text-[10px] leading-3 border-black_main bg-primary text-black_main max-h-10 py-[14px]">
+					<button className="desktop:hidden uppercase font-druk_wide w-full border text-[10px] leading-3 border-black_main bg-primary text-black_main max-h-10 py-[14px]">
 						buy a ticket
 					</button>
 				</div>
 
 				<button
-					className={`max-desktop:hidden uppercase font-bold w-full  border-black_main bg-primary text-black_main desktop:text-white desktop:text-xs desktop:leading-[18px] 
+					className={`max-desktop:hidden uppercase font-druk_wide w-full border-black_main bg-primary text-black_main desktop:text-white desktop:text-xs desktop:leading-[18px] 
     							desktop:absolute bottom-0 left-0 ${
 									isHovered
 										? "h-[50px] desktop:py-[13px] border"

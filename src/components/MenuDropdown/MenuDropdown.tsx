@@ -26,7 +26,7 @@ function MenuDropdown() {
 				) : (
 					<Image src={MenuIcon} width={48} height={48} alt="MenuIcon" className="" />
 				)}
-				<p className="hidden desktop:block font-bold">MENU</p>
+				<p className="hidden desktop:block font-bold font-druk_wide text-[12px] leading-[18px]">MENU</p>
 			</button>
 			{isOpen && (
 				<div>

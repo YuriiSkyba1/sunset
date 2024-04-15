@@ -22,7 +22,7 @@ function FilterBar() {
 			<div className="p-6 bg-[#F9F8F9] border border-grey_medium">
 				<div className="flex gap-1 desktop:gap-2">
 					<Image src={FilterIcon} alt="FilterIcon" />
-					<div className="font-bold uppercase text-[14px] leading-6 desktop:text-[18px]">FILTER</div>
+					<div className="font-druk_wide uppercase text-[14px] leading-6 desktop:text-[18px]">FILTER</div>
 				</div>
 				{choosenGenres.filters.length > 0 && (
 					<div className="flex gap-4 mt-4">
@@ -38,7 +38,7 @@ function FilterBar() {
 							))}
 						</div>
 						<button
-							className="underline text-[12px] leading-5 capitalize px-[10px] py-[2px]"
+							className="font-gotham_pro_medium underline text-[12px] leading-5 capitalize px-[10px] py-[2px]"
 							onClick={() => dispatch(resetGenres())}
 						>
 							Clean all filters
@@ -48,7 +48,7 @@ function FilterBar() {
 			</div>
 			<div className="p-6 flex gap-10 bg-[#F9F8F9] border border-grey_medium border-t-0">
 				<button
-					className="flex gap-[6px] items-center uppercase font-bold text-[14px] leading-6"
+					className="flex gap-[6px] items-center uppercase font-druk_wide text-[14px] leading-6"
 					onClick={() => setGenreIsOpen(!genreIsOpen)}
 				>
 					film genre
@@ -60,7 +60,7 @@ function FilterBar() {
 				</button>
 
 				<button
-					className="flex gap-[6px] items-center uppercase font-bold text-[14px] leading-6"
+					className="flex gap-[6px] font-druk_wide items-center uppercase text-[14px] leading-6"
 					onClick={() => setTitleIsOpen(!titleIsOpen)}
 				>
 					Film title
@@ -71,7 +71,7 @@ function FilterBar() {
 					)}
 				</button>
 				<button
-					className="flex gap-[6px] items-center uppercase font-bold text-[14px] leading-6"
+					className="flex gap-[6px] items-center uppercase font-druk_wide text-[14px] leading-6"
 					onClick={() => setSessionIsOpen(!sessionIsOpen)}
 				>
 					session

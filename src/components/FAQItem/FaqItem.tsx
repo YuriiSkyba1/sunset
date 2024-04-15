@@ -16,14 +16,14 @@ function FaqItem({ question, answer }: IFAQItem) {
 			}}
 		>
 			<div className={(isOpen ? "" : "border border-grey_medium ") + "py-5 px-4  flex justify-between"}>
-				<div className=" max-w-[80%] text-[12px] leading-[18px]  uppercase font-bold desktop:text-[18px] desktop:leading-6">
+				<div className="font-druk_wide max-w-[80%] text-[12px] leading-[18px] uppercase desktop:text-[18px] desktop:leading-6">
 					{question}
 				</div>
 				{isOpen ? <Image src={MinusIcon} alt="MinusIcon" /> : <Image src={PlusIcon} alt="PlusIcon" />}
 			</div>
 
 			<div style={{ maxHeight: isOpen ? "1000px" : "0", overflow: "hidden", transition: "max-height 0.3s" }}>
-				<div className="pb-5 px-4 text-sm leading-[22px]">{answer}</div>
+				<div className="font-gotham_pro_regular pb-5 px-4 text-sm leading-[22px]">{answer}</div>
 			</div>
 		</div>
 	);

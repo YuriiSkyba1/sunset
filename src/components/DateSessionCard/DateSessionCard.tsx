@@ -15,7 +15,7 @@ function DateSessionCard({ title, isActive, onClick }: IDateSessionCard) {
 	return (
 		<button
 			onClick={onClick}
-			className={` py-[2px] px-[10px] text-[12px] leading-5 ${
+			className={` py-[2px] px-[10px] text-[12px] leading-5 font-gotham_pro_regular ${
 				isActive ? buttonStyles.active : buttonStyles.common
 			}`}
 		>
