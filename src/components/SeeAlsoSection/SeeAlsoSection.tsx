@@ -11,7 +11,7 @@ function SeeAlsoSection() {
 	return (
 		<div className="px-4 py-10 desktop:px-[60px] desktop:py-20">
 			<div className="">
-				<h1 className="text-[24px] leading-[32px] font-bold uppercase desktop:text-[40px] desktop:leading-[48px]">
+				<h1 className="text-[24px] leading-[32px] font-druk_wide uppercase desktop:text-[40px] desktop:leading-[48px]">
 					SEE ALSO
 				</h1>
 				<Image src={Underline} alt="Underline" className="w-full max-w-[366px]" />
