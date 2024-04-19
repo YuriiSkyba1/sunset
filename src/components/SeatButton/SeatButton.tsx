@@ -3,15 +3,17 @@ import { EventTicket } from "@/redux/getFilmView/types/IGetFilmView";
 import { addCheckedTicket, removeCheckedTicket } from "@/redux/sessionSelection/sessionSelection";
 import { useState } from "react";
 import styles from "./SeatButton.module.css";
+import { addTicketToCart, deleteTicketFromCart } from "@/redux/cart/cartSlice";
 
 interface ISeatButton {
 	width?: "20" | "16";
 	ticketData: EventTicket | undefined;
 	disabledButton?: boolean;
+	isCheckedSeat?: boolean;
 }
 
-function SeatButton({ width = "20", ticketData, disabledButton = false }: ISeatButton) {
-	const [isChecked, setChecked] = useState(false);
+function SeatButton({ width = "20", ticketData, disabledButton = false, isCheckedSeat = false }: ISeatButton) {
+	const [isChecked, setChecked] = useState(isCheckedSeat);
 	const dispatch = useDispatch();
 	return (
 		<div className={styles.tooltip}>
@@ -29,9 +31,11 @@ function SeatButton({ width = "20", ticketData, disabledButton = false }: ISeatB
 					if (isChecked === false) {
 						setChecked(!isChecked);
 						dispatch(addCheckedTicket({ key: ticketData!.event_ticket_id, value: ticketData! }));
+						dispatch(addTicketToCart(ticketData?.event_ticket_id!));
 					} else {
 						setChecked(!isChecked);
 						dispatch(removeCheckedTicket({ key: ticketData!.event_ticket_id, value: ticketData! }));
+						dispatch(deleteTicketFromCart(ticketData?.event_ticket_id!));
 					}
 				}}
 				disabled={disabledButton}

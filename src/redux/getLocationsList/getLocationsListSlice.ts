@@ -17,7 +17,7 @@ const initialState: getLocationsListState = {
 
 export const getLocationsList = createAsyncThunk("getLocationsList/getList", async (location: string) => {
 	try {
-		const response = await apiClient.get(`en/location?country=${location}`);
+		const response = await apiClient.get(`en/location?country=GB`);
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {
