@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import CloseIcon from "@/assets/close-icon.svg";
 import Underline from "@/assets/primary_underline.svg";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface IAskRegisterModal {
 	isActive: boolean;
@@ -9,6 +11,7 @@ interface IAskRegisterModal {
 }
 
 function AskRegisterModal({ isActive, setIsActive }: IAskRegisterModal) {
+	const currentPath = usePathname();
 	return (
 		<>
 			{isActive && (
@@ -36,12 +39,18 @@ function AskRegisterModal({ isActive, setIsActive }: IAskRegisterModal) {
 							</p>
 						</div>
 						<div className="flex flex-col-reverse desktop:flex-col items-center gap-4 desktop:gap-6">
-							<button className="uppercase font-bold text-[12px] leading-[18px] py-[14px] px-[113px] desktop:text-[14px] desktop:leading-5 bg-primary text-black_main desktop:py-[14px] desktop:px-[78px]">
+							<Link
+								href={`${currentPath}/checkout`}
+								className="uppercase font-bold text-[12px] leading-[18px] py-[14px] px-[113px] desktop:text-[14px] desktop:leading-5 bg-primary text-black_main desktop:py-[14px] desktop:px-[78px]"
+							>
 								SIGN UP
-							</button>
-							<button className="uppercase underline font-bold text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5">
+							</Link>
+							<Link
+								href={`${currentPath}/checkout`}
+								className="uppercase underline font-bold text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5"
+							>
 								by a ticket as a guest
-							</button>
+							</Link>
 						</div>
 					</div>
 				</div>

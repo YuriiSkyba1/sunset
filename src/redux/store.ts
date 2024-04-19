@@ -13,6 +13,8 @@ import getFilmView from "./getFilmView/getFilmView";
 import getSessionSelection from "./sessionSelection/sessionSelection";
 import type { EnhancedStore } from "@reduxjs/toolkit";
 import getLocationsListSlice from "./getLocationsList/getLocationsListSlice";
+import getStoreItems from "./getStoreItems/getStoreItemsSlice";
+import cartSlice from "./cart/cartSlice";
 
 let store: EnhancedStore;
 
@@ -29,6 +31,8 @@ const createStore = (preloadedState?: any) =>
 			genres: getGenersFilms,
 			filmView: getFilmView,
 			sessionSelection: getSessionSelection,
+			storeItems: getStoreItems,
+			cart: cartSlice,
 		},
 		preloadedState,
 	});
