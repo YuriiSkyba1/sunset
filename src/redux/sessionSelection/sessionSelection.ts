@@ -35,9 +35,31 @@ export const sessionSelectionSlice = createSlice({
 	name: "sessionSelection",
 	initialState,
 	reducers: {
+		setFirstValues: (state, action: PayloadAction<{ locations: Location[]; events: Event[] }>) => {
+			if (action.payload.locations?.length === 1) {
+				state.selectedData.location = `${action.payload.locations[0].title}`;
+			}
+			const uniqueDates = Array.from(
+				new Set(action.payload.events!.map((event) => new Date(event.start_date).toLocaleDateString()))
+			);
+			state.availableDates = uniqueDates;
+			state.selectedData.date = state.availableDates[0];
+			const filteredEvents = action.payload.events!.filter(
+				(event) => new Date(event.start_date).toLocaleDateString() === state.availableDates[0]
+			);
+			// Отримуємо години подій для обраної дати
+			const hours = filteredEvents.map((event) =>
+				new Date(event.start_date).toLocaleTimeString("en-US", {
+					hour12: false,
+					hour: "2-digit",
+					minute: "2-digit",
+				})
+			);
+			state.availableHours = hours;
+			state.selectedData.time = state.availableHours[0];
+		},
 		setAvailableDates: (state, action: PayloadAction<{ locations: Location[]; events: Event[] }>) => {
 			if (action.payload.locations?.length === 1) {
-				console.log(action.payload.locations);
 				state.selectedData.location = `${action.payload.locations[0].title}`;
 			}
 
@@ -49,14 +71,13 @@ export const sessionSelectionSlice = createSlice({
 		},
 
 		setAvailableTickets: (state, action: PayloadAction<{ events: Event[] }>) => {
-			console.log(action.payload.events);
 			if (state.selectedData.location && state.selectedData.date && state.selectedData.time) {
 				const formattedDateTime = formatDateAndTime(state.selectedData.date, state.selectedData.time);
-				console.log(formattedDateTime);
+
 				const selectedEvent = action.payload.events.find((event) => event.start_date === formattedDateTime);
-				console.log(selectedEvent);
+
 				const eventTickets = selectedEvent?.event_tickets;
-				console.log(eventTickets);
+
 				state.availableTickets = eventTickets!;
 			}
 		},
@@ -76,6 +97,9 @@ export const sessionSelectionSlice = createSlice({
 		},
 
 		handleDateChange: (state, action: PayloadAction<{ date: string; events?: Event[] }>) => {
+			if (action.payload.date === state.selectedData.date) {
+				return;
+			}
 			state.selectedData.time = "";
 			state.availableTickets = [];
 			state.selectedData.date = action.payload.date;
@@ -91,6 +115,8 @@ export const sessionSelectionSlice = createSlice({
 				})
 			);
 			state.availableHours = hours;
+			state.selectedData.time = state.availableHours[0];
+			state.checkedTickets = [];
 		},
 
 		handleHourChange: (state, action: PayloadAction<string>) => {
@@ -106,6 +132,10 @@ export const sessionSelectionSlice = createSlice({
 			const { key, value } = action.payload;
 			delete state.checkedTickets[key];
 		},
+
+		removeAllCheckedTickets: (state) => {
+			state.checkedTickets = {};
+		},
 	},
 });
 
@@ -118,4 +148,6 @@ export const {
 	handleHourChange,
 	addCheckedTicket,
 	removeCheckedTicket,
+	setFirstValues,
+	removeAllCheckedTickets,
 } = sessionSelectionSlice.actions;

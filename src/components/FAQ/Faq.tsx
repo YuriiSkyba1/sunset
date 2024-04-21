@@ -13,7 +13,7 @@ function Faq() {
 				<Image src={Underline} alt={Underline}></Image>
 			</div>
 			<div className="flex flex-col gap-2 desktop:grid desktop:grid-cols-2 desktop:gap-6">
-				{renderingData?.faq_items.map((faq_item) => (
+				{renderingData?.faq_items?.map((faq_item) => (
 					<FaqItem key={faq_item.question} question={faq_item.question} answer={faq_item.answer} />
 				))}
 			</div>
