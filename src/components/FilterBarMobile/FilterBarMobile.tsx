@@ -14,7 +14,7 @@ function FilterBarMobile() {
 	const [titleIsOpen, setTitleIsOpen] = useState<boolean>(false);
 	const [sessionIsOpen, setSessionIsOpen] = useState<boolean>(false);
 
-	const filters = useSelector((state) => state.locationView.success?.movies.filters);
+	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
 	const arrayOfGenres = filters?.find((filter) => filter.name === "genre")?.values;
 	const choosenGenres = useSelector((state) => state.genres);
 

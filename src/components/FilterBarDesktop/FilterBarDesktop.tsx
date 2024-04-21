@@ -7,7 +7,7 @@ import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
 import { addGenre, removeGenre, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
 
 function FilterBar() {
-	const filters = useSelector((state) => state.locationView.success?.movies.filters);
+	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
 	const arrayOfGenres = filters?.find((filter) => filter.name === "genre")?.values;
 
 	const [genreIsOpen, setGenreIsOpen] = useState<boolean>(false);

@@ -10,13 +10,20 @@ interface ISeatButton {
 	ticketData: EventTicket | undefined;
 	disabledButton?: boolean;
 	isCheckedSeat?: boolean;
+	status: string;
 }
 
-function SeatButton({ width = "20", ticketData, disabledButton = false, isCheckedSeat = false }: ISeatButton) {
+function SeatButton({
+	width = "20",
+	ticketData,
+	disabledButton = false,
+	isCheckedSeat = false,
+	status = "active",
+}: ISeatButton) {
 	const [isChecked, setChecked] = useState(isCheckedSeat);
 	const dispatch = useDispatch();
 	return (
-		<div className={styles.tooltip}>
+		<div className={`${styles.tooltip} `}>
 			<div className=" max-desktop:hidden">
 				<span className={styles.tooltipText}>
 					<span className="uppercase font-bold text-[10px] leading-[10px]">
