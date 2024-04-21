@@ -39,13 +39,16 @@ function Checkout() {
 				const ticket = sessionSelection.availableTickets.find(
 					(ticket) => ticket.row === rowIndex && ticket.seat === seatIndex
 				);
-				if (sessionSelection.checkedTickets.hasOwnProperty(ticket?.event_ticket_id!)) {
+				if (ticket) {
 					rowSeats.push(
-						<SeatButton key={seatIndex} ticketData={ticket} disabledButton={!ticket} isCheckedSeat={true} />
+						<SeatButton
+							key={seatIndex}
+							ticketData={ticket}
+							disabledButton={!ticket}
+							status={ticket?.status}
+						/>
 					);
-					continue;
 				}
-				rowSeats.push(<SeatButton key={seatIndex} ticketData={ticket} disabledButton={!ticket} />);
 			}
 			rows.push(
 				<div key={rowIndex} className="flex justify-around pb-4">
@@ -55,7 +58,7 @@ function Checkout() {
 		}
 
 		return rows;
-	}, [sessionSelection.availableTickets]);
+	}, [sessionSelection.availableTickets, sessionSelection.checkedTickets]);
 
 	return (
 		filmView.success && (

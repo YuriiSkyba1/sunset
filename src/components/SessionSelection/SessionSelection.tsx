@@ -11,6 +11,8 @@ import {
 	setUniquePriceColorPairs,
 	handleDateChange,
 	handleHourChange,
+	setFirstValues,
+	removeAllCheckedTickets,
 } from "@/redux/sessionSelection/sessionSelection";
 
 const SessionSelection: React.FC = () => {
@@ -27,12 +29,18 @@ const SessionSelection: React.FC = () => {
 	const [isRegisterOpen, setRegisterOpen] = useState(false);
 
 	useEffect(() => {
-		dispatch(setAvailableDates({ locations: locations!, events: events! }));
+		// dispatch(setAvailableDates({ locations: locations!, events: events! }));
+		if (locations && events) {
+			dispatch(setFirstValues({ locations: locations, events: events }));
+			dispatch(removeAllCheckedTickets());
+		}
 	}, []);
 
 	useEffect(() => {
-		dispatch(setAvailableTickets({ events: events! }));
-		dispatch(setUniquePriceColorPairs());
+		if (events) {
+			dispatch(setAvailableTickets({ events: events! }));
+			dispatch(setUniquePriceColorPairs());
+		}
 	}, [selectedDataStore.time]);
 
 	const findMaxRow = useMemo(() => {
@@ -52,7 +60,16 @@ const SessionSelection: React.FC = () => {
 			const rowSeats = [];
 			for (let seatIndex = 1; seatIndex <= maxSeatsPerRow; seatIndex++) {
 				const ticket = availableTickets.find((ticket) => ticket.row === rowIndex && ticket.seat === seatIndex);
-				rowSeats.push(<SeatButton key={seatIndex} ticketData={ticket} disabledButton={!ticket} />);
+				if (ticket) {
+					rowSeats.push(
+						<SeatButton
+							key={seatIndex}
+							ticketData={ticket}
+							disabledButton={!ticket}
+							status={ticket?.status}
+						/>
+					);
+				}
 			}
 			rows.push(
 				<div key={rowIndex} className="flex justify-around pb-4">
@@ -93,14 +110,25 @@ const SessionSelection: React.FC = () => {
 
 		return tickets.length > 0 ? (
 			<div className="pb-[20px] border-b border-grey_medium">
-				<div className="flex flex-wrap gap-2">
+				<div className="flex flex-col gap-2">
 					{tickets.map((ticket) => (
-						<div key={ticket.event_ticket_id} className="flex flex-col gap-2">
-							<div className="uppercase font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
-								PLACE:
+						<div className="flex gap-3">
+							<div>
+								<div className="uppercase font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
+									ROW:
+								</div>
+								<div className="font-gotham_pro_regular bg-addition py-[2px] px-[10px] text-[12px] leading-[20px] text-center">
+									#{ticket.row}
+								</div>
 							</div>
-							<div className="font-gotham_pro_regular bg-addition py-[2px] px-[10px] text-[12px] leading-[20px] text-center">
-								#{ticket.seat}
+
+							<div>
+								<div className="uppercase font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
+									PLACE:
+								</div>
+								<div className="font-gotham_pro_regular bg-addition py-[2px] px-[10px] text-[12px] leading-[20px] text-center">
+									#{ticket.seat}
+								</div>
 							</div>
 						</div>
 					))}
@@ -110,7 +138,7 @@ const SessionSelection: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<div className="max-desktop:mx-[12px]">
 			<div className="p-6 border border-black_main w-full max-w-[348px] desktop:max-w-[424px] m-0">
 				<h3 className="uppercase font-druk_wide text-[14px] leading-[14px] mb-5 desktop:mb-6 desktop:text-[18px] desktop:leading-[24px]">
 					session selection
@@ -120,7 +148,7 @@ const SessionSelection: React.FC = () => {
 						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							LOCATION
 						</p>
-						<SelectLocation options={locations!}></SelectLocation>
+						{Array.isArray(locations) && <SelectLocation options={locations!}></SelectLocation>}
 					</div>
 					<div className="pb-[20px] border-b border-grey_medium">
 						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
@@ -168,6 +196,7 @@ const SessionSelection: React.FC = () => {
 							<div className="mt-10 desktop:mt-20">{seats}</div>
 						</div>
 						{checkedTicketsAdaptive()}
+
 						{availableTickets.length > 0 && (
 							<div className="border border-grey_medium mt-2 flex flex-wrap justify-evenly gap-3 px-[22px] py-3">
 								{uniquePriceColorPairs.length > 1 &&

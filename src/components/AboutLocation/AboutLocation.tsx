@@ -20,7 +20,7 @@ function AboutLocation() {
 					className="mb-3 block desktop:hidden bg-[#306B54]"
 				/>
 				<div className="grid grid-cols-2 gap-3 desktop:gap-6 max-desktop:mb-8">
-					{renderingData?.about_cards.map((card) => (
+					{renderingData?.about_cards?.map((card) => (
 						<AboutCard
 							key={card.title}
 							title={card.title}
