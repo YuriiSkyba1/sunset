@@ -1,13 +1,13 @@
-import { useDispatch } from "@/hooks";
+import { useDispatch, useSelector } from "@/hooks";
 import { EventTicket } from "@/redux/getFilmView/types/IGetFilmView";
 import { addCheckedTicket, removeCheckedTicket } from "@/redux/sessionSelection/sessionSelection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SeatButton.module.css";
 import { addTicketToCart, deleteTicketFromCart } from "@/redux/cart/cartSlice";
 
 interface ISeatButton {
 	width?: "20" | "16";
-	ticketData: EventTicket | undefined;
+	ticketData: EventTicket;
 	disabledButton?: boolean;
 	isCheckedSeat?: boolean;
 	status: string;
@@ -20,8 +20,19 @@ function SeatButton({
 	isCheckedSeat = false,
 	status = "active",
 }: ISeatButton) {
-	const [isChecked, setChecked] = useState(isCheckedSeat);
+	const [isChecked, setChecked] = useState(false);
 	const dispatch = useDispatch();
+
+	const checkedTickets = useSelector((state) => state.sessionSelection.checkedTickets);
+
+	useEffect(() => {
+		if (checkedTickets && checkedTickets.includes(ticketData)) {
+			setChecked(true);
+		} else if (checkedTickets && !checkedTickets.includes(ticketData)) {
+			setChecked(false);
+		}
+	});
+
 	return (
 		<div className={`${styles.tooltip} `}>
 			<div className=" max-desktop:hidden">
@@ -37,11 +48,11 @@ function SeatButton({
 				onClick={() => {
 					if (isChecked === false) {
 						setChecked(!isChecked);
-						dispatch(addCheckedTicket({ key: ticketData!.event_ticket_id, value: ticketData! }));
+						dispatch(addCheckedTicket({ ticket: ticketData! }));
 						dispatch(addTicketToCart(ticketData?.event_ticket_id!));
 					} else {
 						setChecked(!isChecked);
-						dispatch(removeCheckedTicket({ key: ticketData!.event_ticket_id, value: ticketData! }));
+						dispatch(removeCheckedTicket({ ticket: ticketData! }));
 						dispatch(deleteTicketFromCart(ticketData?.event_ticket_id!));
 					}
 				}}

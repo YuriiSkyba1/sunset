@@ -35,7 +35,7 @@ export interface Movie {
 		is_current: boolean;
 	};
 	duration: string;
-	price_form: number;
+	price_from: number;
 	description: string;
 }
 
