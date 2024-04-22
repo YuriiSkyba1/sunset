@@ -10,7 +10,7 @@ interface SessionSelectionInterface {
 	availableHours: string[];
 	availableTickets: EventTicket[];
 	uniquePriceColorPairs: { price: string; color: string }[];
-	checkedTickets: { [key: number]: EventTicket };
+	checkedTickets: EventTicket[];
 }
 
 interface Ticket {
@@ -28,7 +28,7 @@ const initialState: SessionSelectionInterface = {
 	availableHours: [],
 	availableTickets: [],
 	uniquePriceColorPairs: [],
-	checkedTickets: {},
+	checkedTickets: [],
 };
 
 export const sessionSelectionSlice = createSlice({
@@ -123,18 +123,18 @@ export const sessionSelectionSlice = createSlice({
 			state.selectedData.time = action.payload;
 		},
 
-		addCheckedTicket: (state, action: PayloadAction<{ key: number; value: EventTicket }>) => {
-			const { key, value } = action.payload;
-			state.checkedTickets[key] = value;
+		addCheckedTicket: (state, action: PayloadAction<{ ticket: EventTicket }>) => {
+			state.checkedTickets.push(action.payload.ticket);
 		},
 
-		removeCheckedTicket: (state, action: PayloadAction<{ key: number; value: EventTicket }>) => {
-			const { key, value } = action.payload;
-			delete state.checkedTickets[key];
+		removeCheckedTicket: (state, action: PayloadAction<{ ticket: EventTicket }>) => {
+			state.checkedTickets = state.checkedTickets.filter(
+				(tick) => tick.event_ticket_id !== action.payload.ticket.event_ticket_id
+			);
 		},
 
 		removeAllCheckedTickets: (state) => {
-			state.checkedTickets = {};
+			state.checkedTickets = [];
 		},
 	},
 });

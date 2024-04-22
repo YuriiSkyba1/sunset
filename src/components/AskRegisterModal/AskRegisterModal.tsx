@@ -49,7 +49,7 @@ function AskRegisterModal({ isActive, setIsActive }: IAskRegisterModal) {
 								href={`${currentPath}/checkout`}
 								className="uppercase underline font-bold text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5"
 							>
-								by a ticket as a guest
+								buy a ticket as a guest
 							</Link>
 						</div>
 					</div>

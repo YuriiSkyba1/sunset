@@ -41,11 +41,11 @@ function ContactUsModal({ active, setActive }: ContactUsModalInterface) {
 						</button>
 						<div className="flex flex-col items-center">
 							<div className="mb-6 desktop:mb-12 flex flex-col items-center">
-								<div className=" text-lg leading-6 desktop:text-[32px] desktop:leading-10 font-bold ">
+								<div className="font-druk_wide text-lg leading-6 desktop:text-[32px] desktop:leading-10 font-bold ">
 									{title}
 								</div>
 								<Image src={Underline} alt="Underline" className="desktop:mb-2" />
-								<div className=" text-xs leading-5 desktop:text-sm desktop:leading-[22px]">
+								<div className="font-gotham_pro_regular text-xs leading-5 desktop:text-sm desktop:leading-[22px]">
 									{subtitle}
 								</div>
 							</div>

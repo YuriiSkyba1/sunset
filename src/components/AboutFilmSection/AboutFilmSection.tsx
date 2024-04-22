@@ -39,9 +39,9 @@ function AboutFilmSection() {
 						<span className="text-grey_dark">Duration of the movie:</span>
 						<span>{filmData?.duration}</span>
 					</div>
-					<div className="w-full desktop:max-w-[312px] p-[12px] bg-pink_light border border-black_main text-[12px] leading-[18px] uppercase font-druk_wide flex justify-between ">
+					<div className="w-full grid grid-cols-2 gap-x-[50px] p-[12px] bg-pink_light border border-black_main text-[12px] leading-[18px] uppercase font-druk_wide ">
 						<span>Price from:</span>
-						<span>{filmData?.price_form} $</span>
+						<span>{filmData?.price_from} $</span>
 					</div>
 				</div>
 				<div className="max-desktop:px-4 flex flex-col gap-4 desktop:gap-6">

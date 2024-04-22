@@ -1,7 +1,11 @@
+import { useSelector } from "@/hooks";
 import Link from "next/link";
 import React from "react";
 
 function BreadCrumbsCheckout() {
+	const filmTitle = useSelector((state) => state.filmView.success?.movie.title);
+	const filmSlug = useSelector((state) => state.filmView.success?.movie.slug);
+
 	return (
 		<div className="hidden text-[14px] leading-5 my-8 text-black_main desktop:flex gap-2 font-gotham_pro_regular px-[60px]">
 			<Link href={"/"} className="flex items-center">
@@ -15,8 +19,8 @@ function BreadCrumbsCheckout() {
 					/>
 				</svg>
 			</Link>
-			<Link href={"/"} className="flex items-center">
-				Film
+			<Link href={`/location/${filmSlug}`} className="flex items-center">
+				{filmTitle}
 				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						fill-rule="evenodd"
