@@ -97,8 +97,8 @@ function ContactUsForm() {
 							max-desktop:w-[300px]
 							desktop:px-24 desktop:mt-2 "
 						>
-							<div className="hidden desktop:block uppercase">{button}</div>
-							<div className="desktop:hidden">{button}</div>
+							<div className="hidden desktop:block uppercase font-druk_wide">{button}</div>
+							<div className="desktop:hidden font-druk_wide">{button}</div>
 						</button>
 					</Form>
 				);

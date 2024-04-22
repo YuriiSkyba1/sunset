@@ -34,18 +34,45 @@ function Checkout() {
 		const rows = [];
 
 		for (let rowIndex = 1; rowIndex <= maxRows; rowIndex++) {
-			const rowSeats = [];
+			const rowSeats: JSX.Element[] = [];
 			for (let seatIndex = 1; seatIndex <= maxSeatsPerRow; seatIndex++) {
 				const ticket = sessionSelection.availableTickets.find(
 					(ticket) => ticket.row === rowIndex && ticket.seat === seatIndex
 				);
-				if (ticket) {
+
+				// if (ticket) {
+				// 	rowSeats.push(
+				// 		<SeatButton
+				// 			key={seatIndex}
+				// 			ticketData={ticket}
+				// 			disabledButton={!ticket}
+				// 			status={ticket.status}
+				// 			isCheckedSeat={true}
+				// 		/>
+				// 	);
+				// }
+
+				if (ticket && sessionSelection.checkedTickets.includes(ticket)) {
+					console.log(sessionSelection.checkedTickets.includes(ticket));
 					rowSeats.push(
 						<SeatButton
 							key={seatIndex}
 							ticketData={ticket}
 							disabledButton={!ticket}
-							status={ticket?.status}
+							status={ticket.status}
+							isCheckedSeat={true}
+						/>
+					);
+				}
+				if (ticket && !sessionSelection.checkedTickets.includes(ticket)) {
+					console.log(sessionSelection.checkedTickets.includes(ticket));
+					rowSeats.push(
+						<SeatButton
+							key={seatIndex}
+							ticketData={ticket}
+							disabledButton={!ticket}
+							status={ticket.status}
+							isCheckedSeat={false}
 						/>
 					);
 				}
@@ -203,13 +230,18 @@ function Checkout() {
 								You have not selected seats to watch the movie
 							</div>
 						)}
-						{Object.entries(sessionSelection.checkedTickets).map(([key, value]) => (
-							<CheckoutListTicket
-								row={value.row}
-								seat={value.seat}
-								price={value.price}
-							></CheckoutListTicket>
-						))}
+						{sessionSelection.checkedTickets &&
+							sessionSelection.checkedTickets.map((ticket) => (
+								<CheckoutListTicket
+									event_ticket_id={ticket.event_ticket_id}
+									row={ticket.row}
+									seat={ticket.seat}
+									price={ticket.price}
+									color={ticket.color}
+									status={ticket.status}
+									key={ticket.event_ticket_id}
+								></CheckoutListTicket>
+							))}
 					</div>
 					<div className="p-6 flex justify-between border-t border-b font-druk_wide text-[12px] leading-[18px]">
 						<span>TOTAL</span>

@@ -1,15 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import UpArrow from "@/assets/up-arrow.svg";
-import BottomArrow from "@/assets/bot-arrow.svg";
 import RightPrimaryButton from "@/assets/right-primary-arrow.svg";
 import BottomBlackArrow from "@/assets/bottom-black-arrow.svg";
 import TopBlackArrow from "@/assets/top-black-arrow.svg";
-import { useDispatch, useSelector } from "@/hooks";
+import { useSelector } from "@/hooks";
 import Link from "next/link";
-import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice";
 
 function LocationDropdown() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);

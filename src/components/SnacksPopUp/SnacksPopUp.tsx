@@ -16,12 +16,12 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 	const locationSlug = useSelector((state) => state.locationView.success?.slug!);
 
 	useEffect(() => {
-		dispatch(getItems(locationSlug));
+		if (locationSlug) {
+			dispatch(getItems(locationSlug));
+		}
 	}, []);
 
 	const snacks = useSelector((state) => state.storeItems.success);
-
-	console.log(snacks);
 
 	const closePopUp = () => {
 		setOpen(false);
@@ -49,16 +49,17 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 					Select your language and country before you start exploring the service
 				</div>
 				<div className="flex gap-6 mt-6 desktop:mt-10">
-					{snacks?.map((snack) => (
-						<SnackItem
-							store_item_id={snack.store_item_id}
-							title={snack.title}
-							description={snack.description}
-							image={snack.image}
-							price={snack.price}
-							button={snack.button}
-						/>
-					))}
+					{snacks &&
+						snacks.map((snack) => (
+							<SnackItem
+								store_item_id={snack.store_item_id}
+								title={snack.title}
+								description={snack.description}
+								image={snack.image}
+								price={snack.price}
+								button={snack.button}
+							/>
+						))}
 				</div>
 				<div className="flex desktop:flex-col flex-col-reverse gap-4 desktop:gap-6 mt-8">
 					<button className="font-druk_wide uppercase text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5 py-[14px] desktop:px-[44px] px-[88px] bg-primary ">
