@@ -13,12 +13,35 @@ function Checkout() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(showCart());
+		handleShowCart();
 	}, []);
 
 	const filmView = useSelector((state) => state.filmView);
 	const sessionSelection = useSelector((state) => state.sessionSelection);
-
 	const [isSnacksOpen, setSnacksOpen] = useState<boolean>(false);
+
+	const handleShowCart = async () => {
+		const url = `/api/showCart`;
+		console.log("Attempting to fetch:", url); // Check the URL is correct
+		try {
+			const response = await fetch(url, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include", // Ensures cookies are included with the request
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			} else {
+				const data = await response.json();
+				console.log("Response data222 of showing cart:", data);
+			}
+		} catch (error) {
+			console.error("Error handling show cart:", error);
+		}
+	};
 
 	const findMaxRow = useMemo(() => {
 		return sessionSelection.availableTickets.reduce((maxRow, ticket) => Math.max(maxRow, ticket.row), 0);
