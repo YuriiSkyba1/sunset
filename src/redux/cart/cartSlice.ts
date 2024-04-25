@@ -77,6 +77,7 @@ export const addStoreItemToCart = createAsyncThunk("cart/addStoreItemToCart", as
 export const deleteStoreItemFromCart = createAsyncThunk("cart/deleteStoreItemFromCart", async (storeItemId: number) => {
 	try {
 		const response = await apiClient.delete(`en/cart/store-item/${storeItemId}`);
+		console.log(response);
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {

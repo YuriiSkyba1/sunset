@@ -20,7 +20,7 @@ function SeatButton({
 	isCheckedSeat = false,
 	status = "active",
 }: ISeatButton) {
-	const [isChecked, setChecked] = useState(false);
+	const [isChecked, setChecked] = useState(isCheckedSeat);
 	const dispatch = useDispatch();
 
 	const checkedTickets = useSelector((state) => state.sessionSelection.checkedTickets);
@@ -33,9 +33,33 @@ function SeatButton({
 		}
 	});
 
+	const handleTicketAction = async (ticketId: number, action: string) => {
+		const url = `/api/${action === "add" ? "addTicketToCart" : "deleteTicketFromCart"}`;
+		console.log("Attempting to fetch:", url); // Check the URL is correct
+		try {
+			const response = await fetch(url, {
+				method: action === "add" ? "POST" : "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ ticketId }),
+				credentials: "include", // Ensures cookies are included with the request
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			} else {
+				const data = await response.json();
+				console.log("Response data222:", data);
+			}
+		} catch (error) {
+			console.error("Error handling ticket action:", error);
+		}
+	};
+
 	return (
-		<div className={`${styles.tooltip} `}>
-			<div className=" max-desktop:hidden">
+		<div className={`${styles.tooltip}`}>
+			<div className="max-desktop:hidden">
 				<span className={styles.tooltipText}>
 					<span className="uppercase font-bold text-[10px] leading-[10px]">
 						ROW #{ticketData?.row}, PLACE #{ticketData?.seat}
@@ -44,33 +68,34 @@ function SeatButton({
 				</span>
 			</div>
 			<button
-				className={`w-[16px] desktop:w-[20px]`}
+				className={`w-[${width}px] desktop:w-[${width}px] ${
+					ticketData.status === "blocked" ? "cursor-not-allowed" : ""
+				}`}
 				onClick={() => {
-					if (isChecked === false) {
-						setChecked(!isChecked);
+					setChecked(!isChecked);
+					if (!isChecked) {
 						dispatch(addCheckedTicket({ ticket: ticketData! }));
-						dispatch(addTicketToCart(ticketData?.event_ticket_id!));
+						handleTicketAction(ticketData!.event_ticket_id, "add");
 					} else {
-						setChecked(!isChecked);
 						dispatch(removeCheckedTicket({ ticket: ticketData! }));
-						dispatch(deleteTicketFromCart(ticketData?.event_ticket_id!));
+						handleTicketAction(ticketData!.event_ticket_id, "delete");
 					}
 				}}
-				disabled={disabledButton}
+				disabled={disabledButton || ticketData.status === "blocked"}
 			>
 				<svg
 					style={{ opacity: isChecked ? 1 : 0.6 }}
-					width={`${width}`}
-					height={`${width}`}
+					width={width}
+					height={width}
 					viewBox={`0 0 ${width} ${width}`}
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
 						d="M13.9836 6.01666C16.1835 8.2166 16.1835 11.7834 13.9836 13.9833C11.7837 16.1833 8.21686 16.1833 6.01692 13.9833C3.81698 11.7834 3.81698 8.2166 6.01692 6.01666L10.0003 2.03332L13.9836 6.01666Z"
-						fill={ticketData?.color}
+						fill={ticketData.status === "active" ? ticketData.color : "#D5D6DF"}
 						stroke="#222222"
-						stroke-width="0.751106"
+						strokeWidth="0.751106"
 					/>
 				</svg>
 			</button>

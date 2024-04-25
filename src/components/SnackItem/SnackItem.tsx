@@ -11,19 +11,81 @@ function SnackItem({ store_item_id, title, description, image, price, button }: 
 	const [counter, setCounter] = useState<number>(0);
 
 	const addItemToCart = () => {
-		if (counter == 0) {
-			dispatch(addStoreItemToCart(store_item_id));
-			dispatch(setStoreItemQuantity({ storeItemId: store_item_id, storeItemQuantity: 1 }));
+		if (counter === 0) {
+			const response = handleSnackAction(store_item_id, 1, "add");
+			response.then((data) => {
+				console.log("added to the cart", data);
+				if (data === true) {
+					setCounter((counter) => counter + 1);
+				}
+			});
 		} else {
-			dispatch(setStoreItemQuantity({ storeItemId: store_item_id, storeItemQuantity: counter + 1 }));
+			const response = handleSnackAction(store_item_id, counter + 1, "put");
+			response.then((data) => {
+				if (data === true) {
+					console.log("increased quantity in cart", data);
+					setCounter((counter) => counter + 1);
+				}
+			});
 		}
-		setCounter((counter) => counter + 1);
 	};
 
 	const reduceItem = () => {
-		if (counter > 0) {
-			dispatch(setStoreItemQuantity({ storeItemId: store_item_id, storeItemQuantity: counter - 1 }));
-			setCounter((counter) => counter - 1);
+		console.log("store_item_id", store_item_id);
+		if (counter === 1 && counter) {
+			const response = handleSnackAction(store_item_id, 0, "delete");
+			response.then((data) => {
+				if (data === true) {
+					console.log("deleted from cart", data);
+					setCounter(0);
+				}
+			});
+		}
+		if (counter > 1) {
+			const response = handleSnackAction(store_item_id, counter - 1, "put");
+			response.then((data) => {
+				if (data === true) {
+					console.log("reduced quantity", data);
+					setCounter((counter) => counter - 1);
+				}
+			});
+		}
+	};
+
+	const handleSnackAction = async (snackItem: number, storeItemQuantity: number, action: string) => {
+		let url = "";
+		if (action === "add") {
+			url = `/api/addStoreItemToCart`;
+		} else if (action === "put") {
+			url = "/api/setStoreItemQuantity";
+		} else if (action === "delete") {
+			url = "/api/deleteStoreItemFromCart";
+		} else {
+			console.log("Action is not correct");
+		}
+		// const url = `/api/${action === "add" ? "addStoreItemToCart" : "setStoreItemQuantity"}`;
+		console.log("Attempting to fetch:", url); // Check the URL is correct
+		try {
+			const response = await fetch(url, {
+				method: action === "add" ? "POST" : action === "put" ? "PUT" : "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ snackItem, storeItemQuantity }),
+				credentials: "include", // Ensures cookies are included with the request
+			});
+
+			if (!response.ok) {
+				return false;
+				throw new Error(`HTTP error! status: ${response.status}`);
+			} else {
+				const data = await response.json();
+				console.log("Response data222:", data);
+				return true;
+			}
+		} catch (error) {
+			console.error("Error handling snack item action:", error);
+			return false;
 		}
 	};
 
