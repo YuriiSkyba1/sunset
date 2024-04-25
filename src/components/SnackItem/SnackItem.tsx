@@ -5,8 +5,11 @@ import ButtonPlus from "@/assets/checkout/buttom-plus.svg";
 import { useState } from "react";
 import { addStoreItemToCart, deleteStoreItemFromCart, setStoreItemQuantity } from "@/redux/cart/cartSlice";
 import { useDispatch } from "@/hooks";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
+import { addCheckedStoreItem, removeCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
 
-function SnackItem({ store_item_id, title, description, image, price, button }: IGetStoreItem) {
+function SnackItem(storeItem: IGetStoreItem) {
+	const { store_item_id, title, description, image, price, button } = storeItem;
 	const dispatch = useDispatch();
 	const [counter, setCounter] = useState<number>(0);
 
@@ -15,15 +18,19 @@ function SnackItem({ store_item_id, title, description, image, price, button }: 
 			const response = handleSnackAction(store_item_id, 1, "add");
 			response.then((data) => {
 				console.log("added to the cart", data);
-				if (data === true) {
+				if (data) {
+					dispatch(addResponse(data));
+					dispatch(addCheckedStoreItem({ storeItem }));
 					setCounter((counter) => counter + 1);
 				}
 			});
 		} else {
 			const response = handleSnackAction(store_item_id, counter + 1, "put");
 			response.then((data) => {
-				if (data === true) {
+				if (data) {
 					console.log("increased quantity in cart", data);
+					dispatch(addResponse(data));
+					dispatch(addCheckedStoreItem({ storeItem }));
 					setCounter((counter) => counter + 1);
 				}
 			});
@@ -35,8 +42,10 @@ function SnackItem({ store_item_id, title, description, image, price, button }: 
 		if (counter === 1 && counter) {
 			const response = handleSnackAction(store_item_id, 0, "delete");
 			response.then((data) => {
-				if (data === true) {
+				if (data) {
 					console.log("deleted from cart", data);
+					dispatch(addResponse(data));
+					dispatch(removeCheckedStoreItem({ storeItem }));
 					setCounter(0);
 				}
 			});
@@ -44,8 +53,10 @@ function SnackItem({ store_item_id, title, description, image, price, button }: 
 		if (counter > 1) {
 			const response = handleSnackAction(store_item_id, counter - 1, "put");
 			response.then((data) => {
-				if (data === true) {
+				if (data) {
 					console.log("reduced quantity", data);
+					dispatch(addResponse(data));
+					dispatch(removeCheckedStoreItem({ storeItem }));
 					setCounter((counter) => counter - 1);
 				}
 			});
@@ -81,7 +92,7 @@ function SnackItem({ store_item_id, title, description, image, price, button }: 
 			} else {
 				const data = await response.json();
 				console.log("Response data222:", data);
-				return true;
+				return data;
 			}
 		} catch (error) {
 			console.error("Error handling snack item action:", error);

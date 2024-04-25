@@ -15,6 +15,7 @@ import type { EnhancedStore } from "@reduxjs/toolkit";
 import getLocationsListSlice from "./getLocationsList/getLocationsListSlice";
 import getStoreItems from "./getStoreItems/getStoreItemsSlice";
 import cartSlice from "./cart/cartSlice";
+import cartResponsesSlice from "./cartResponsesSlice/cartResponsesSlice";
 
 let store: EnhancedStore;
 
@@ -33,6 +34,7 @@ const createStore = (preloadedState?: any) =>
 			sessionSelection: getSessionSelection,
 			storeItems: getStoreItems,
 			cart: cartSlice,
+			cartResponses: cartResponsesSlice,
 		},
 		preloadedState,
 	});

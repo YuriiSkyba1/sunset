@@ -7,12 +7,16 @@ import SeatButton from "../SeatButton/SeatButton";
 import CheckoutListTicket from "../CheckoutListTicket/CheckoutListTicket";
 import SnacksPopUp from "../SnacksPopUp/SnacksPopUp";
 import { useDispatch, useSelector } from "@/hooks";
-import { showCart } from "@/redux/cart/cartSlice";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
+import CheckoutListStoreItem from "../CheckoutListStoreItem/CheckoutListStoreItem";
 
 function Checkout() {
 	const dispatch = useDispatch();
+
+	const cartResponses = useSelector((state) => state.cartResponses);
+
 	useEffect(() => {
-		dispatch(showCart());
+		// dispatch(showCart());
 		handleShowCart();
 	}, []);
 
@@ -37,6 +41,7 @@ function Checkout() {
 			} else {
 				const data = await response.json();
 				console.log("Response data222 of showing cart:", data);
+				dispatch(addResponse(data));
 			}
 		} catch (error) {
 			console.error("Error handling show cart:", error);
@@ -266,9 +271,31 @@ function Checkout() {
 								></CheckoutListTicket>
 							))}
 					</div>
+					<div
+						className={`${
+							sessionSelection.checkedStoreItem.length === 0 ? "hidden" : ""
+						} pt-10 px-6 min-h-[347px] desktop:min-h-[552px] bg-[#F9F7DB]`}
+					>
+						<div className="font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px]">
+							STORE
+						</div>
+						<div className="flex flex-col gap-8">
+							{sessionSelection.checkedStoreItem &&
+								sessionSelection.checkedStoreItem.map((storeItem) => (
+									<CheckoutListStoreItem
+										store_item_id={storeItem.store_item_id}
+										title={storeItem.title}
+										price={storeItem.price}
+										image={storeItem.image}
+										button={storeItem.button}
+										description={storeItem.description}
+									></CheckoutListStoreItem>
+								))}
+						</div>
+					</div>
 					<div className="p-6 flex justify-between border-t border-b font-druk_wide text-[12px] leading-[18px]">
 						<span>TOTAL</span>
-						<span>0$</span>
+						<span>{cartResponses.total}$</span>
 					</div>
 					<button
 						className="w-full bg-primary uppercase font-druk_wide text-[12px] leading-[18px] p-[14px]"
