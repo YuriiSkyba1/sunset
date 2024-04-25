@@ -3,6 +3,17 @@ import { formatDateAndTime } from "./helpers/helperFunctions";
 import { EventTicket } from "../getFilmView/types/IGetFilmView";
 import { Location } from "../getFilmView/types/IGetFilmView";
 import { Event } from "../getFilmView/types/IGetFilmView";
+import { IGetStoreItem } from "../getStoreItems/types/IGetStoreItem";
+import { act } from "react-dom/test-utils";
+
+interface CheckedStoreItemInterface {
+	id: number;
+	type: string;
+	name: string;
+	price: string;
+	quantity: string;
+	total: string;
+}
 
 interface SessionSelectionInterface {
 	selectedData: { location: string; date: string; time: string };
@@ -11,6 +22,7 @@ interface SessionSelectionInterface {
 	availableTickets: EventTicket[];
 	uniquePriceColorPairs: { price: string; color: string }[];
 	checkedTickets: EventTicket[];
+	checkedStoreItem: IGetStoreItem[];
 }
 
 interface Ticket {
@@ -29,6 +41,7 @@ const initialState: SessionSelectionInterface = {
 	availableTickets: [],
 	uniquePriceColorPairs: [],
 	checkedTickets: [],
+	checkedStoreItem: [],
 };
 
 export const sessionSelectionSlice = createSlice({
@@ -117,6 +130,7 @@ export const sessionSelectionSlice = createSlice({
 			state.availableHours = hours;
 			state.selectedData.time = state.availableHours[0];
 			state.checkedTickets = [];
+			state.checkedStoreItem = [];
 		},
 
 		handleHourChange: (state, action: PayloadAction<string>) => {
@@ -131,6 +145,23 @@ export const sessionSelectionSlice = createSlice({
 			state.checkedTickets = state.checkedTickets.filter(
 				(tick) => tick.event_ticket_id !== action.payload.ticket.event_ticket_id
 			);
+		},
+
+		addCheckedStoreItem: (state, action: PayloadAction<{ storeItem: IGetStoreItem }>) => {
+			state.checkedStoreItem.push(action.payload.storeItem);
+			console.log("Added checkedStoreItem with id: ", action.payload.storeItem.store_item_id);
+			console.log("New array of checkedStoreItems: ", state.checkedStoreItem);
+		},
+
+		removeCheckedStoreItem: (state, action: PayloadAction<{ storeItem: IGetStoreItem }>) => {
+			const index = state.checkedStoreItem.findIndex(
+				(el) => el.store_item_id === action.payload.storeItem.store_item_id
+			);
+			if (index !== -1) {
+				state.checkedStoreItem.splice(index, 1);
+				console.log("removed one store item with id: ", action.payload.storeItem.store_item_id);
+				console.log("New array of checkedStoreItems: ", state.checkedStoreItem);
+			} else console.log("nothing to delete");
 		},
 
 		removeAllCheckedTickets: (state) => {
@@ -148,6 +179,8 @@ export const {
 	handleHourChange,
 	addCheckedTicket,
 	removeCheckedTicket,
+	addCheckedStoreItem,
+	removeCheckedStoreItem,
 	setFirstValues,
 	removeAllCheckedTickets,
 } = sessionSelectionSlice.actions;

@@ -4,6 +4,7 @@ import { addCheckedTicket, removeCheckedTicket } from "@/redux/sessionSelection/
 import { useEffect, useState } from "react";
 import styles from "./SeatButton.module.css";
 import { addTicketToCart, deleteTicketFromCart } from "@/redux/cart/cartSlice";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 interface ISeatButton {
 	width?: "20" | "16";
@@ -51,6 +52,7 @@ function SeatButton({
 			} else {
 				const data = await response.json();
 				console.log("Response data222:", data);
+				dispatch(addResponse(data));
 			}
 		} catch (error) {
 			console.error("Error handling ticket action:", error);

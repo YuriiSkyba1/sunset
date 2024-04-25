@@ -62,7 +62,10 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 						))}
 				</div>
 				<div className="flex desktop:flex-col flex-col-reverse gap-4 desktop:gap-6 mt-8">
-					<button className="font-druk_wide uppercase text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5 py-[14px] desktop:px-[44px] px-[88px] bg-primary ">
+					<button
+						onClick={closePopUp}
+						className="font-druk_wide uppercase text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5 py-[14px] desktop:px-[44px] px-[88px] bg-primary "
+					>
 						ADD TO CART
 					</button>
 					<button className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5">
