@@ -5,6 +5,8 @@ import SnackItem from "../SnackItem/SnackItem";
 import Underline from "@/assets/checkout/underline.svg";
 import Image from "next/image";
 import CrossButton from "@/assets/checkout/cross-button.svg";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ISnacksPopUp {
 	isOpen: boolean;
@@ -12,15 +14,16 @@ interface ISnacksPopUp {
 }
 
 function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
+	const currentPath = usePathname();
 	const dispatch = useDispatch();
 	const locationSlug = useSelector((state) => state.locationView.success?.slug!);
 
-	// useEffect(() => {
-	// 	if (locationSlug) {
-	// 		dispatch(getItems(locationSlug));
-	// 		console.log("dispatched getLoctaionSnacks");
-	// 	}
-	// }, []);
+	useEffect(() => {
+		if (locationSlug) {
+			dispatch(getItems(locationSlug));
+			console.log("dispatched getLoctaionSnacks");
+		}
+	}, []);
 
 	const snacks = useSelector((state) => state.storeItems.success);
 
@@ -70,9 +73,11 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 					>
 						ADD TO CART
 					</button>
-					<button className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5">
-						to order a ticket
-					</button>
+					<Link href={`${currentPath}/payment`}>
+						<button className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5">
+							to order a ticket
+						</button>
+					</Link>
 				</div>
 			</div>
 		</div>
