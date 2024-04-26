@@ -93,7 +93,6 @@ function Checkout() {
 					);
 				}
 				if (ticket && !sessionSelection.checkedTickets.includes(ticket)) {
-					console.log(sessionSelection.checkedTickets.includes(ticket));
 					rowSeats.push(
 						<SeatButton
 							key={seatIndex}

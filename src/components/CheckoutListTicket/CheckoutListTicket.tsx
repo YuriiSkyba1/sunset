@@ -4,9 +4,36 @@ import Image from "next/image";
 import RemoveButton from "@/assets/checkout/remove-button.svg";
 import { useDispatch } from "@/hooks";
 import { removeCheckedTicket } from "@/redux/sessionSelection/sessionSelection";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 function CheckoutListTicket(ticket: EventTicket) {
 	const dispatch = useDispatch();
+	const { event_ticket_id } = ticket;
+
+	const handleDeleteAction = async (ticketId: number) => {
+		const url = `/api/deleteTicketFromCart`;
+		console.log("Attempting to fetch:", url); // Check the URL is correct
+		try {
+			const response = await fetch(url, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ ticketId }),
+				credentials: "include", // Ensures cookies are included with the request
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			} else {
+				const data = await response.json();
+				console.log("Response data222:", data);
+				dispatch(addResponse(data));
+			}
+		} catch (error) {
+			console.error("Error handling ticket action:", error);
+		}
+	};
 
 	return (
 		<div>
@@ -25,6 +52,7 @@ function CheckoutListTicket(ticket: EventTicket) {
 					<button
 						onClick={() => {
 							dispatch(removeCheckedTicket({ ticket }));
+							handleDeleteAction(event_ticket_id);
 						}}
 					>
 						<Image src={RemoveButton} alt="RemoveButton" />

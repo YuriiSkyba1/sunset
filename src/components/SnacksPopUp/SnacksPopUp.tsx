@@ -15,11 +15,12 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 	const dispatch = useDispatch();
 	const locationSlug = useSelector((state) => state.locationView.success?.slug!);
 
-	useEffect(() => {
-		if (locationSlug) {
-			dispatch(getItems(locationSlug));
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (locationSlug) {
+	// 		dispatch(getItems(locationSlug));
+	// 		console.log("dispatched getLoctaionSnacks");
+	// 	}
+	// }, []);
 
 	const snacks = useSelector((state) => state.storeItems.success);
 
@@ -58,6 +59,7 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 								image={snack.image}
 								price={snack.price}
 								button={snack.button}
+								quantity={0}
 							/>
 						))}
 				</div>
