@@ -12,7 +12,7 @@ interface getStoreItemsState {
 const initialState: getStoreItemsState = {
 	loading: false,
 	error: null,
-	success: null,
+	success: [],
 };
 
 export const getItems = createAsyncThunk("getStoreItems/getItems", async (locationSlug: string) => {
@@ -35,6 +35,7 @@ const getStoreItemsSlice = createSlice({
 		builder
 			.addCase(getItems.pending, (state) => {
 				state.loading = true;
+				state.success = [];
 			})
 			.addCase(getItems.fulfilled, (state, action) => {
 				state.loading = false;
@@ -44,7 +45,7 @@ const getStoreItemsSlice = createSlice({
 			.addCase(getItems.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload as string;
-				state.success = null;
+				state.success = [];
 			});
 	},
 });

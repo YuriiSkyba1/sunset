@@ -2,10 +2,36 @@ import { IGetStoreItem } from "@/redux/getStoreItems/types/IGetStoreItem";
 import Image from "next/image";
 import RemoveButton from "@/assets/checkout/remove-button.svg";
 import { useDispatch } from "@/hooks";
-import { addCheckedStoreItem, removeCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
+import { deleteCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 	const dispatch = useDispatch();
+
+	const handleDeleteStoreItemAction = async (snackItem: number) => {
+		const url = `/api/deleteStoreItemFromCart`;
+		console.log("Attempting to fetch:", url); // Check the URL is correct
+		try {
+			const response = await fetch(url, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ snackItem }),
+				credentials: "include", // Ensures cookies are included with the request
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			} else {
+				const data = await response.json();
+				console.log("Response data222:", data);
+				dispatch(addResponse(data));
+			}
+		} catch (error) {
+			console.error("Error handling ticket action:", error);
+		}
+	};
 
 	return (
 		<div>
@@ -17,7 +43,8 @@ export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 				<div>
 					<button
 						onClick={() => {
-							dispatch(removeCheckedStoreItem({ storeItem }));
+							dispatch(deleteCheckedStoreItem({ storeItem }));
+							handleDeleteStoreItemAction(storeItem.store_item_id);
 						}}
 					>
 						<Image src={RemoveButton} alt="RemoveButton" />

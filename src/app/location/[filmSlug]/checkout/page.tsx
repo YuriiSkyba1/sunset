@@ -1,6 +1,6 @@
 "use client";
 
-import BreadCrumbsCheckout from "@/components/BreadCrumbsCheckout/BreadCrumbsCheckout";
+import BreadCrumbsCheckout from "@/components/BreadCrumbsStore/BreadCrumbsStore";
 import Checkout from "@/components/Checkout/Checkout";
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 

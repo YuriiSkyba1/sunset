@@ -2,16 +2,30 @@ import { IGetStoreItem } from "@/redux/getStoreItems/types/IGetStoreItem";
 import Image from "next/image";
 import ButtonMinus from "@/assets/checkout/button-minus.svg";
 import ButtonPlus from "@/assets/checkout/buttom-plus.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addStoreItemToCart, deleteStoreItemFromCart, setStoreItemQuantity } from "@/redux/cart/cartSlice";
-import { useDispatch } from "@/hooks";
+import { useDispatch, useSelector } from "@/hooks";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
-import { addCheckedStoreItem, removeCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
+import {
+	CheckedStoreItemInterface,
+	addCheckedStoreItem,
+	removeCheckedStoreItem,
+} from "@/redux/sessionSelection/sessionSelection";
 
-function SnackItem(storeItem: IGetStoreItem) {
-	const { store_item_id, title, description, image, price, button } = storeItem;
+function SnackItem(storeItem: CheckedStoreItemInterface) {
+	const { store_item_id, title, description, image, price, button, quantity } = storeItem;
 	const dispatch = useDispatch();
 	const [counter, setCounter] = useState<number>(0);
+
+	const checkedQuantity = useSelector(
+		(state) =>
+			state.sessionSelection.checkedStoreItem.find((checkedItem) => checkedItem.store_item_id === store_item_id)
+				?.quantity
+	);
+
+	useEffect(() => {
+		setCounter(checkedQuantity ? checkedQuantity : 0);
+	});
 
 	const addItemToCart = () => {
 		if (counter === 0) {
