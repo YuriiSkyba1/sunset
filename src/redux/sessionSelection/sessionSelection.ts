@@ -111,9 +111,11 @@ export const sessionSelectionSlice = createSlice({
 			state.selectedData.time = "";
 			state.availableTickets = [];
 			state.selectedData.date = action.payload.date;
-			const filteredEvents = action.payload.events!.filter(
-				(event) => new Date(event.start_date).toLocaleDateString() === action.payload.date
-			);
+			const filteredEvents = action.payload.events
+				? action.payload.events.filter(
+						(event) => new Date(event.start_date).toLocaleDateString() === action.payload.date
+				  )
+				: [];
 			// Отримуємо години подій для обраної дати
 			const hours = filteredEvents.map((event) =>
 				new Date(event.start_date).toLocaleTimeString("en-US", {
