@@ -1,6 +1,6 @@
 "use client";
 
-import BreadCrumbsCheckout from "@/components/BreadCrumbsStore/BreadCrumbsStore";
+import BreadCrumbsStore from "@/components/BreadCrumbsStore/BreadCrumbsStore";
 import Checkout from "@/components/Checkout/Checkout";
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 
@@ -9,7 +9,7 @@ function page() {
 		<div className="relative">
 			<HeaderCheckout />
 			<div className="w-full max-w-[375px] desktop:w-full desktop:max-w-[1440px] m-auto">
-				<BreadCrumbsCheckout />
+				<BreadCrumbsStore />
 				<Checkout />
 			</div>
 		</div>
