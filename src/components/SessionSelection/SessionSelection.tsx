@@ -14,6 +14,7 @@ import {
 	setFirstValues,
 	removeAllCheckedTickets,
 } from "@/redux/sessionSelection/sessionSelection";
+import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 const SessionSelection: React.FC = () => {
 	const dispatch = useDispatch();

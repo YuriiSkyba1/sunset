@@ -6,13 +6,8 @@ import { Event } from "../getFilmView/types/IGetFilmView";
 import { IGetStoreItem } from "../getStoreItems/types/IGetStoreItem";
 import { act } from "react-dom/test-utils";
 
-interface CheckedStoreItemInterface {
-	id: number;
-	type: string;
-	name: string;
-	price: string;
-	quantity: string;
-	total: string;
+export interface CheckedStoreItemInterface extends IGetStoreItem {
+	quantity: number;
 }
 
 interface SessionSelectionInterface {
@@ -22,7 +17,7 @@ interface SessionSelectionInterface {
 	availableTickets: EventTicket[];
 	uniquePriceColorPairs: { price: string; color: string }[];
 	checkedTickets: EventTicket[];
-	checkedStoreItem: IGetStoreItem[];
+	checkedStoreItem: CheckedStoreItemInterface[];
 }
 
 interface Ticket {
@@ -148,7 +143,14 @@ export const sessionSelectionSlice = createSlice({
 		},
 
 		addCheckedStoreItem: (state, action: PayloadAction<{ storeItem: IGetStoreItem }>) => {
-			state.checkedStoreItem.push(action.payload.storeItem);
+			const checkIfExist = state.checkedStoreItem.findIndex(
+				(checkedItem) => checkedItem.store_item_id === action.payload.storeItem.store_item_id
+			);
+			if (checkIfExist !== -1) {
+				state.checkedStoreItem[checkIfExist].quantity = state.checkedStoreItem[checkIfExist].quantity + 1;
+			} else {
+				state.checkedStoreItem.push({ ...action.payload.storeItem, quantity: 1 });
+			}
 			console.log("Added checkedStoreItem with id: ", action.payload.storeItem.store_item_id);
 			console.log("New array of checkedStoreItems: ", state.checkedStoreItem);
 		},
@@ -158,10 +160,23 @@ export const sessionSelectionSlice = createSlice({
 				(el) => el.store_item_id === action.payload.storeItem.store_item_id
 			);
 			if (index !== -1) {
-				state.checkedStoreItem.splice(index, 1);
+				if (state.checkedStoreItem[index].quantity > 1) {
+					state.checkedStoreItem[index].quantity === state.checkedStoreItem[index].quantity--;
+				} else if (state.checkedStoreItem[index].quantity === 1) {
+					state.checkedStoreItem.splice(index, 1);
+				}
 				console.log("removed one store item with id: ", action.payload.storeItem.store_item_id);
 				console.log("New array of checkedStoreItems: ", state.checkedStoreItem);
 			} else console.log("nothing to delete");
+		},
+
+		deleteCheckedStoreItem: (state, action: PayloadAction<{ storeItem: IGetStoreItem }>) => {
+			const index = state.checkedStoreItem.findIndex(
+				(el) => el.store_item_id === action.payload.storeItem.store_item_id
+			);
+			if (index !== -1) {
+				state.checkedStoreItem.splice(index, 1);
+			}
 		},
 
 		removeAllCheckedTickets: (state) => {
@@ -181,6 +196,7 @@ export const {
 	removeCheckedTicket,
 	addCheckedStoreItem,
 	removeCheckedStoreItem,
+	deleteCheckedStoreItem,
 	setFirstValues,
 	removeAllCheckedTickets,
 } = sessionSelectionSlice.actions;
