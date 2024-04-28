@@ -9,23 +9,30 @@ export default function SuccessPage() {
     const [isSuccess, setOpenSuccess] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const router = useRouter();
-console.log('1')
+
     useEffect(() => {
-		console.log('ready')
+        console.log('Router query object:', router.query); // Log the entire query object for debugging
         if (router.isReady) {
-            setOrderId(router.query.order_id);
+            const id = router.query.order_id; // Check the parameter name carefully
+            console.log('Fetched order_id:', id);
+            if (id) {
+                setOrderId(parseInt(id, 10)); // Ensuring it's a number, add error handling as necessary
+            }
         }
     }, [router.isReady, router.query]);
 
     useEffect(() => {
-		console.log(orderId, 'orderId')
         if (orderId) {
+            console.log('Order ID set:', orderId);
             handleStatusCheck(orderId);
+        } else {
+            console.log('Order ID is null, check query parameters and URL formatting');
         }
     }, [orderId]);
 
     const handleStatusCheck = async (order_id) => {
         const url = `/api/checkStatus?order_id=${order_id}`;
+        console.log("Attempting to fetch:", url);
         try {
             const response = await fetch(url, {
                 method: "GET",
@@ -39,7 +46,7 @@ console.log('1')
                 throw new Error(`HTTP error! status: ${response.status}`);
             } else {
                 const data = await response.json();
-                console.log("Response data222 of checking status:", data);
+                console.log("Response data of checking status:", data);
             }
         } catch (error) {
             console.error("Error checking status:", error);
