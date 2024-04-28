@@ -1,6 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "@/hooks";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import CheckoutListTicket from "../CheckoutListTicket/CheckoutListTicket";
 import CheckoutListStoreItem from "../CheckoutListStoreItem/CheckoutListStoreItem";
@@ -20,6 +21,24 @@ function PaymentPage() {
 	const dispatch = useDispatch();
 
 	const filmView = useSelector((state) => state.filmView);
+	const router = useRouter();
+	const [timeLeft, setTimeLeft] = useState(15 * 60); // тут 0.15 змінити 15 для тесту
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setTimeLeft((prevTime) => prevTime - 1);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	}, [timeLeft]);
+
+	useEffect(() => {
+		if (timeLeft === 0) {
+			router.push("/location");
+		}
+	}, [timeLeft, router]);
+
+	const minutes = Math.floor(timeLeft / 60);
+	const seconds = timeLeft % 60;
 
 	const sessionSelection = useSelector((state) => state.sessionSelection);
 	const cartResponses = useSelector((state) => state.cartResponses);
@@ -30,29 +49,32 @@ function PaymentPage() {
 		handleCheckoutShow();
 	}, []);
 
-	const handleInputChange = useCallback(_debounce(async (value) => {
-        console.log("Debounced promo:", value);
-        try {
-            const response = await fetch('/api/applyPromocode', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ promocode: value }),
-                credentials: "include"
-            });
-            console.log(response, 'res');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const data = await response.json();
-            dispatch(addResponse(data)); 
-        } catch (error) {
-            console.error("Error submitting promocode:", error);
-        }
-    }, 2000), []); 
+	const handleInputChange = useCallback(
+		_debounce(async (value) => {
+			console.log("Debounced promo:", value);
+			try {
+				const response = await fetch("/api/applyPromocode", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ promocode: value }),
+					credentials: "include",
+				});
+				console.log(response, "res");
+				if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+				const data = await response.json();
+				dispatch(addResponse(data));
+			} catch (error) {
+				console.error("Error submitting promocode:", error);
+			}
+		}, 2000),
+		[]
+	);
 
-    const handlePromoValueChange = (event) => {
-        const { value } = event.target;
-        setPromoValue(value);
-        handleInputChange(value);
-    };
+	const handlePromoValueChange = (event) => {
+		const { value } = event.target;
+		setPromoValue(value);
+		handleInputChange(value);
+	};
 
 	const handleRemoveClick = () => {
 		setPromoValue("");
@@ -216,9 +238,28 @@ function PaymentPage() {
 			)}
 			<div className="border h-fit desktop:min-w-[380px] w-full min-w-[349px]">
 				<div className={`py-10 px-6 bg-[#F9F7DB] border-b`}>
-					<div className="font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px]">
-						BUY A TICKET
+					<div className=" flex flex-row items-center justify-between font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px]">
+						<span>BUY A TICKET</span>
+						<span className=" flex gap-2 bg-black_main text-white p-1">
+							<svg
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M17.6177 5.9681L19.0711 4.51472L20.4853 5.92893L19.0319 7.38231C20.2635 8.92199 21 10.875 21 13C21 17.9706 16.9706 22 12 22C7.02944 22 3 17.9706 3 13C3 8.02944 7.02944 4 12 4C14.125 4 16.078 4.73647 17.6177 5.9681ZM12 20C15.866 20 19 16.866 19 13C19 9.13401 15.866 6 12 6C8.13401 6 5 9.13401 5 13C5 16.866 8.13401 20 12 20ZM11 8H13V14H11V8ZM8 1H16V3H8V1Z"
+									fill="#FD84C7"
+								/>
+							</svg>
+
+							<span className="ml-2 font-gotham_pro_medium text-[16px] leading-6">
+								{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+							</span>
+						</span>
 					</div>
+
 					{sessionSelection.checkedTickets &&
 						sessionSelection.checkedTickets.map((ticket) => (
 							<CheckoutListTicket
@@ -258,13 +299,12 @@ function PaymentPage() {
 				<div className="py-5 px-6 desktop:border-b desktop:py-6 bg-[#F9F7DB]">
 					<span className="mb-2 uppercase font-druk_wide text-[12px] leading-[18px]">promocode</span>
 					<div className="relative">
-					
-						  <input
-                type="text"
-				className=" bg-white border w-full py-[12px]"
-                value={promoValue}
-                onChange={handlePromoValueChange}
-            />
+						<input
+							type="text"
+							className=" bg-white border w-full py-[12px]"
+							value={promoValue}
+							onChange={handlePromoValueChange}
+						/>
 						<button onClick={() => handleRemoveClick()} className="absolute z-10 right-4 top-[14px]">
 							<Image src={RemoveButton} alt="RemoveButton" />
 						</button>
