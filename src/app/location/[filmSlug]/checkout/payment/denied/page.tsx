@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentDeniedPopUp from "@/components/PaymentDeniedPopUp/PaymentDeniedPopUp";
