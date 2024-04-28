@@ -3,7 +3,7 @@
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function page() {
 	const [isSuccess, setOpenSuccess] = useState(false);
