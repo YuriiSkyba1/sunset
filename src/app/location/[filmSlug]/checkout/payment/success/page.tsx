@@ -1,25 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; 
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
 
 export default function SuccessPage() {
     const [isSuccess, setOpenSuccess] = useState(false);
     const [orderId, setOrderId] = useState(null);
-    const [componentMounted, setComponentMounted] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        setComponentMounted(true); // Set mounted state to true when component mounts
-    }, []);
-
-    useEffect(() => {
-        if (componentMounted && router.isReady) {
+        if (router.isReady) {
             setOrderId(router.query.order_id);
         }
-    }, [router.isReady, router.query, componentMounted]);
+    }, [router.isReady, router.query]);
 
     useEffect(() => {
         if (orderId) {
@@ -29,7 +24,6 @@ export default function SuccessPage() {
 
     const handleStatusCheck = async (order_id) => {
         const url = `/api/checkStatus?order_id=${order_id}`;
-        console.log("Attempting to fetch:", url);
         try {
             const response = await fetch(url, {
                 method: "GET",
