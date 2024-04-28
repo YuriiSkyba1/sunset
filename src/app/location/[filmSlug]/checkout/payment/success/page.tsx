@@ -3,14 +3,14 @@
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export default function page() {
 	const [isSuccess, setOpenSuccess] = useState(false);
 
-	const router = useRouter();
-
-	const { order_id } = router.query;
+	// const router = useRouter();
+console.log('111')
+	// const { order_id } = router.query;
 
 	// Extract the order_id from the query parameters
 	const searchParams = new URLSearchParams(window.location.search);
@@ -19,12 +19,12 @@ export default function page() {
 		console.log("searchParams with JS", searchParams);
 	}, []);
 
-	useEffect(() => {
-		console.log("order_id with next", order_id);
-		handleStatusCheck(order_id as unknown as number);
-	}, [order_id]);
+	// useEffect(() => {
+	// 	console.log("order_id with next", order_id);
+	// 	handleStatusCheck(order_id as unknown as number);
+	// }, [order_id]);
 
-	const handleStatusCheck = async (order_id: number) => {
+	const handleStatusCheck = async (order_id: number = 24)  => {
 		const url = `/api/checkStatus`;
 		console.log("Attempting to fetch:", url); // Check the URL is correct
 		try {
