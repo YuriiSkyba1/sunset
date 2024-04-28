@@ -1,25 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; 
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
 
 export default function SuccessPage() {
     const [isSuccess, setOpenSuccess] = useState(false);
     const [orderId, setOrderId] = useState(null);
-    const router = useRouter();
 
     useEffect(() => {
-        console.log('Router query object:', router.query); // Log the entire query object for debugging
-        if (router.isReady) {
-            const id = router.query.order_id; // Check the parameter name carefully
-            console.log('Fetched order_id:', id);
-            if (id) {
-                setOrderId(parseInt(id, 10)); // Ensuring it's a number, add error handling as necessary
+        if (typeof window !== "undefined") {
+            const searchParams = new URLSearchParams(window.location.search);
+            const order_id = searchParams.get("order_id");
+            console.log('Fetched order_id:', order_id);
+            if (order_id) {
+                setOrderId(parseInt(order_id, 10));
             }
         }
-    }, [router.isReady, router.query]);
+    }, []);
 
     useEffect(() => {
         if (orderId) {
