@@ -1,4 +1,6 @@
-import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
+"use client"
+
+rCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
 import React, { useState } from "react";
 
