@@ -9,14 +9,16 @@ export default function SuccessPage() {
     const [isSuccess, setOpenSuccess] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const router = useRouter();
-
+console.log('1')
     useEffect(() => {
+		console.log('ready')
         if (router.isReady) {
             setOrderId(router.query.order_id);
         }
     }, [router.isReady, router.query]);
 
     useEffect(() => {
+		console.log(orderId, 'orderId')
         if (orderId) {
             handleStatusCheck(orderId);
         }
