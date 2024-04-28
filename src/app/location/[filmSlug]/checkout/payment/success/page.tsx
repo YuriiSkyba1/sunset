@@ -7,21 +7,25 @@ import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccess
 
 export default function page() {
 	const [isSuccess, setOpenSuccess] = useState(false);
+	const [orderId, setOrderId] = useState(null);
 	const router = useRouter();
+  	console.log('1')
+	useEffect(() => {
+		console.log('2')
+	  if (router.isReady) {
+		console.log('3', router)
+		setOrderId(router.query.order_id);
+	  }
+	}, [router.isReady, router.query]);
+  
+	useEffect(() => {
+	  if (orderId !== null) {
+		console.log(orderId, 'orderId')
+		handleStatusCheck(orderId);
+	  }
+	}, [orderId]);
 
-console.log('111', router)
-
-
-useEffect(() => {
-	console.log('trigger use effect')
-    if (typeof window !== "undefined") {
-      const { order_id } = router.query;
-      console.log("Order ID: ", order_id);
-    
-    }
-  }, [router.isReady, router.query]);
-
-	const handleStatusCheck = async (order_id)  => {
+	const handleStatusCheck = async (order_id) => {
 		const url = `/api/checkStatus`;
 		console.log("Attempting to fetch:", url); 
 		try {
@@ -49,7 +53,7 @@ useEffect(() => {
 	return (
 		<div className="relative">
 			<HeaderCheckout />
-			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} />
+<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} />
 		</div>
 	);
 }
