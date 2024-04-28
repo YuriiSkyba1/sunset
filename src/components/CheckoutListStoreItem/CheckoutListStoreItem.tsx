@@ -68,7 +68,7 @@ export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 				</div>
 				<div className="flex gap-1">
 					<span className="font-gotham_pro_regular text-[12px] leading-[20px] ">Numbers:</span>
-					<span className="font-gotham_pro_bold text-[12px] leading-[20px]">1 ks</span>
+					<span className="font-gotham_pro_bold text-[12px] leading-[20px]">{1} ks</span>
 				</div>
 			</div>
 		</div>
