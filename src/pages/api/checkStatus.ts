@@ -2,10 +2,11 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	console.log("Received request:", req.body);
-	const { order_id } = req.body;
+	console.log("Received request with query:", req.query);
+	const { order_id } = req.query; // Changed from req.body to req.query
+
 	if (req.method === "GET") {
-		console.log("Preparing to send request to external API for checking order status:");
+		console.log("Preparing to send request to external API for checking order status with order ID:", order_id);
 		try {
 			const apiResponse = await axios.get(
 				`https://api.sunsetcinema.in-create.online/api/en/checkout/${order_id}`,

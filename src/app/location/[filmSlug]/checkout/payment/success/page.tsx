@@ -30,18 +30,17 @@ export default function SuccessPage() {
 	}, [orderId]);
 
 	const handleStatusCheck = async (order_id: number) => {
-		const url = `/api/checkStatus`;
-		console.log("Attempting to fetch:", url);
+		const url = `/api/checkStatus?order_id=${order_id}`;
+		console.log("Attempting to fetch:", url, 'order_id', order_id);
 		try {
 			const response = await fetch(url, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ order_id }),
 				credentials: "include",
 			});
-
+	
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			} else {
@@ -52,6 +51,7 @@ export default function SuccessPage() {
 			console.error("Error checking status:", error);
 		}
 	};
+	
 
 	return (
 		<div className="relative">
