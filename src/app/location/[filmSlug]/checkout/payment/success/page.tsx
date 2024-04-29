@@ -7,6 +7,7 @@ import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccess
 export default function SuccessPage() {
 	const [isSuccess, setOpenSuccess] = useState(false);
 	const [orderId, setOrderId] = useState<number>(0);
+	const [downloadLink, setDownloadLink] = useState<string>("");
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -15,7 +16,7 @@ export default function SuccessPage() {
 			console.log("Fetched order_id:", order_id);
 			if (order_id) {
 				setOrderId(parseInt(order_id, 10));
-				setOpenSuccess(true);
+				// setOpenSuccess(true);
 			}
 		}
 	}, []);
@@ -31,7 +32,7 @@ export default function SuccessPage() {
 
 	const handleStatusCheck = async (order_id: number) => {
 		const url = `/api/checkStatus?order_id=${order_id}`;
-		console.log("Attempting to fetch:", url, 'order_id', order_id);
+		console.log("Attempting to fetch:", url, "order_id", order_id);
 		try {
 			const response = await fetch(url, {
 				method: "GET",
@@ -40,23 +41,24 @@ export default function SuccessPage() {
 				},
 				credentials: "include",
 			});
-	
+
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			} else {
 				const data = await response.json();
+				setDownloadLink(data.items[0].ticket_url);
 				console.log("Response data of checking status:", data);
+				setOpenSuccess(true);
 			}
 		} catch (error) {
 			console.error("Error checking status:", error);
 		}
 	};
-	
 
 	return (
 		<div className="relative">
 			<HeaderCheckout />
-			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} />
+			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} downloadLink={downloadLink} />
 		</div>
 	);
 }
