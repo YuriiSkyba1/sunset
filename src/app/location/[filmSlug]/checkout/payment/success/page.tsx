@@ -7,7 +7,7 @@ import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccess
 export default function SuccessPage() {
 	const [isSuccess, setOpenSuccess] = useState(false);
 	const [orderId, setOrderId] = useState<number>(0);
-	const [downloadLink, setDownloadLink] = useState<string>("");
+	const [downloadLinks, setDownloadLinks] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -46,9 +46,9 @@ export default function SuccessPage() {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			} else {
 				const data = await response.json();
-				setDownloadLink(data.items[0].ticket_url);
-				console.log("Response data of checking status:", data);
-				setOpenSuccess(true);
+                const links = data.items.map(item => item.ticket_url); 
+                setDownloadLinks(links);
+                setOpenSuccess(true);
 			}
 		} catch (error) {
 			console.error("Error checking status:", error);
@@ -58,7 +58,7 @@ export default function SuccessPage() {
 	return (
 		<div className="relative">
 			<HeaderCheckout />
-			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} downloadLink={downloadLink} />
+			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} downloadLinks={downloadLinks} />
 		</div>
 	);
 }
