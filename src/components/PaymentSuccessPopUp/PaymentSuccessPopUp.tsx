@@ -47,11 +47,11 @@ function PaymentSuccessPopUp({ active, setActive, downloadLink }: IPaymentSucces
 										go to account
 									</button>
 								</Link>
-								<Link href={downloadLink}>
+								<a href={downloadLink} download>
 									<button className="font-druk_wide uppercase text-[14px] leading-5 underline">
-										download pdf ticket
+										Download PDF Ticket
 									</button>
-								</Link>
+								</a>
 							</div>
 						</div>
 					</div>
