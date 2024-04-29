@@ -13,15 +13,6 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks }: IPaymentSucce
 	const closeModal = () => {
 		setActive(false);
 	};
-	const downloadAllTickets = (links: string[]) => {
-        links.forEach((link, index) => {
-            const a = document.createElement('a');
-            a.href = link;
-            a.download = `ticket-${index + 1}.pdf`; 
-            a.click();
-            document.body.removeChild(a);
-        });
-    };
 
 	return (
 		<>
@@ -54,19 +45,21 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks }: IPaymentSucce
 								<Link href={"/"}>
 									<button className="bg-primary text-black_main font-bold py-4 
 							max-desktop:w-[300px]
-							desktop:px-24 desktop:mt-2 uppercase">
+							desktop:px-24 desktop:mt-2 uppercase mr-3">
 										go to account
 									</button>
 								</Link>
 								{downloadLinks.length > 1 ? (
-                                    <button onClick={() => downloadAllTickets(downloadLinks)} className="font-druk_wide uppercase text-[14px] leading-5 underline">
-                                        Download All Tickets
-                                    </button>
-                                ) : (
-                                    <a href={downloadLinks[0]} download="ticket.pdf" target="_blank" className="font-druk_wide uppercase text-[14px] leading-5 underline">
-                                        Download Ticket
-                                    </a>
-                                )}
+									downloadLinks.map((link, index) => (
+										<a key={index} href={link} download={`ticket-${index}.pdf`} target="_blank" className="font-druk_wide uppercase text-[14px] leading-5 underline mb-2">
+											Download Ticket {index + 1}
+										</a>
+									))
+								) : (
+									<a href={downloadLinks[0]} download="ticket.pdf" target="_blank" className="font-druk_wide uppercase text-[14px] leading-5 underline">
+										Download Ticket
+									</a>
+								)}
 							</div>
 						</div>
 					</div>
