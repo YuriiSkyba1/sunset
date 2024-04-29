@@ -14,7 +14,8 @@ export default function SuccessPage() {
             const order_id = searchParams.get("order_id");
             console.log('Fetched order_id:', order_id);
             if (order_id) {
-                setOrderId(parseInt(order_id, 10));
+                setOrderId(parseInt(order_id, 10)); 
+                setOpenSuccess(true); 
             }
         }
     }, []);
