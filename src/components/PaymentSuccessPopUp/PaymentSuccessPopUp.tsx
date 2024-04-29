@@ -41,7 +41,7 @@ function PaymentSuccessPopUp({ active, setActive }: IPaymentSuccessPopUp) {
 								</div>
 							</div>
 							<div>
-								<Link href={"/location"}>
+								<Link href={"/"}>
 									<button className="font-druk_wide uppercase text-[14px] leading-5 py-[14px] w-[298px]">
 										go to account
 									</button>
