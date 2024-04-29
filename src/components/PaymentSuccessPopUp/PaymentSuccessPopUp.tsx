@@ -6,9 +6,10 @@ import Link from "next/link";
 interface IPaymentSuccessPopUp {
 	active: boolean;
 	setActive: React.Dispatch<React.SetStateAction<boolean>>;
+	downloadLink: string;
 }
 
-function PaymentSuccessPopUp({ active, setActive }: IPaymentSuccessPopUp) {
+function PaymentSuccessPopUp({ active, setActive, downloadLink }: IPaymentSuccessPopUp) {
 	const closeModal = () => {
 		setActive(false);
 	};
@@ -46,7 +47,7 @@ function PaymentSuccessPopUp({ active, setActive }: IPaymentSuccessPopUp) {
 										go to account
 									</button>
 								</Link>
-								<Link href={"/"}>
+								<Link href={downloadLink}>
 									<button className="font-druk_wide uppercase text-[14px] leading-5 underline">
 										download pdf ticket
 									</button>
