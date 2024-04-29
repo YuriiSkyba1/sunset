@@ -13,7 +13,7 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks }: IPaymentSucce
 	const closeModal = () => {
 		setActive(false);
 	};
-
+    console.log(downloadLinks, 'downloadLinks')
 	return (
 		<>
 			{active && (
