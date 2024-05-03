@@ -11,9 +11,10 @@ import { usePathname } from "next/navigation";
 interface ISnacksPopUp {
 	isOpen: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setTimesOpened: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
+function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 	const currentPath = usePathname();
 	const dispatch = useDispatch();
 	const locationSlug = useSelector((state) => state.locationView.success?.slug!);
@@ -29,6 +30,7 @@ function SnacksPopUp({ isOpen, setOpen }: ISnacksPopUp) {
 
 	const closePopUp = () => {
 		setOpen(false);
+		setTimesOpened(1);
 	};
 
 	return (

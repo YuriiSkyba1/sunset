@@ -8,6 +8,7 @@ export default function SuccessPage() {
 	const [isSuccess, setOpenSuccess] = useState(false);
 	const [orderId, setOrderId] = useState<number>(0);
 	const [downloadLinks, setDownloadLinks] = useState<string[]>([]);
+	const [email, setEmail] = useState<string>("");
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -46,9 +47,11 @@ export default function SuccessPage() {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			} else {
 				const data = await response.json();
-                const links = data.items.map(item => item.ticket_url); 
-                setDownloadLinks(links);
-                setOpenSuccess(true);
+				const links = data.items.map((item) => item.ticket_url);
+				const newEmail = data.email;
+				setDownloadLinks(links);
+				setEmail(newEmail);
+				setOpenSuccess(true);
 			}
 		} catch (error) {
 			console.error("Error checking status:", error);
@@ -58,7 +61,12 @@ export default function SuccessPage() {
 	return (
 		<div className="relative">
 			<HeaderCheckout />
-			<PaymentSuccessPopUp active={isSuccess} setActive={setOpenSuccess} downloadLinks={downloadLinks} />
+			<PaymentSuccessPopUp
+				active={isSuccess}
+				setActive={setOpenSuccess}
+				downloadLinks={downloadLinks}
+				email={email}
+			/>
 		</div>
 	);
 }

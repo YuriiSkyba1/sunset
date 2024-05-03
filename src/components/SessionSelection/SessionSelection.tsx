@@ -58,16 +58,34 @@ const SessionSelection: React.FC = () => {
 		const rows = [];
 
 		for (let rowIndex = 1; rowIndex <= maxRows; rowIndex++) {
-			const rowSeats = [];
+			const rowSeats: JSX.Element[] = [];
 			for (let seatIndex = 1; seatIndex <= maxSeatsPerRow; seatIndex++) {
 				const ticket = availableTickets.find((ticket) => ticket.row === rowIndex && ticket.seat === seatIndex);
-				if (ticket) {
+
+				if (!ticket) {
+					rowSeats.push(<div className="w-[20px] h-[20px]"></div>);
+					continue;
+				}
+
+				if (ticket && checkedTickets.includes(ticket)) {
 					rowSeats.push(
 						<SeatButton
 							key={seatIndex}
 							ticketData={ticket}
 							disabledButton={!ticket}
-							status={ticket?.status}
+							status={ticket.status}
+							isCheckedSeat={true}
+						/>
+					);
+				}
+				if (ticket && !checkedTickets.includes(ticket)) {
+					rowSeats.push(
+						<SeatButton
+							key={seatIndex}
+							ticketData={ticket}
+							disabledButton={!ticket}
+							status={ticket.status}
+							isCheckedSeat={false}
 						/>
 					);
 				}
@@ -80,7 +98,7 @@ const SessionSelection: React.FC = () => {
 		}
 
 		return rows;
-	}, [availableTickets]);
+	}, [availableTickets, checkedTickets]);
 
 	const checkedTicketsAdaptive = (): JSX.Element | null => {
 		const tickets: EventTicket[] = [];
@@ -189,7 +207,7 @@ const SessionSelection: React.FC = () => {
 						<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
 							PLACE
 						</p>
-						<div className="w-full border border-black_main max-w-[376px] desktop:max-w-[376px] ">
+						<div className="border border-black_main desktop:w-[376px] w-[300px]">
 							<div className="mx-auto w-5/6 border border-black_main mt-6"></div>
 							<p className="text-center mt-[10px] font-gotham_pro_regular text-[12px] leading-5">
 								screen
