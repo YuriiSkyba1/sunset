@@ -70,7 +70,7 @@ function SeatButton({
 				</span>
 			</div>
 			<button
-				className={`w-[${width}px] desktop:w-[${width}px] ${
+				className={`w-[${width}px] h-[${width}px]  desktop:w-[${width}px] ${
 					ticketData.status === "blocked" ? "cursor-not-allowed" : ""
 				}`}
 				onClick={() => {
@@ -83,7 +83,12 @@ function SeatButton({
 						handleTicketAction(ticketData!.event_ticket_id, "delete");
 					}
 				}}
-				disabled={disabledButton || ticketData.status === "blocked"}
+				disabled={
+					disabledButton ||
+					ticketData.status === "blocked" ||
+					ticketData.status === "wait_payment" ||
+					ticketData.status === "sold"
+				}
 			>
 				<svg
 					style={{ opacity: isChecked ? 1 : 0.6 }}
