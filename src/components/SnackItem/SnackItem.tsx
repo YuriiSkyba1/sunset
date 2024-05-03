@@ -132,12 +132,12 @@ function SnackItem(storeItem: CheckedStoreItemInterface) {
 					<span className="font-druk_wide">{price}</span>
 				</div>
 			</div>
-			<div className="uppercase font-druk_wide text-[10px] leading-[14px] desktop:text-[14px] desktop:leading-5 my-2">
+			<div className="uppercase font-druk_wide text-[10px] leading-[14px] desktop:text-[14px] desktop:leading-5 mt-2">
 				{title}
 			</div>
-			<div className="font-gotham_pro_regular text-[10px] leading-[12px] desktop:text-[12px] desktop:leading-5 border-t desktop:border desktop:px-[6px] desktop:py-[4px] border-grey_medium">
+			{/* <div className="font-gotham_pro_regular text-[10px] leading-[12px] desktop:text-[12px] desktop:leading-5 border-t desktop:border desktop:px-[6px] desktop:py-[4px] border-grey_medium">
 				Bonuses are occured: <span className="font-gotham_pro_bold">{price}</span>
-			</div>
+			</div> */}
 			<div className="flex justify-between items-center mt-4">
 				<button onClick={reduceItem}>
 					<Image src={ButtonMinus} alt="ButtonMinus" width={28}></Image>

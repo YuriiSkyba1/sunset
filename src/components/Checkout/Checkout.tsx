@@ -9,9 +9,13 @@ import SnacksPopUp from "../SnacksPopUp/SnacksPopUp";
 import { useDispatch, useSelector } from "@/hooks";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 import CheckoutListStoreItem from "../CheckoutListStoreItem/CheckoutListStoreItem";
+import Exclude from "@/assets/checkout/Exclude.svg";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 function Checkout() {
 	const dispatch = useDispatch();
+	const currentPath = usePathname();
 
 	const cartResponses = useSelector((state) => state.cartResponses);
 
@@ -23,6 +27,7 @@ function Checkout() {
 	const filmView = useSelector((state) => state.filmView);
 	const sessionSelection = useSelector((state) => state.sessionSelection);
 	const [isSnacksOpen, setSnacksOpen] = useState<boolean>(false);
+	const [timesOpened, setTimesOpened] = useState<number>(0);
 
 	const handleShowCart = async () => {
 		const url = `/api/showCart`;
@@ -68,17 +73,10 @@ function Checkout() {
 					(ticket) => ticket.row === rowIndex && ticket.seat === seatIndex
 				);
 
-				// if (ticket) {
-				// 	rowSeats.push(
-				// 		<SeatButton
-				// 			key={seatIndex}
-				// 			ticketData={ticket}
-				// 			disabledButton={!ticket}
-				// 			status={ticket.status}
-				// 			isCheckedSeat={true}
-				// 		/>
-				// 	);
-				// }
+				if (!ticket) {
+					rowSeats.push(<div className="w-[20px] h-[20px]"></div>);
+					continue;
+				}
 
 				if (ticket && sessionSelection.checkedTickets.includes(ticket)) {
 					rowSeats.push(
@@ -116,97 +114,99 @@ function Checkout() {
 	return (
 		filmView.success && (
 			<div className="flex flex-col desktop:flex-row desktop:gap-[136px] gap-8 max-desktop:items-center px-[14px] desktop:px-[60px] max-desktop:mt-8 max-desktop:mb-10 desktop:mb-[104px]">
-				<div className="w-full max-w-[348px] desktop:max-w-[760px] border p-[24px]">
-					<div className="flex gap-4">
-						<Image
-							className="hidden desktop:block"
-							src={filmView.success.movie.poster}
-							alt="poster"
-							width={200}
-							height={240}
-							unoptimized={true}
-							loading="lazy"
-							style={{ height: "fit-content" }}
-						/>
+				<div className="w-full max-w-[348px] desktop:max-w-[760px] ">
+					<div className="border p-[24px]">
+						<div className="flex gap-4">
+							<Image
+								className="hidden desktop:block"
+								src={filmView.success.movie.poster}
+								alt="poster"
+								width={200}
+								height={240}
+								unoptimized={true}
+								loading="lazy"
+								style={{ height: "fit-content" }}
+							/>
 
-						<Image
-							className="desktop:hidden"
-							src={filmView.success.movie.poster}
-							alt="poster"
-							width={93}
-							height={111}
-							unoptimized={true}
-							loading="lazy"
-							style={{ height: "fit-content" }}
-						/>
+							<Image
+								className="desktop:hidden"
+								src={filmView.success.movie.poster}
+								alt="poster"
+								width={93}
+								height={111}
+								unoptimized={true}
+								loading="lazy"
+								style={{ height: "fit-content" }}
+							/>
 
-						<div className="flex flex-col gap-6 flex-grow">
-							<div className="uppercase font-druk_wide text-[10px] leading-[18px] desktop:text-[18px] desktop:leading-6">
-								{filmView.success.movie.title}
-							</div>
-							<div>
-								<div className="flex flex-col gap-3 pb-4 border-b border-grey_medium mb-[16px]">
-									<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] ">
-										<Image src={LocationIcon} alt="LocationIcon" />
-										<span>LOCATION</span>
-									</div>
-									<div className=" font-gotham_pro_regular text-[14px] leading-[22px] desktop:text-[16px] desktop:leading-6">
-										{sessionSelection.selectedData.location}
-									</div>
+							<div className="flex flex-col gap-6 flex-grow">
+								<div className="uppercase font-druk_wide text-[10px] leading-[18px] desktop:text-[18px] desktop:leading-6">
+									{filmView.success.movie.title}
 								</div>
-								<div className="flex gap-5 desktop:gap-24 pb-4 border-b border-grey_medium">
-									<div>
-										<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-3">
-											<Image src={CalendarIcon} alt="CalendarIcon" />
-											DATE
+								<div>
+									<div className="flex flex-col gap-3 pb-4 border-b border-grey_medium mb-[16px]">
+										<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] ">
+											<Image src={LocationIcon} alt="LocationIcon" />
+											<span>LOCATION</span>
 										</div>
 										<div className=" font-gotham_pro_regular text-[14px] leading-[22px] desktop:text-[16px] desktop:leading-6">
-											{sessionSelection.selectedData.date}
+											{sessionSelection.selectedData.location}
 										</div>
 									</div>
-									<div>
-										<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-3">
-											<Image src={SessionIcon} alt="SessionIcon"></Image>
-											<span>SESSION</span>
+									<div className="flex gap-5 desktop:gap-24 pb-4 border-b border-grey_medium">
+										<div>
+											<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-3">
+												<Image src={CalendarIcon} alt="CalendarIcon" />
+												DATE
+											</div>
+											<div className=" font-gotham_pro_regular text-[14px] leading-[22px] desktop:text-[16px] desktop:leading-6">
+												{sessionSelection.selectedData.date}
+											</div>
 										</div>
-										<div className=" font-gotham_pro_regular text-[14px] leading-[22px] desktop:text-[16px] desktop:leading-6">
-											{sessionSelection.selectedData.time}
+										<div>
+											<div className="uppercase flex gap-2 font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-3">
+												<Image src={SessionIcon} alt="SessionIcon"></Image>
+												<span>SESSION</span>
+											</div>
+											<div className=" font-gotham_pro_regular text-[14px] leading-[22px] desktop:text-[16px] desktop:leading-6">
+												{sessionSelection.selectedData.time}
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div className="hidden desktop:block">
-								<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
-									PLACE
-								</p>
-								<div className="w-full border border-black_main max-w-[376px] desktop:max-w-[376px] ">
-									<div className="mx-auto w-5/6 border border-black_main mt-6"></div>
-									<p className="text-center mt-[10px] font-gotham_pro_regular text-[12px] leading-5">
-										screen
+								<div className="hidden desktop:block">
+									<p className="font-druk_wide uppercase text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px] mb-[8px]">
+										PLACE
 									</p>
-									<div className="mt-10 desktop:mt-20">{seats}</div>
-								</div>
-								{sessionSelection.availableTickets.length > 0 && (
-									<div className="border border-grey_medium mt-2 flex flex-wrap justify-evenly gap-3 px-[22px] py-3 max-w-[376px]">
-										{sessionSelection.uniquePriceColorPairs.length > 1 &&
-											sessionSelection.uniquePriceColorPairs.map((pair) => (
-												<div key={pair.price} className="flex items-center gap-2">
-													<div
-														className={`w-3 h-3 `}
-														style={{ backgroundColor: pair.color }}
-													></div>
-													<div className="flex gap-1">
-														<p className="font-gotham_pro_regular text-[12px] leading-5">
-															Price:
-														</p>
-														<p className="text-[12px] leading-5 font-gotham_pro_bold">
-															{pair.price}$
-														</p>
-													</div>
-												</div>
-											))}
+									<div className="w-full border border-black_main max-w-[376px] desktop:max-w-[376px] ">
+										<div className="mx-auto w-5/6 border border-black_main mt-6"></div>
+										<p className="text-center mt-[10px] font-gotham_pro_regular text-[12px] leading-5">
+											screen
+										</p>
+										<div className="mt-10 desktop:mt-20">{seats}</div>
 									</div>
-								)}
+									{sessionSelection.availableTickets.length > 0 && (
+										<div className="border border-grey_medium mt-2 flex flex-wrap justify-evenly gap-3 px-[22px] py-3 max-w-[376px]">
+											{sessionSelection.uniquePriceColorPairs.length > 1 &&
+												sessionSelection.uniquePriceColorPairs.map((pair) => (
+													<div key={pair.price} className="flex items-center gap-2">
+														<div
+															className={`w-3 h-3 `}
+															style={{ backgroundColor: pair.color }}
+														></div>
+														<div className="flex gap-1">
+															<p className="font-gotham_pro_regular text-[12px] leading-5">
+																Price:
+															</p>
+															<p className="text-[12px] leading-5 font-gotham_pro_bold">
+																{pair.price}$
+															</p>
+														</div>
+													</div>
+												))}
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -246,9 +246,17 @@ function Checkout() {
 						</div>
 					</div>
 				</div>
-				<div className="border h-fit desktop:min-w-[380px] min-w-[349px]">
-					<div className="pt-10 px-6 min-h-[347px] desktop:min-h-[552px] bg-[#F9F7DB]">
-						<div className="font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px]">
+				<div className=" h-fit desktop:min-w-[380px] min-w-[349px]">
+					<div
+						style={{
+							backgroundImage: `url(${Exclude.src})`,
+							backgroundSize: "cover",
+							backgroundRepeat: "no-repeat",
+							height: "100%",
+						}}
+						className="py-10 px-6  border-b"
+					>
+						<div className="font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px] ">
 							BUY A TICKET
 						</div>
 						{Object.keys(sessionSelection.checkedTickets).length === 0 && (
@@ -272,7 +280,7 @@ function Checkout() {
 					<div
 						className={`${
 							sessionSelection.checkedStoreItem.length === 0 ? "hidden" : ""
-						} pt-10 px-6 min-h-[347px] desktop:min-h-[552px] bg-[#F9F7DB]`}
+						} py-10 px-6 bg-[#F9F7DB] border border-t-0`}
 					>
 						<div className="font-druk_wide text-[14px] leading-[14px] desktop:text-[18px] desktop:leading-6 mb-5 desktop:mb-[32px]">
 							STORE
@@ -291,19 +299,31 @@ function Checkout() {
 								))}
 						</div>
 					</div>
-					<div className="p-6 flex justify-between border-t border-b font-druk_wide text-[12px] leading-[18px]">
+					<div className="p-6 flex justify-between border border-b-0 border-t-0 font-druk_wide text-[12px] leading-[18px]">
 						<span>TOTAL</span>
 						<span>{cartResponses.total}$</span>
 					</div>
-					<button
-						className="w-full bg-primary uppercase font-druk_wide text-[12px] leading-[18px] p-[14px]"
-						disabled={Object.keys(sessionSelection.checkedTickets).length === 0}
-						onClick={() => setSnacksOpen(!isSnacksOpen)}
-					>
-						BUY A TICKET
-					</button>
+
+					{timesOpened === 0 ? (
+						<button
+							className="w-full bg-primary uppercase border font-druk_wide text-[12px] leading-[18px] p-[14px]"
+							disabled={Object.keys(sessionSelection.checkedTickets).length === 0}
+							onClick={() => setSnacksOpen(!isSnacksOpen)}
+						>
+							BUY A TICKET
+						</button>
+					) : (
+						<Link
+							href={`${currentPath}/payment`}
+							className="block w-full text-center bg-primary uppercase border font-druk_wide text-[12px] leading-[18px] p-[14px]"
+						>
+							BUY A TICKET
+						</Link>
+					)}
 				</div>
-				{isSnacksOpen && <SnacksPopUp isOpen={isSnacksOpen} setOpen={setSnacksOpen} />}
+				{isSnacksOpen && timesOpened === 0 && (
+					<SnacksPopUp setTimesOpened={setTimesOpened} isOpen={isSnacksOpen} setOpen={setSnacksOpen} />
+				)}
 			</div>
 		)
 	);
