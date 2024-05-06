@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import PaymentPageRightSide from "../PaymentPageRightSide/PaymentPageRightSide";
 import PaymentPageAboutFilmSection from "../PaymentPageAboutFilmSection/PaymentPageAboutFilmSection";
 import PaymentForm from "../PaymentForm/PaymentForm";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 function PaymentPage() {
 	const filmView = useSelector((state) => state.filmView);
@@ -60,7 +61,12 @@ function PaymentPage() {
 	const validationSchema = Yup.object().shape({
 		name: Yup.string().required("Name is required"),
 		phone: Yup.string()
-			.matches(/^\+[0-9]{12}$/, "Phone number must be in the format: +380731234567")
+			.test("phone", "Invalid phone number", (value) => {
+				// Check if the value starts with '+380' and has a total length of 13 characters
+				if (value) {
+					return isValidPhoneNumber(value.toString());
+				} else return false;
+			})
 			.required("Phone is required"),
 		email: Yup.string().email("Invalid email").required("Email is required"),
 	});
