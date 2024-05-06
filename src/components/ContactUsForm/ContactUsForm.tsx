@@ -4,6 +4,11 @@ import { useSelector, useDispatch } from "@/hooks";
 import { submitContactForm } from "@/redux/contactForm/contactFormSlice";
 import { initialValues } from "./initialValues";
 import { validationSchema } from "./validationSchema";
+import PhoneInput from "react-phone-number-input";
+import { useCallback, useState } from "react";
+import _debounce from "lodash.debounce";
+import React from "react";
+import "react-phone-number-input/style.css";
 
 export interface SendData {
 	name: string;
@@ -24,6 +29,7 @@ export interface ErrorResponse {
 
 function ContactUsForm() {
 	const dispatch = useDispatch();
+	const [phoneInputValue, setPhoneInputValue] = useState("");
 
 	const button = useSelector((state) => state.data.success?.contact_us_form.translations.submit);
 
@@ -43,6 +49,54 @@ function ContactUsForm() {
 		}
 	};
 
+	interface CustomPhoneInputProps {
+		field: {
+			name: string;
+			value: string;
+			onChange: (value: string) => void;
+			onBlur: () => void;
+		};
+		form: {
+			setFieldValue: (field: string, value: string) => void;
+			touched: { [key: string]: boolean };
+			errors: { [key: string]: string };
+		};
+		label: string;
+		placeholder: string;
+	}
+
+	const CustomPhoneInput: React.FC<CustomPhoneInputProps> = React.memo(
+		({ field, form: { setFieldValue, touched, errors }, label, placeholder }) => {
+			const handleChange = useCallback(
+				_debounce((value) => {
+					setPhoneInputValue(value);
+					setFieldValue(field.name, value);
+				}, 2000),
+				[field.name, setFieldValue]
+			);
+
+			return (
+				<div className="relative">
+					<PhoneInput
+						{...field}
+						international={true}
+						value={phoneInputValue}
+						onChange={handleChange}
+						placeholder="Phone number"
+						className="w-[300px] desktop:w-[312px] p-3 border border-black_main"
+					/>
+				</div>
+			);
+		},
+		(prevProps, nextProps) => {
+			return (
+				prevProps.field.value === nextProps.field.value &&
+				prevProps.form.touched[prevProps.field.name] === nextProps.form.touched[nextProps.field.name] &&
+				prevProps.form.errors[prevProps.field.name] === nextProps.form.errors[nextProps.field.name]
+			);
+		}
+	);
+
 	return (
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
 			{(formik) => {
@@ -61,7 +115,7 @@ function ContactUsForm() {
 						<div className="flex flex-col desktop:flex-row gap-6">
 							<div className="">
 								<Field
-									component="input"
+									component={CustomPhoneInput}
 									id="phone"
 									name="phone"
 									className="w-[300px] desktop:w-[312px] p-3 py-3 border border-black_main"
