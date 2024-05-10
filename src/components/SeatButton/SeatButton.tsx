@@ -27,12 +27,8 @@ function SeatButton({
 	const checkedTickets = useSelector((state) => state.sessionSelection.checkedTickets);
 
 	useEffect(() => {
-		if (checkedTickets && checkedTickets.includes(ticketData)) {
-			setChecked(true);
-		} else if (checkedTickets && !checkedTickets.includes(ticketData)) {
-			setChecked(false);
-		}
-	});
+		setChecked(checkedTickets.some((t) => t.event_ticket_id === ticketData.event_ticket_id));
+	}, [checkedTickets, ticketData.event_ticket_id]);
 
 	const handleTicketAction = async (ticketId: number, action: string) => {
 		const url = `/api/${action === "add" ? "addTicketToCart" : "deleteTicketFromCart"}`;

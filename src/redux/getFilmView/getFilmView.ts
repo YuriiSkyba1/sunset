@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IGetFilmView } from "./types/IGetFilmView";
 import apiClient from "../../constants/baseApi";
@@ -31,7 +31,13 @@ export const getFilmView = createAsyncThunk("getFilmViewSlice/getFilmView", asyn
 const getFilmViewSlice = createSlice({
 	name: "getFilmViewSlice",
 	initialState,
-	reducers: {},
+	reducers: {
+		updateFilmViewFromStorage: (state, action: PayloadAction<IGetFilmViewState>) => {
+			state.error = action.payload.error;
+			state.success = action.payload.success;
+			state.loading = action.payload.loading;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getFilmView.pending, (state) => {
@@ -41,6 +47,7 @@ const getFilmViewSlice = createSlice({
 				state.loading = false;
 				state.success = action.payload;
 				state.error = "";
+				localStorage.setItem("filmView", JSON.stringify(state));
 			})
 			.addCase(getFilmView.rejected, (state, action) => {
 				state.loading = false;
@@ -49,5 +56,7 @@ const getFilmViewSlice = createSlice({
 			});
 	},
 });
+
+export const { updateFilmViewFromStorage } = getFilmViewSlice.actions;
 
 export default getFilmViewSlice.reducer;
