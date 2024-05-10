@@ -1,10 +1,20 @@
-import { useSelector } from "@/hooks";
+import { useDispatch, useSelector } from "@/hooks";
+import { updateFilmViewFromStorage } from "@/redux/getFilmView/getFilmView";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 function BreadCrumbsStore() {
-	const filmTitle = useSelector((state) => state.filmView.success?.movie.title);
-	const filmSlug = useSelector((state) => state.filmView.success?.movie.slug);
+	const dispatch = useDispatch();
+	const filmView = useSelector((state) => state.filmView);
+
+	useEffect(() => {
+		if (!filmView.success) {
+			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
+			console.log(filmViewFromStorage);
+			console.log("filmViewFromStorage", filmViewFromStorage);
+			dispatch(updateFilmViewFromStorage(filmViewFromStorage));
+		}
+	}, []);
 
 	return (
 		<div className="hidden text-[14px] leading-5 my-8 text-black_main desktop:flex gap-2 font-gotham_pro_regular px-[60px]">
@@ -19,8 +29,8 @@ function BreadCrumbsStore() {
 					/>
 				</svg>
 			</Link>
-			<Link href={`/location/${filmSlug}`} className="flex items-center">
-				{filmTitle}
+			<Link href={`/location/${filmView.success?.movie?.slug}`} className="flex items-center">
+				{filmView.success?.movie?.title}
 				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						fill-rule="evenodd"

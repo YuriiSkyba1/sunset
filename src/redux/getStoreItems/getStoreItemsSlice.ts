@@ -1,5 +1,5 @@
 import apiClient from "@/constants/baseApi";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IGetStoreItem } from "./types/IGetStoreItem";
 import axios from "axios";
 
@@ -30,7 +30,13 @@ export const getItems = createAsyncThunk("getStoreItems/getItems", async (locati
 const getStoreItemsSlice = createSlice({
 	name: "getStoreItems",
 	initialState,
-	reducers: {},
+	reducers: {
+		updateStoreItemsFromStorage: (state, action: PayloadAction<getStoreItemsState>) => {
+			state.error = action.payload.error;
+			state.success = action.payload.success;
+			state.loading = action.payload.loading;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getItems.pending, (state) => {
@@ -49,5 +55,7 @@ const getStoreItemsSlice = createSlice({
 			});
 	},
 });
+
+export const { updateStoreItemsFromStorage } = getStoreItemsSlice.actions;
 
 export default getStoreItemsSlice.reducer;

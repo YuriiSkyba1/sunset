@@ -22,6 +22,9 @@ function TemporaryLocationPage() {
 	}, []);
 
 	const locationData = useSelector((state) => state.locationView);
+	useEffect(() => {
+		localStorage.setItem("locationView", JSON.stringify(locationData));
+	}, [locationData]);
 
 	return (
 		<>

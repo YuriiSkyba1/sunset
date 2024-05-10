@@ -8,6 +8,8 @@ import CheckoutListTicket from "../CheckoutListTicket/CheckoutListTicket";
 import SnacksPopUp from "../SnacksPopUp/SnacksPopUp";
 import { useDispatch, useSelector } from "@/hooks";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
+import { updateValuesFromStorage } from "@/redux/sessionSelection/sessionSelection";
+import { updateFilmViewFromStorage } from "@/redux/getFilmView/getFilmView";
 import CheckoutListStoreItem from "../CheckoutListStoreItem/CheckoutListStoreItem";
 import Exclude from "@/assets/checkout/Exclude.svg";
 import { usePathname } from "next/navigation";
@@ -19,15 +21,24 @@ function Checkout() {
 
 	const cartResponses = useSelector((state) => state.cartResponses);
 
-	useEffect(() => {
-		// dispatch(showCart());
-		handleShowCart();
-	}, []);
-
 	const filmView = useSelector((state) => state.filmView);
 	const sessionSelection = useSelector((state) => state.sessionSelection);
 	const [isSnacksOpen, setSnacksOpen] = useState<boolean>(false);
 	const [timesOpened, setTimesOpened] = useState<number>(0);
+
+	useEffect(() => {
+		if (!filmView.success) {
+			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
+			console.log("filmViewFromStorage", filmViewFromStorage);
+			dispatch(updateFilmViewFromStorage(filmViewFromStorage));
+		}
+		if (Object.keys(sessionSelection.selectedData.location).length === 0) {
+			const sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+			console.log("sessionSelectionFromStorage", sessionSelectionFromStorage);
+			dispatch(updateValuesFromStorage({ values: sessionSelectionFromStorage }));
+		}
+		handleShowCart();
+	}, []);
 
 	const handleShowCart = async () => {
 		const url = `/api/showCart`;

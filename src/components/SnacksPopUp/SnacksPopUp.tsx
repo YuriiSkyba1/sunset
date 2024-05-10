@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "@/hooks";
-import { getItems } from "@/redux/getStoreItems/getStoreItemsSlice";
+import { getItems, updateStoreItemsFromStorage } from "@/redux/getStoreItems/getStoreItemsSlice";
+
 import SnackItem from "../SnackItem/SnackItem";
 import Underline from "@/assets/checkout/underline.svg";
 import Image from "next/image";
 import CrossButton from "@/assets/checkout/cross-button.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { updateLocationViewFromStorage } from "@/redux/getLocationsView/getLocationsViewSlice";
 
 interface ISnacksPopUp {
 	isOpen: boolean;
@@ -23,6 +25,11 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 		if (locationSlug) {
 			dispatch(getItems(locationSlug));
 			console.log("dispatched getLoctaionSnacks");
+		} else {
+			const locationViewFromStorage = JSON.parse(localStorage.getItem("locationView")!);
+			console.log("locationViewFromStorage", locationViewFromStorage);
+			dispatch(updateLocationViewFromStorage(locationViewFromStorage));
+			dispatch(getItems(locationViewFromStorage.success.slug));
 		}
 	}, []);
 
@@ -55,7 +62,8 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 					Select your language and country before you start exploring the service
 				</div>
 				<div className="flex gap-6 mt-6 desktop:mt-10">
-					{snacks &&
+					{snacks?.length &&
+						snacks.length > 0 &&
 						snacks.map((snack) => (
 							<SnackItem
 								store_item_id={snack.store_item_id}
