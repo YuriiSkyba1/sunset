@@ -5,7 +5,7 @@ import DateSessionCard from "../DateSessionCard/DateSessionCard";
 import { EventTicket } from "@/redux/getFilmView/types/IGetFilmView";
 import SeatButton from "../SeatButton/SeatButton";
 import AskRegisterModal from "../AskRegisterModal/AskRegisterModal";
-import {
+import sessionSelection, {
 	setAvailableDates,
 	setAvailableTickets,
 	setUniquePriceColorPairs,
@@ -15,10 +15,12 @@ import {
 	removeAllCheckedTickets,
 } from "@/redux/sessionSelection/sessionSelection";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
+import { move } from "formik";
 
 const SessionSelection: React.FC = () => {
 	const dispatch = useDispatch();
 	const locations = useSelector((state) => state.filmView.success?.locations);
+	const movie = useSelector((state) => state.filmView.success?.movie);
 	const events = useSelector((state) => state.filmView.success?.events);
 	const selectedDataStore = useSelector((state) => state.sessionSelection.selectedData);
 	const availableDates = useSelector((state) => state.sessionSelection.availableDates);
@@ -26,6 +28,7 @@ const SessionSelection: React.FC = () => {
 	const availableTickets = useSelector((state) => state.sessionSelection.availableTickets);
 	const uniquePriceColorPairs = useSelector((state) => state.sessionSelection.uniquePriceColorPairs);
 	const checkedTickets = useSelector((state) => state.sessionSelection.checkedTickets);
+	const sessionSelection = useSelector((state) => state.sessionSelection);
 
 	const [isRegisterOpen, setRegisterOpen] = useState(false);
 
@@ -238,7 +241,20 @@ const SessionSelection: React.FC = () => {
 			<button
 				className="uppercase font-druk_wide text-[12px] leading-[18px] w-full max-w-[348px] desktop:max-w-[424px] bg-primary py-[14px] border border-t-0"
 				disabled={!selectedDataStore.date || !selectedDataStore.location || !selectedDataStore.time}
-				onClick={() => setRegisterOpen(!isRegisterOpen)}
+				onClick={() => {
+					setRegisterOpen(!isRegisterOpen);
+					localStorage.setItem(
+						"choosenData",
+						JSON.stringify({
+							movieTitle: movie?.title,
+							moviePoster: movie?.poster,
+							checkedTickets,
+							selectedDataStore,
+							filmSlug: movie?.slug,
+						})
+					);
+					localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
+				}}
 			>
 				buy a ticket
 			</button>

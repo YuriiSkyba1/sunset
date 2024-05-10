@@ -16,6 +16,7 @@ function SnackItem(storeItem: CheckedStoreItemInterface) {
 	const { store_item_id, title, description, image, price, button, quantity } = storeItem;
 	const dispatch = useDispatch();
 	const [counter, setCounter] = useState<number>(0);
+	const sessionSelection = useSelector((state) => state.sessionSelection);
 
 	const checkedQuantity = useSelector(
 		(state) =>
@@ -46,6 +47,7 @@ function SnackItem(storeItem: CheckedStoreItemInterface) {
 					dispatch(addResponse(data));
 					dispatch(addCheckedStoreItem({ storeItem }));
 					setCounter((counter) => counter + 1);
+					console.log("sessionSelection after add 2 ", sessionSelection);
 				}
 			});
 		}
@@ -113,6 +115,8 @@ function SnackItem(storeItem: CheckedStoreItemInterface) {
 			return false;
 		}
 	};
+
+	localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
 
 	return (
 		<div className="desktop:max-w-[200px]">

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IGetLocationsView } from "./types/IGetLocationsView";
 import apiClient from "../../constants/baseApi";
@@ -17,7 +17,7 @@ const initialState: getLocationsViewState = {
 
 export const getView = createAsyncThunk("getLocationsView/getView", async () => {
 	try {
-		const response = await apiClient.get('en/location/location-title');
+		const response = await apiClient.get("en/location/location-title");
 		return response.data;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {
@@ -30,7 +30,13 @@ export const getView = createAsyncThunk("getLocationsView/getView", async () => 
 const getLocationsViewSlice = createSlice({
 	name: "getLocationsView",
 	initialState,
-	reducers: {},
+	reducers: {
+		updateLocationViewFromStorage: (state, action: PayloadAction<getLocationsViewState>) => {
+			state.error = action.payload.error;
+			state.success = action.payload.success;
+			state.loading = action.payload.loading;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getView.pending, (state) => {
@@ -48,5 +54,7 @@ const getLocationsViewSlice = createSlice({
 			});
 	},
 });
+
+export const { updateLocationViewFromStorage } = getLocationsViewSlice.actions;
 
 export default getLocationsViewSlice.reducer;

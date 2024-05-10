@@ -1,12 +1,14 @@
 import { IGetStoreItem } from "@/redux/getStoreItems/types/IGetStoreItem";
 import Image from "next/image";
 import RemoveButton from "@/assets/checkout/remove-button.svg";
-import { useDispatch } from "@/hooks";
+import { useDispatch, useSelector } from "@/hooks";
 import { deleteCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 	const dispatch = useDispatch();
+
+	const sessionSelection = useSelector((state) => state.sessionSelection);
 
 	const handleDeleteStoreItemAction = async (snackItem: number) => {
 		const url = `/api/deleteStoreItemFromCart`;
@@ -32,6 +34,8 @@ export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 			console.error("Error handling ticket action:", error);
 		}
 	};
+
+	localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
 
 	return (
 		<div>

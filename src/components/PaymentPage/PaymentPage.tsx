@@ -9,10 +9,21 @@ import PaymentPageRightSide from "../PaymentPageRightSide/PaymentPageRightSide";
 import PaymentPageAboutFilmSection from "../PaymentPageAboutFilmSection/PaymentPageAboutFilmSection";
 import PaymentForm from "../PaymentForm/PaymentForm";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { updateFilmViewFromStorage } from "@/redux/getFilmView/getFilmView";
 
 function PaymentPage() {
+	const dispatch = useDispatch();
 	const filmView = useSelector((state) => state.filmView);
 	const router = useRouter();
+
+	useEffect(() => {
+		if (!filmView.success) {
+			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
+			dispatch(updateFilmViewFromStorage(filmViewFromStorage));
+		}
+	}, []);
 
 	const initialValues: FormData = {
 		payment_method: "stripe",

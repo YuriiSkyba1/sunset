@@ -184,6 +184,21 @@ export const sessionSelectionSlice = createSlice({
 		removeAllCheckedTickets: (state) => {
 			state.checkedTickets = [];
 		},
+		updateValuesFromStorage: (state, action: PayloadAction<{ values: SessionSelectionInterface }>) => {
+			if (action.payload && action.payload.values) {
+				const { values } = action.payload;
+				state.selectedData = values.selectedData;
+				state.availableDates = values.availableDates;
+				state.availableHours = values.availableHours;
+				state.availableTickets = values.availableTickets;
+				state.checkedStoreItem = values.checkedStoreItem;
+				state.checkedTickets = values.checkedTickets;
+				state.uniquePriceColorPairs = values.uniquePriceColorPairs;
+				console.log("Updated state with storage data:", state.checkedTickets);
+			} else {
+				console.error("Invalid payload structure for updateValuesFromStorage:", action.payload);
+			}
+		},
 	},
 });
 
@@ -201,4 +216,5 @@ export const {
 	deleteCheckedStoreItem,
 	setFirstValues,
 	removeAllCheckedTickets,
+	updateValuesFromStorage,
 } = sessionSelectionSlice.actions;
