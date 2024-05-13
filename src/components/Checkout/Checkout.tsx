@@ -58,6 +58,7 @@ function Checkout() {
 				const data = await response.json();
 				console.log("Response data222 of showing cart:", data);
 				dispatch(addResponse(data));
+				localStorage.setItem("cartResponses", JSON.stringify(cartResponses));
 			}
 		} catch (error) {
 			console.error("Error handling show cart:", error);
