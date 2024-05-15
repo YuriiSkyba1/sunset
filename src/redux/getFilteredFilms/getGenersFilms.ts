@@ -2,21 +2,31 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { IGetFilteredFilms as IGetGenersFilms } from "./types/IGetGenersFilms";
 import { act } from "react-dom/test-utils";
 import { fetchFilteredMovies } from "./movieService";
+import { string } from "yup";
 
 const initialState: IGetGenersFilms = {
-	filters: [],
+	filters: {
+		genres: [],
+		title: null,
+		session_from: null,
+	},
 	loading: false,
 	error: null,
 	movies: [],
 };
 
-export const getGenresState = (state: any) => state.genres;
+export const getGenresState = (state: any) => state.genres.filters;
 
-export const getFilters = createSelector([getGenresState], (genres) => {
-	let filters = { genre: [] };
+export const getFilters = createSelector([getGenresState], (choosenfilters) => {
+	let filters = { genre: [], title: [] };
 
-	if (genres.filters.length > 0) {
-		filters.genre = genres.filters.map((genre: any) => genre.id);
+	console.log("choosenfilters", choosenfilters);
+
+	if (choosenfilters.genres.length > 0) {
+		filters.genre = choosenfilters.genres.map((genre: any) => genre.id);
+	}
+	if (choosenfilters.title) {
+		filters.title = choosenfilters.title;
 	}
 
 	return filters;
@@ -27,17 +37,25 @@ const getGenersFilmsSlice = createSlice({
 	initialState,
 	reducers: {
 		addGenre: (state, action) => {
-			const isFilterExists = state.filters.some((filter) => filter.name === action.payload.name);
+			const isFilterExists = state.filters.genres.some((filter) => filter.name === action.payload.name);
 			if (!isFilterExists) {
-				state.filters.push(action.payload);
+				state.filters.genres.push(action.payload);
 			}
 		},
 		removeGenre: (state, action) => {
-			const index = state.filters.findIndex((filter) => filter.name === action.payload.name);
-			state.filters.splice(index, 1);
+			const index = state.filters.genres.findIndex((filter) => filter.name === action.payload.name);
+			state.filters.genres.splice(index, 1);
 		},
 		resetGenres: (state) => {
 			state.filters = initialState.filters;
+		},
+		addTitle: (state, action) => {
+			if (action.payload === null) {
+				state.filters.title = null;
+			} else state.filters.title = action.payload;
+		},
+		removeTitle: (state, action) => {
+			state.filters.title = null;
 		},
 	},
 	extraReducers: (builder) => {
@@ -58,4 +76,4 @@ const getGenersFilmsSlice = createSlice({
 });
 
 export default getGenersFilmsSlice.reducer;
-export const { addGenre, removeGenre, resetGenres } = getGenersFilmsSlice.actions;
+export const { addGenre, removeGenre, resetGenres, addTitle, removeTitle } = getGenersFilmsSlice.actions;

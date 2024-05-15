@@ -10,6 +10,7 @@ function FilterBar() {
 	const choosenFilters = useSelector(getFilters);
 
 	const stableChoosenFilters = useMemo(() => choosenFilters, [JSON.stringify(choosenFilters)]);
+	console.log("stableChoosenFilters", stableChoosenFilters);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchFilteredMovies(stableChoosenFilters));
