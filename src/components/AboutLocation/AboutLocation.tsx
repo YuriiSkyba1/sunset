@@ -1,7 +1,6 @@
 import { useSelector } from "@/hooks";
 import Image from "next/image";
 import Underline from "@/assets/primary_underline.svg";
-import AboutLocationPhoto from "@/assets/about-location_photo.svg";
 import AboutCard from "../AboutCard/AboutCard";
 
 function AboutLocation() {

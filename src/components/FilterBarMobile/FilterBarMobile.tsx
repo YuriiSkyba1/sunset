@@ -3,10 +3,12 @@ import BotArrow from "@/assets/bot-arrow.svg";
 import RightBlackArrow from "@/assets/right-black-arrow.svg";
 import FilterIcon from "@/assets/films-section/filter-icon.svg";
 import CloseIcon from "@/assets/films-section/close-icon.svg";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "@/hooks";
 import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
-import { addGenre, removeGenre, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
+import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
+import _debounce from "lodash.debounce";
+import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
 
 function FilterBarMobile() {
 	const [isFilterBarOpen, setFilterBarOpen] = useState<boolean>(false);
@@ -18,6 +20,8 @@ function FilterBarMobile() {
 	const arrayOfGenres = filters?.find((filter) => filter.name === "genre")?.values;
 	const choosenGenres = useSelector((state) => state.genres);
 
+	const [inputTitle, setInputTitle] = useState<string>();
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -27,6 +31,23 @@ function FilterBarMobile() {
 			document.body.classList.remove("overflow-hidden");
 		}
 	}, [isFilterBarOpen]);
+
+	const handleInputTitleChange = (event: any) => {
+		const { value } = event.target;
+		setInputTitle(value);
+		handleInputChange(value);
+	};
+	const handleInputChange = useCallback(
+		_debounce(async (value) => {
+			console.log("Debounced title:", value);
+			try {
+				dispatch(addTitle(value));
+			} catch (error) {
+				console.error("Error submitting promocode:", error);
+			}
+		}, 2000),
+		[]
+	);
 
 	return (
 		<div className="mt-4">
@@ -84,7 +105,7 @@ function FilterBarMobile() {
 							<FIlmGenreCard
 								value={0}
 								name="All"
-								isActive={choosenGenres.filters.length === 0}
+								isActive={choosenGenres.filters.genres.length === 0}
 								handleOnClick={() => dispatch(resetGenres())}
 							/>
 							{arrayOfGenres?.map((value) => (
@@ -109,6 +130,20 @@ function FilterBarMobile() {
 								<Image src={BotArrow} alt="BotArrow" className="" />
 							)}
 						</button>
+						<div
+							className={`flex gap-2 flex-wrap ${titleIsOpen ? "mt-3" : ""}`}
+							style={{
+								maxHeight: titleIsOpen ? "300px" : "0",
+								overflow: "hidden",
+								transition: "max-height 0.3s ease-in-out",
+							}}
+						>
+							<input
+								type="text"
+								value={inputTitle}
+								onChange={(event) => handleInputTitleChange(event)}
+							></input>
+						</div>
 					</div>
 					<div className="py-6 border-b px-4 ">
 						<button
@@ -125,12 +160,12 @@ function FilterBarMobile() {
 					</div>
 				</div>
 
-				{choosenGenres.filters.length > 0 && (
+				{(choosenGenres.filters.genres.length > 0 || choosenGenres.filters.title) && (
 					<div className="w-full flex flex-col gap-4 px-4 mb-10">
 						<div className="flex flex-col gap-[12px]">
 							<div className="uppercase font-druk_wide text-[14px] leading-5 ">CHOOSEN</div>
 							<div className="flex gap-1 flex-wrap">
-								{choosenGenres.filters.map((filter) => (
+								{choosenGenres.filters.genres.map((filter) => (
 									<FIlmGenreCard
 										key={filter.id}
 										value={filter.id}
@@ -141,11 +176,24 @@ function FilterBarMobile() {
 										}
 									/>
 								))}
+								{choosenGenres.filters.title && (
+									<FilmTitleCard
+										name={choosenGenres.filters.title}
+										handleOnClick={() => {
+											dispatch(removeTitle(choosenGenres.filters.title));
+											setInputTitle("");
+										}}
+										isActive={true}
+									/>
+								)}
 							</div>
 							<div>
 								<button
 									className="underline font-gotham_pro_medium text-[12px] leading-5 capitalize px-[10px] py-[2px]"
-									onClick={() => dispatch(resetGenres())}
+									onClick={() => {
+										dispatch(resetGenres());
+										setInputTitle("");
+									}}
 								>
 									Clean all filters
 								</button>
