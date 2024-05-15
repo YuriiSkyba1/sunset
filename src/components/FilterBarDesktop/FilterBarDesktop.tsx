@@ -2,9 +2,11 @@ import Image from "next/image";
 import BotArrow from "@/assets/bot-arrow.svg";
 import FilterIcon from "@/assets/films-section/filter-icon.svg";
 import { useDispatch, useSelector } from "@/hooks";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
-import { addGenre, removeGenre, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
+import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
+import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
+import _debounce from "lodash.debounce";
 
 function FilterBar() {
 	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
@@ -13,9 +15,29 @@ function FilterBar() {
 	const [genreIsOpen, setGenreIsOpen] = useState<boolean>(false);
 	const [titleIsOpen, setTitleIsOpen] = useState<boolean>(false);
 	const [sessionIsOpen, setSessionIsOpen] = useState<boolean>(false);
+	const [inputTitle, setInputTitle] = useState<string>();
 
-	const choosenGenres = useSelector((state) => state.genres);
+	const choosenFilters = useSelector((state) => state.genres);
+
 	const dispatch = useDispatch();
+	const filmsTitles = JSON.parse(localStorage.getItem("filmsTitles")!);
+
+	const handleInputTitleChange = (event: any) => {
+		const { value } = event.target;
+		setInputTitle(value);
+		handleInputChange(value);
+	};
+	const handleInputChange = useCallback(
+		_debounce(async (value) => {
+			console.log("Debounced title:", value);
+			try {
+				dispatch(addTitle(value));
+			} catch (error) {
+				console.error("Error submitting promocode:", error);
+			}
+		}, 2000),
+		[]
+	);
 
 	return (
 		<div>
@@ -24,10 +46,10 @@ function FilterBar() {
 					<Image src={FilterIcon} alt="FilterIcon" />
 					<div className="font-druk_wide uppercase text-[14px] leading-6 desktop:text-[18px]">FILTER</div>
 				</div>
-				{choosenGenres.filters.length > 0 && (
+				{(choosenFilters.filters.genres.length > 0 || choosenFilters.filters.title) && (
 					<div className="flex gap-4 mt-4">
 						<div className="flex gap-1 ">
-							{choosenGenres.filters.map((filter) => (
+							{choosenFilters.filters.genres.map((filter) => (
 								<FIlmGenreCard
 									key={filter.id}
 									value={filter.id}
@@ -37,9 +59,32 @@ function FilterBar() {
 								/>
 							))}
 						</div>
+						<div className="flex gap-1 ">
+							{/* {choosenFilters.filters.title.map((value) => (
+								<FilmTitleCard
+									name={value}
+									key={value}
+									handleOnClick={() => dispatch(removeTitle(value))}
+									isActive={true}
+								/>
+							))} */}
+							{choosenFilters.filters.title && (
+								<FilmTitleCard
+									name={choosenFilters.filters.title}
+									handleOnClick={() => {
+										dispatch(removeTitle(choosenFilters.filters.title));
+										setInputTitle("");
+									}}
+									isActive={true}
+								/>
+							)}
+						</div>
 						<button
 							className="font-gotham_pro_medium underline text-[12px] leading-5 capitalize px-[10px] py-[2px]"
-							onClick={() => dispatch(resetGenres())}
+							onClick={() => {
+								dispatch(resetGenres());
+								setInputTitle("");
+							}}
 						>
 							Clean all filters
 						</button>
@@ -87,7 +132,7 @@ function FilterBar() {
 					<FIlmGenreCard
 						value={0}
 						name="All"
-						isActive={choosenGenres.filters.length === 0}
+						isActive={choosenFilters.filters.genres.length === 0}
 						handleOnClick={() => dispatch(resetGenres())}
 					/>
 					{arrayOfGenres?.map((value) => (
@@ -98,6 +143,18 @@ function FilterBar() {
 							handleOnClick={() => dispatch(addGenre({ id: value.id, name: value.name }))}
 						/>
 					))}
+				</div>
+			)}
+			{titleIsOpen && (
+				<div className="flex gap-2 p-6 bg-[#F9F8F9] border border-grey_medium border-t-0">
+					{/* {filmsTitles?.map((value: string) => (
+						<FilmTitleCard name={value} key={value} handleOnClick={() => dispatch(addTitle(value))} />
+					))} */}
+					<input
+						type="text"
+						value={inputTitle as string}
+						onChange={(event) => handleInputTitleChange(event)}
+					></input>
 				</div>
 			)}
 		</div>

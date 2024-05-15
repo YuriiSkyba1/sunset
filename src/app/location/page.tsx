@@ -21,9 +21,19 @@ function TemporaryLocationPage() {
 		dispatch(getView());
 	}, []);
 
+	const findFilmsTitles = () => {
+		const filmsTitles: string[] = [];
+		locationData.success?.movies.movies.forEach((movie) => {
+			filmsTitles.push(movie.title);
+		});
+		return filmsTitles;
+	};
+
 	const locationData = useSelector((state) => state.locationView);
 	useEffect(() => {
 		localStorage.setItem("locationView", JSON.stringify(locationData));
+		const filmTitles = findFilmsTitles();
+		localStorage.setItem("filmsTitles", JSON.stringify(filmTitles));
 	}, [locationData]);
 
 	return (

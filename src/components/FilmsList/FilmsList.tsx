@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "@/hooks";
 import FilmCard from "../FilmCard/FilmCard";
-import { number } from "yup";
 import FilmsPagination from "../FilmsPagination/FilmsPagination";
 import FilterBar from "../FilterBar/FilterBar";
 
@@ -33,7 +32,7 @@ function FilmsList() {
 						movie_language={movie.movie_language}
 						subtitle_language={movie.subtitle_language}
 						duration={movie.duration}
-						price_form={movie.price_form}
+						price_form={movie.price_from}
 						description={movie.description}
 					/>
 				))}

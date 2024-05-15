@@ -6,7 +6,11 @@ interface Filter {
 }
 
 export interface IGetFilteredFilms {
-	filters: Filter[];
+	filters: {
+		genres: { id: number; name: string }[];
+		title: string | null;
+		session_from: string | null;
+	};
 	loading: boolean;
 	error: null | string;
 	movies: Movie[];
