@@ -9,6 +9,8 @@ import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
 import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
 import _debounce from "lodash.debounce";
 import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
+import CustomDatePickerDesktop from "../CustomDatePicker/CustomDatePicker";
+import FIlmSessionCard from "../FilmSessionCard/FilmSessionCard";
 
 function FilterBarMobile() {
 	const [isFilterBarOpen, setFilterBarOpen] = useState<boolean>(false);
@@ -146,7 +148,7 @@ function FilterBarMobile() {
 						</div>
 					</div>
 					<div className="py-6 border-b px-4 ">
-						<button
+						{/* <button
 							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
 							onClick={() => setSessionIsOpen(!sessionIsOpen)}
 						>
@@ -156,11 +158,14 @@ function FilterBarMobile() {
 							) : (
 								<Image src={BotArrow} alt="BotArrow" className="" />
 							)}
-						</button>
+						</button> */}
+						<CustomDatePickerDesktop></CustomDatePickerDesktop>
 					</div>
 				</div>
 
-				{(choosenGenres.filters.genres.length > 0 || choosenGenres.filters.title) && (
+				{(choosenGenres.filters.genres.length > 0 ||
+					choosenGenres.filters.title ||
+					choosenGenres.filters.session_from) && (
 					<div className="w-full flex flex-col gap-4 px-4 mb-10">
 						<div className="flex flex-col gap-[12px]">
 							<div className="uppercase font-druk_wide text-[14px] leading-5 ">CHOOSEN</div>
@@ -185,6 +190,9 @@ function FilterBarMobile() {
 										}}
 										isActive={true}
 									/>
+								)}
+								{choosenGenres.filters.session_from && (
+									<FIlmSessionCard date={new Date(choosenGenres.filters.session_from)} isActive />
 								)}
 							</div>
 							<div>

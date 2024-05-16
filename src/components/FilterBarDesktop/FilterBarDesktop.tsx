@@ -7,6 +7,9 @@ import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
 import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
 import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
 import _debounce from "lodash.debounce";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
+import FIlmSessionFrom from "../FilmSessionCard/FilmSessionCard";
+import FIlmSessionCard from "../FilmSessionCard/FilmSessionCard";
 
 function FilterBar() {
 	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
@@ -46,7 +49,9 @@ function FilterBar() {
 					<Image src={FilterIcon} alt="FilterIcon" />
 					<div className="font-druk_wide uppercase text-[14px] leading-6 desktop:text-[18px]">FILTER</div>
 				</div>
-				{(choosenFilters.filters.genres.length > 0 || choosenFilters.filters.title) && (
+				{(choosenFilters.filters.genres.length > 0 ||
+					choosenFilters.filters.title ||
+					choosenFilters.filters.session_from) && (
 					<div className="flex gap-4 mt-4">
 						<div className="flex gap-1 ">
 							{choosenFilters.filters.genres.map((filter) => (
@@ -77,6 +82,9 @@ function FilterBar() {
 									}}
 									isActive={true}
 								/>
+							)}
+							{choosenFilters.filters.session_from && (
+								<FIlmSessionCard date={new Date(choosenFilters.filters.session_from)} isActive />
 							)}
 						</div>
 						<button
@@ -115,7 +123,7 @@ function FilterBar() {
 						<Image src={BotArrow} alt="BotArrow" className="" />
 					)}
 				</button>
-				<button
+				{/* <button
 					className="flex gap-[6px] items-center uppercase font-druk_wide text-[14px] leading-6"
 					onClick={() => setSessionIsOpen(!sessionIsOpen)}
 				>
@@ -125,7 +133,8 @@ function FilterBar() {
 					) : (
 						<Image src={BotArrow} alt="BotArrow" className="" />
 					)}
-				</button>
+				</button> */}
+				<CustomDatePicker></CustomDatePicker>
 			</div>
 			{genreIsOpen && (
 				<div className="flex gap-2 p-6 bg-[#F9F8F9] border border-grey_medium border-t-0">
