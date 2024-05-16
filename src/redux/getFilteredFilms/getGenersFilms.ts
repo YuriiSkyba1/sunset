@@ -18,7 +18,7 @@ const initialState: IGetGenersFilms = {
 export const getGenresState = (state: any) => state.genres.filters;
 
 export const getFilters = createSelector([getGenresState], (choosenfilters) => {
-	let filters = { genre: [], title: [] };
+	let filters = { genre: [], title: [], session_from: null };
 
 	console.log("choosenfilters", choosenfilters);
 
@@ -29,6 +29,11 @@ export const getFilters = createSelector([getGenresState], (choosenfilters) => {
 		filters.title = choosenfilters.title;
 	}
 
+	if (choosenfilters.session_from) {
+		filters.session_from = choosenfilters.session_from;
+	}
+
+	console.log("filters", filters);
 	return filters;
 });
 
@@ -57,6 +62,12 @@ const getGenersFilmsSlice = createSlice({
 		removeTitle: (state, action) => {
 			state.filters.title = null;
 		},
+		addSessionFrom: (state, action) => {
+			state.filters.session_from = action.payload;
+		},
+		removeSessionFrom: (state) => {
+			state.filters.session_from = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -76,4 +87,5 @@ const getGenersFilmsSlice = createSlice({
 });
 
 export default getGenersFilmsSlice.reducer;
-export const { addGenre, removeGenre, resetGenres, addTitle, removeTitle } = getGenersFilmsSlice.actions;
+export const { addGenre, removeGenre, resetGenres, addTitle, removeTitle, addSessionFrom, removeSessionFrom } =
+	getGenersFilmsSlice.actions;
