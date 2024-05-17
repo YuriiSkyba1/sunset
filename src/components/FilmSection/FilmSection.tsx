@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Underline from "@/assets/primary_underline.svg";
 import FilmsList from "../FilmsList/FilmsList";
+import { useSelector } from "@/hooks";
 
 function FilmSection() {
 	return (

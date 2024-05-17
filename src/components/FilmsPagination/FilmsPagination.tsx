@@ -42,7 +42,7 @@ function FilmsPagination({ totalPosts, postsPerPage, currentPage, setCurrentPage
 	};
 
 	return (
-		<div className="flex flex-col items-center desktop:gap-4 gap-3">
+		<div className="flex flex-col items-center desktop:gap-4 gap-3 mt-8 desktop:mb-10">
 			<button
 				className="uppercase text-[12px] leading-[18px] font-druk_wide border border-primary px-[56px] py-[14px] desktop:px-[42px] desktop:py-[12px]"
 				onClick={handleShowMore}

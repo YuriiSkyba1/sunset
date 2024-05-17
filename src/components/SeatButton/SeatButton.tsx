@@ -74,6 +74,11 @@ function SeatButton({
 					if (!isChecked) {
 						dispatch(addCheckedTicket({ ticket: ticketData! }));
 						handleTicketAction(ticketData!.event_ticket_id, "add");
+						const sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						sessionSelectionFromStorage.checkedTickets.push(ticketData);
+						console.log("We wanna add to local storage ticket: ", ticketData);
+						console.log("new state of sessionSelectionFromStorage", sessionSelectionFromStorage);
+						localStorage.setItem("sessionSelection", JSON.stringify(sessionSelectionFromStorage));
 					} else {
 						dispatch(removeCheckedTicket({ ticket: ticketData! }));
 						handleTicketAction(ticketData!.event_ticket_id, "delete");
