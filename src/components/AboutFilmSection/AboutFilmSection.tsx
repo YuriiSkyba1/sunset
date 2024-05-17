@@ -6,7 +6,7 @@ function AboutFilmSection() {
 	const filmData = useSelector((state) => state.filmView.success?.movie);
 
 	return (
-		<div className="flex py-10 max-desktop:flex-col gap-6 desktop:px-[60px] desktop:py-20">
+		<div className="flex pt-0 py-10 max-desktop:flex-col gap-6 desktop:px-[60px] desktop:py-20 desktop:pt-0">
 			<div className="desktop:max-w-[312px] desktop:max-h-[374px] max-desktop:flex max-desktop:justify-center">
 				<Image
 					src={filmData?.poster ? filmData?.poster : ""}

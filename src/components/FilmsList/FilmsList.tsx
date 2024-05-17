@@ -15,10 +15,12 @@ function FilmsList() {
 
 	const currentFilms = movies?.slice(firstFilmIndex, lastFilmIndex);
 
+	console.log("currentFilms", currentFilms);
+
 	return (
 		<div>
 			<FilterBar />
-			<div className="grid pt-4 grid-cols-2 gap-x-3 gap-y-5 mb-8 desktop:grid-cols-4 desktop:gap-6 items-stretch desktop:mb-10">
+			<div className="grid pt-4 grid-cols-2 gap-x-3 gap-y-5 desktop:grid-cols-4 desktop:gap-6 items-stretch">
 				{currentFilms?.map((movie, index) => (
 					<FilmCard
 						key={index}
@@ -37,12 +39,14 @@ function FilmsList() {
 					/>
 				))}
 			</div>
-			<FilmsPagination
-				totalPosts={movies?.length as number}
-				postsPerPage={filmsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+			{movies?.length > filmsPerPage && (
+				<FilmsPagination
+					totalPosts={movies?.length}
+					postsPerPage={filmsPerPage}
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+				/>
+			)}
 		</div>
 	);
 }

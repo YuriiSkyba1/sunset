@@ -1,6 +1,7 @@
 "use client";
 
 import AboutFilmSection from "@/components/AboutFilmSection/AboutFilmSection";
+import BreadCrumbsFilmPage from "@/components/BreadCrumbsFilmPage/BreadCrumbsFilmPage";
 import FeedbackSection from "@/components/FeedbackSection/FeedbackSection";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
@@ -53,6 +54,7 @@ function FilmPage({ params }: { params: { filmSlug: string } }) {
 			<Header />
 			{!filmData.loading && filmData.success ? (
 				<div className="w-full max-w-[375px] desktop:w-full desktop:max-w-[1440px] m-auto desktop:relative">
+					<BreadCrumbsFilmPage />
 					<AboutFilmSection />
 					<SeeAlsoSection />
 					<JoinSunsetSection style={"transparent"} />
