@@ -5,7 +5,12 @@ import { useDispatch, useSelector } from "@/hooks";
 import { deleteCheckedStoreItem } from "@/redux/sessionSelection/sessionSelection";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
-export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
+interface CheckoutListStoreItemInterface {
+	storeItem: IGetStoreItem;
+	withButton?: boolean;
+}
+
+export default function CheckoutListStoreItem({ storeItem, withButton = true }: CheckoutListStoreItemInterface) {
 	const dispatch = useDispatch();
 
 	const sessionSelection = useSelector((state) => state.sessionSelection);
@@ -44,16 +49,18 @@ export default function CheckoutListStoreItem(storeItem: IGetStoreItem) {
 					<span className="text-grey_dark">Item:</span>
 					<span>Small popcorn meal</span>
 				</div>
-				<div>
-					<button
-						onClick={() => {
-							dispatch(deleteCheckedStoreItem({ storeItem }));
-							handleDeleteStoreItemAction(storeItem.store_item_id);
-						}}
-					>
-						<Image src={RemoveButton} alt="RemoveButton" />
-					</button>
-				</div>
+				{withButton && (
+					<div>
+						<button
+							onClick={() => {
+								dispatch(deleteCheckedStoreItem({ storeItem }));
+								handleDeleteStoreItemAction(storeItem.store_item_id);
+							}}
+						>
+							<Image src={RemoveButton} alt="RemoveButton" />
+						</button>
+					</div>
+				)}
 			</div>
 			<div className="font-druk_wide text-[12px] leading-[18px] pb-1 desktop:pb-2 mt-2 mb-1 border-b border-grey_dark">
 				<div className="flex justify-between mb-1">

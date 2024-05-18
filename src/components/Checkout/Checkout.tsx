@@ -58,7 +58,7 @@ function Checkout() {
 				const data = await response.json();
 				console.log("Response data222 of showing cart:", data);
 				dispatch(addResponse(data));
-				localStorage.setItem("cartResponses", JSON.stringify(cartResponses));
+				localStorage.setItem("cartResponses", JSON.stringify(data));
 			}
 		} catch (error) {
 			console.error("Error handling show cart:", error);
@@ -278,15 +278,7 @@ function Checkout() {
 						)}
 						{sessionSelection.checkedTickets &&
 							sessionSelection.checkedTickets.map((ticket) => (
-								<CheckoutListTicket
-									event_ticket_id={ticket.event_ticket_id}
-									row={ticket.row}
-									seat={ticket.seat}
-									price={ticket.price}
-									color={ticket.color}
-									status={ticket.status}
-									key={ticket.event_ticket_id}
-								></CheckoutListTicket>
+								<CheckoutListTicket ticket={ticket}></CheckoutListTicket>
 							))}
 					</div>
 					<div
@@ -300,14 +292,7 @@ function Checkout() {
 						<div className="flex flex-col gap-8">
 							{sessionSelection.checkedStoreItem &&
 								sessionSelection.checkedStoreItem.map((storeItem) => (
-									<CheckoutListStoreItem
-										store_item_id={storeItem.store_item_id}
-										title={storeItem.title}
-										price={storeItem.price}
-										image={storeItem.image}
-										button={storeItem.button}
-										description={storeItem.description}
-									></CheckoutListStoreItem>
+									<CheckoutListStoreItem storeItem={storeItem}></CheckoutListStoreItem>
 								))}
 						</div>
 					</div>

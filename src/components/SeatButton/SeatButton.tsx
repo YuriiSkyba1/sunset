@@ -82,6 +82,12 @@ function SeatButton({
 					} else {
 						dispatch(removeCheckedTicket({ ticket: ticketData! }));
 						handleTicketAction(ticketData!.event_ticket_id, "delete");
+						const sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						sessionSelectionFromStorage.checkedTickets = sessionSelectionFromStorage.checkedTickets.filter(
+							(ticket: any) => ticket.event_ticket_id !== ticketData.event_ticket_id
+						);
+						console.log("sessionSelectionFromStorage", sessionSelectionFromStorage);
+						localStorage.setItem("sessionSelection", JSON.stringify(sessionSelectionFromStorage));
 					}
 				}}
 				disabled={
