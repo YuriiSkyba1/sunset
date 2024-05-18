@@ -13,6 +13,7 @@ import sessionSelection, {
 	handleHourChange,
 	setFirstValues,
 	removeAllCheckedTickets,
+	removeAllCheckedStoreItems,
 } from "@/redux/sessionSelection/sessionSelection";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 import { move } from "formik";
@@ -37,6 +38,7 @@ const SessionSelection: React.FC = () => {
 		if (locations && events) {
 			dispatch(setFirstValues({ locations: locations, events: events }));
 			dispatch(removeAllCheckedTickets());
+			dispatch(removeAllCheckedStoreItems());
 		}
 	}, []);
 

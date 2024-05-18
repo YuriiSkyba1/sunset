@@ -6,7 +6,12 @@ import { useDispatch } from "@/hooks";
 import { removeCheckedTicket } from "@/redux/sessionSelection/sessionSelection";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
-function CheckoutListTicket(ticket: EventTicket) {
+interface CheckoutListTicketInterface {
+	ticket: EventTicket;
+	withButton?: boolean;
+}
+
+function CheckoutListTicket({ ticket, withButton = true }: CheckoutListTicketInterface) {
 	const dispatch = useDispatch();
 	const { event_ticket_id } = ticket;
 
@@ -48,16 +53,18 @@ function CheckoutListTicket(ticket: EventTicket) {
 						<span>#{ticket.seat}</span>
 					</div>
 				</div>
-				<div>
-					<button
-						onClick={() => {
-							dispatch(removeCheckedTicket({ ticket }));
-							handleDeleteAction(event_ticket_id);
-						}}
-					>
-						<Image src={RemoveButton} alt="RemoveButton" />
-					</button>
-				</div>
+				{withButton && (
+					<div>
+						<button
+							onClick={() => {
+								dispatch(removeCheckedTicket({ ticket }));
+								handleDeleteAction(event_ticket_id);
+							}}
+						>
+							<Image src={RemoveButton} alt="RemoveButton" />
+						</button>
+					</div>
+				)}
 			</div>
 			<div className="font-druk_wide text-[12px] leadin-[18px] flex justify-between pb-1 desktop:pb-2 mt-2 border-b border-grey_dark">
 				<span>PRICE:</span>

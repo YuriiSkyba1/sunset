@@ -23,6 +23,15 @@ function PaymentPageRightSide() {
 	const cartResponses = useSelector((state) => state.cartResponses);
 
 	useEffect(() => {
+		if (cartResponses.total === "0.00" && cartResponses.cart_items.length === 0) {
+			const cartResponsesFromStorage = JSON.parse(localStorage.getItem("cartResponses")!);
+			console.log("cartResponsesFromStorage", cartResponsesFromStorage);
+
+			dispatch(addResponse(cartResponsesFromStorage));
+		}
+	}, []);
+
+	useEffect(() => {
 		const timer = setTimeout(() => {
 			setTimeLeft((prevTime) => prevTime - 1);
 		}, 1000);
@@ -99,15 +108,7 @@ function PaymentPageRightSide() {
 
 				{sessionSelection.checkedTickets &&
 					sessionSelection.checkedTickets.map((ticket) => (
-						<CheckoutListTicket
-							event_ticket_id={ticket.event_ticket_id}
-							row={ticket.row}
-							seat={ticket.seat}
-							price={ticket.price}
-							status={ticket.status}
-							key={ticket.event_ticket_id}
-							color={ticket.color}
-						></CheckoutListTicket>
+						<CheckoutListTicket ticket={ticket} withButton={false}></CheckoutListTicket>
 					))}
 			</div>
 			<div
@@ -121,14 +122,7 @@ function PaymentPageRightSide() {
 				<div className="flex flex-col gap-8">
 					{sessionSelection.checkedStoreItem &&
 						sessionSelection.checkedStoreItem.map((storeItem) => (
-							<CheckoutListStoreItem
-								store_item_id={storeItem.store_item_id}
-								title={storeItem.title}
-								price={storeItem.price}
-								image={storeItem.image}
-								button={storeItem.button}
-								description={storeItem.description}
-							></CheckoutListStoreItem>
+							<CheckoutListStoreItem storeItem={storeItem} withButton={false}></CheckoutListStoreItem>
 						))}
 				</div>
 			</div>

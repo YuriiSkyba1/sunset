@@ -20,6 +20,7 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 	const currentPath = usePathname();
 	const dispatch = useDispatch();
 	const locationSlug = useSelector((state) => state.locationView.success?.slug!);
+	const cartResponses = useSelector((state) => state.cartResponses);
 
 	useEffect(() => {
 		if (locationSlug) {
@@ -36,6 +37,7 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 	const snacks = useSelector((state) => state.storeItems.success);
 
 	const closePopUp = () => {
+		localStorage.setItem("cartResponses", JSON.stringify(cartResponses));
 		setOpen(false);
 		setTimesOpened(1);
 	};
@@ -84,7 +86,10 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 						ADD TO CART
 					</button>
 					<Link href={`${currentPath}/payment`}>
-						<button className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5">
+						<button
+							className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5"
+							onClick={() => localStorage.setItem("cartResponses", JSON.stringify(cartResponses))}
+						>
 							to order a ticket
 						</button>
 					</Link>
