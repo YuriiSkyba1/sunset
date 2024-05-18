@@ -184,6 +184,11 @@ export const sessionSelectionSlice = createSlice({
 		removeAllCheckedTickets: (state) => {
 			state.checkedTickets = [];
 		},
+
+		removeAllCheckedStoreItems: (state) => {
+			state.checkedStoreItem = [];
+		},
+
 		updateValuesFromStorage: (state, action: PayloadAction<{ values: SessionSelectionInterface }>) => {
 			if (action.payload && action.payload.values) {
 				const { values } = action.payload;
@@ -217,4 +222,5 @@ export const {
 	setFirstValues,
 	removeAllCheckedTickets,
 	updateValuesFromStorage,
+	removeAllCheckedStoreItems,
 } = sessionSelectionSlice.actions;
