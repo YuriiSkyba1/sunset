@@ -46,8 +46,8 @@ export const fetchFilteredMovies = createAsyncThunk(
 				const formatedSessionFrom = formatDate(filters.session_from);
 				let queryForSessionFrom =
 					filters.title.length > 0 || filters.genre.length > 0
-						? `&session_from=${formatedSessionFrom}`
-						: `session_from=${formatedSessionFrom}`;
+						? `&session_from=${formatedSessionFrom}&session_to=${formatedSessionFrom}`
+						: `session_from=${formatedSessionFrom}&session_to=${formatedSessionFrom}`;
 				console.log("queryForSessionFrom", queryForSessionFrom);
 				queryString = queryString.concat(queryForSessionFrom);
 			}

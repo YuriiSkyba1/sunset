@@ -93,10 +93,11 @@ export const sessionSelectionSlice = createSlice({
 		setUniquePriceColorPairs: (state) => {
 			const extractUniquePairs = (tickets: { price: string; color: string }[]): Ticket[] => {
 				const uniquePairs: { [key: string]: string } = {};
-
-				tickets.forEach((ticket) => {
-					uniquePairs[ticket.price] = ticket.color;
-				});
+				if (tickets) {
+					tickets.forEach((ticket) => {
+						uniquePairs[ticket.price] = ticket.color;
+					});
+				}
 
 				return Object.keys(uniquePairs).map((price) => ({ price, color: uniquePairs[price] }));
 			};
