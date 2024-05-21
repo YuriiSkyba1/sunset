@@ -12,22 +12,16 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { updateFilmViewFromStorage } from "@/redux/getFilmView/getFilmView";
-import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 
 function PaymentPage() {
 	const dispatch = useDispatch();
 	const filmView = useSelector((state) => state.filmView);
-	const cartResponses = useSelector((state) => state.cartResponses);
 	const router = useRouter();
 
 	useEffect(() => {
 		if (!filmView.success) {
 			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
 			dispatch(updateFilmViewFromStorage(filmViewFromStorage));
-		}
-		if (!cartResponses.cart_items) {
-			const cartResponsesFromStorage = JSON.parse(localStorage.getItem("cartResponses")!);
-			dispatch(addResponse(cartResponsesFromStorage));
 		}
 	}, []);
 
@@ -92,18 +86,65 @@ function PaymentPage() {
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
 			{() => (
 				<Form>
-					{filmView.success && (
-						<div className="flex flex-col desktop:flex-row desktop:gap-[136px] gap-8 max-desktop:items-center px-[14px] desktop:px-[60px] max-desktop:mt-8 max-desktop:mb-10 desktop:mb-[104px]">
+					<div className="flex flex-col desktop:flex-row desktop:gap-[136px] gap-8 max-desktop:items-center px-[14px] desktop:px-[60px] max-desktop:mt-8 max-desktop:mb-10 desktop:mb-[104px]">
+						{filmView.success && (
 							<div className="w-full max-w-[348px] desktop:min-w-[760px] ">
 								<PaymentPageAboutFilmSection />
 								<div className="flex justify-end">
 									<PaymentForm />
+									{/* <div className="desktop:max-w-[536px] w-full">
+										<div role="group" aria-labelledby="my-radio-group" className="mb-[56px]">
+											<h3 className="font-druk_wide text-[18px] leading-6 mb-6 uppercase">
+												Choose Payment Method
+											</h3>
+											{formFields &&
+												Object.entries(
+													formFields.find((field) => field.type === "radio")?.values || {}
+												).map(([key, value]) => (
+													<Field
+														component={CustomRadio}
+														name="payment_method"
+														value={key}
+														image=""
+														label={value}
+													/>
+												))}
+										</div>
+										<div className="flex flex-col gap-6 mb-6">
+											<h3 className="font-druk_wide text-[18px] leading-6 uppercase">
+												Personal information
+											</h3>
+											<Field
+												name="name"
+												label="Name"
+												component={CustomInput}
+												placeholder="Name"
+											/>
+											<Field
+												name="phone"
+												label="Phone"
+												component={CustomInput}
+												placeholder="Phone"
+											/>
+											<Field
+												name="email"
+												label="Email"
+												component={CustomInput}
+												placeholder="Email"
+											/>
+											<div>
+												<label htmlFor="accept_newsletter">
+													<Field type="checkbox" name="accept_newsletter" />
+													<span className="ml-2">Accept newsletter</span>
+												</label>
+											</div>
+										</div>
+									</div> */}
 								</div>
 							</div>
-
-							<PaymentPageRightSide />
-						</div>
-					)}
+						)}
+						<PaymentPageRightSide />
+					</div>
 				</Form>
 			)}
 		</Formik>

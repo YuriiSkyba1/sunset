@@ -42,9 +42,11 @@ function BreadCrumbsFilmPage() {
 				</span>
 			</Link>
 
-			<Link href={`/location/${filmView.success?.movie.slug}`} className="flex items-center opacity-50">
-				{filmView.success?.movie.title}
-			</Link>
+			{filmView.success?.movie.slug && (
+				<Link href={`/location/${filmView.success?.movie.slug}`} className="flex items-center opacity-50">
+					{filmView.success?.movie.title}
+				</Link>
+			)}
 		</div>
 	);
 }
