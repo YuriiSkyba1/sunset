@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import CountryDropdown from "../CountryDropdown/CountryDropdown";
 import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
 import { useSelector } from "@/hooks";
-import axios from "axios";
 
 export default function PopUpCountry() {
 	const [showPopup, setShowPopup] = useState(false);
@@ -18,27 +17,18 @@ export default function PopUpCountry() {
 	useEffect(() => {
 		const storedCountry = Cookies.get("country");
 		const storedLanguage = Cookies.get("language");
+
 		if (!storedCountry || !storedLanguage) {
 			setShowPopup(true);
 		}
-		if (!storedCountry) {
-			axios
-				.get("https://ipapi.co/json/")
-				.then((response) => {
-					const currentCountry = response.data.country_name;
-					const languagesArray: string[] = response.data.languages.split(",");
-					const currentLanguage = languagesArray[0];
+	}, []);
 
-					if (currentCountry && currentLanguage) {
-						setCountry(currentCountry);
-						setLanguage(currentLanguage);
-					}
-				})
-				.catch((error) => {
-					console.error("Error fetching the country data", error);
-				});
+	useEffect(() => {
+		if (availableCountries && availableLanguages) {
+			setLanguage(availableLanguages[availableLanguages.length - 1].name);
+			setCountry(availableCountries[availableCountries.length - 1].name);
 		}
-	}, [setCountry]);
+	}, [availableCountries, availableLanguages]);
 
 	const handleSave = () => {
 		Cookies.set("country", country, { expires: 7 });

@@ -4,7 +4,6 @@ import Image from "next/image";
 import UpArrow from "@/assets/up-arrow.svg";
 import BottomArrow from "@/assets/bot-arrow.svg";
 import { useSelector } from "@/hooks";
-import axios from "axios";
 
 function CountryDropdownSmall() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -16,20 +15,6 @@ function CountryDropdownSmall() {
 		const storedCountry = Cookies.get("country");
 		if (storedCountry) {
 			setCountry(storedCountry);
-		}
-		if (!storedCountry) {
-			axios
-				.get("https://ipapi.co/json/")
-				.then((response) => {
-					const currentCountry = response.data.country_name;
-
-					if (currentCountry) {
-						setCountry(currentCountry);
-					}
-				})
-				.catch((error) => {
-					console.error("Error fetching the country data", error);
-				});
 		}
 	}, []);
 
@@ -56,6 +41,7 @@ function CountryDropdownSmall() {
 									setCountry(country.name.toUpperCase());
 									setIsOpen(!isOpen);
 									Cookies.set("country", country.name, { expires: 7 });
+									window.location.reload();
 								}}
 							>
 								{country.name.toUpperCase()}

@@ -20,8 +20,8 @@ function MenuDropdownDesktop() {
 
 	return (
 		<div className="hidden desktop:block">
-			<div className="absolute z-10 left-0  bg-pink_light flex desktop:flex-row  desktop:max-w-[1440px] desktop:top-[82px]  ">
-				<div className="pt-10 mx-[60px] w-[601px]">
+			<div className="absolute h-screen max-h-[800px] overflow-y-scroll z-10 left-0  bg-pink_light flex desktop:flex-row  desktop:max-w-[1440px] desktop:top-[82px]  ">
+				<div className="pt-10 mx-[60px] w-[601px] h-[800px]">
 					<div className=" font-bold text-[24px] leading-8 mb-20 font-druk_wide">
 						<div className="mb-8">
 							<button
@@ -101,7 +101,7 @@ function MenuDropdownDesktop() {
 						</div>
 						<hr />
 					</div>
-					<div className="flex py-6 items-center">
+					<div className="flex my-6 items-center ">
 						<div className="flex items-center mr-[60px]">
 							<LanguageDropdownSmall />
 							<div className="w-[1px] h-[21px] bg-grey_medium mx-3"></div>

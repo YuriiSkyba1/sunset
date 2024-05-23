@@ -12,6 +12,19 @@ import { getLocationsList } from "@/redux/getLocationsList/getLocationsListSlice
 function MenuDropdown() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
+
+		// Cleanup function to reset overflow when component unmounts or menu closes
+		return () => {
+			document.body.style.overflow = "auto";
+		};
+	}, [isOpen]);
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
