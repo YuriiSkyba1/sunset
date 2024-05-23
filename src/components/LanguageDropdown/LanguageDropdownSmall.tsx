@@ -5,7 +5,6 @@ import UpArrow from "@/assets/up-arrow.svg";
 import BottomArrow from "@/assets/bot-arrow.svg";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "@/hooks";
-import axios from "axios";
 
 function LanguageDropdownSmall({ style }: { style?: string }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,21 +16,6 @@ function LanguageDropdownSmall({ style }: { style?: string }) {
 		const storedLanguage = Cookies.get("language");
 		if (storedLanguage) {
 			setLanguage(storedLanguage);
-		}
-		if (!storedLanguage) {
-			axios
-				.get("https://ipapi.co/json/")
-				.then((response) => {
-					const languagesArray: string[] = response.data.languages.split(",");
-					const currentLanguage = languagesArray[0];
-
-					if (currentLanguage) {
-						setLanguage(currentLanguage);
-					}
-				})
-				.catch((error) => {
-					console.error("Error fetching the country data", error);
-				});
 		}
 	}, []);
 
@@ -62,6 +46,7 @@ function LanguageDropdownSmall({ style }: { style?: string }) {
 								setLanguage!(language.iso_code.toUpperCase());
 								setIsOpen(!isOpen);
 								Cookies.set("language", language.iso_code, { expires: 7 });
+								window.location.reload();
 							}}
 						>
 							{language.iso_code.toUpperCase()}

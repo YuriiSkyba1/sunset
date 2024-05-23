@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "@/hooks";
 import { useEffect } from "react";
 import { getView } from "@/redux/getLocationsView/getLocationsViewSlice";
@@ -23,7 +23,7 @@ function TemporaryLocationPage() {
 
 	const findFilmsTitles = () => {
 		const filmsTitles: string[] = [];
-		locationData.success?.movies.movies.forEach((movie) => {
+		locationData.success?.movies?.movies?.forEach((movie) => {
 			filmsTitles.push(movie.title);
 		});
 		return filmsTitles;
@@ -37,7 +37,7 @@ function TemporaryLocationPage() {
 	}, [locationData]);
 
 	return (
-		<>
+		<div className="relative">
 			<Header />
 			{!locationData.loading && locationData.success ? (
 				<div className="w-full max-w-[375px] desktop:w-full desktop:max-w-[1440px] m-auto desktop:relative">
@@ -53,7 +53,7 @@ function TemporaryLocationPage() {
 				<div>loading...</div>
 			)}
 			<Footer />
-		</>
+		</div>
 	);
 }
 
