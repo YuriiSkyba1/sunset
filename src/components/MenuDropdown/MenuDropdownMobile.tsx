@@ -16,7 +16,7 @@ function MenuDropdownMobile() {
 
 	return (
 		<div className="block desktop:hidden">
-			<div className="absolute z-10 top-[50px] left-0 bg-pink_light flex flex-col items-center w-full">
+			<div className="fixed h-dvh overflow-y-scroll z-10 top-[50px] left-0 bg-pink_light flex flex-col items-center w-full">
 				<div className=" w-full max-w-[375px] px-3">
 					<div className="mt-5">
 						<LocationDropdown />
