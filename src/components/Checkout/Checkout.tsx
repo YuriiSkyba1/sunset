@@ -27,6 +27,19 @@ function Checkout() {
 	const [timesOpened, setTimesOpened] = useState<number>(0);
 
 	useEffect(() => {
+		if (isSnacksOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
+
+		// Cleanup function to reset overflow when component unmounts or menu closes
+		return () => {
+			document.body.style.overflow = "auto";
+		};
+	}, [isSnacksOpen]);
+
+	useEffect(() => {
 		if (!filmView.success) {
 			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
 			console.log("filmViewFromStorage", filmViewFromStorage);

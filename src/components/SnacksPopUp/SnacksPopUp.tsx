@@ -85,9 +85,9 @@ function SnacksPopUp({ isOpen, setOpen, setTimesOpened }: ISnacksPopUp) {
 					>
 						ADD TO CART
 					</button>
-					<Link href={`${currentPath}/payment`}>
+					<Link href={`${currentPath}/payment`} className="text-center">
 						<button
-							className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5"
+							className="font-druk_wide uppercase underline desktop:text-[14px] desktop:leading-5 text-center"
 							onClick={() => localStorage.setItem("cartResponses", JSON.stringify(cartResponses))}
 						>
 							to order a ticket

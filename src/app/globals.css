@@ -60,6 +60,6 @@ body {
 	color: #222222;
 
 	& > * {
-		min-height: 100vh;
+		/* min-height: 100vh; */
 	}
 }
