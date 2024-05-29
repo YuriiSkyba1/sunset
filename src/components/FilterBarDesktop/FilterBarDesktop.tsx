@@ -2,45 +2,73 @@ import Image from "next/image";
 import BotArrow from "@/assets/bot-arrow.svg";
 import FilterIcon from "@/assets/films-section/filter-icon.svg";
 import { useDispatch, useSelector } from "@/hooks";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
 import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
 import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
 import _debounce from "lodash.debounce";
-import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
-import FIlmSessionFrom from "../FilmSessionCard/FilmSessionCard";
+import CustomDatePicker from "../CustomDatePicker/CustomDatePickerDesktop";
 import FIlmSessionCard from "../FilmSessionCard/FilmSessionCard";
+import styles from "./FilterBarDesktop.module.css";
 
-function FilterBar() {
+function FilterBarDesktop() {
+	const dispatch = useDispatch();
+
 	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
 	const arrayOfGenres = filters?.find((filter) => filter.name === "genre")?.values;
-
-	const [genreIsOpen, setGenreIsOpen] = useState<boolean>(false);
-	const [titleIsOpen, setTitleIsOpen] = useState<boolean>(false);
-	const [sessionIsOpen, setSessionIsOpen] = useState<boolean>(false);
-	const [inputTitle, setInputTitle] = useState<string>();
-
 	const choosenFilters = useSelector((state) => state.genres);
 
-	const dispatch = useDispatch();
-	const filmsTitles = JSON.parse(localStorage.getItem("filmsTitles")!);
+	const [genreIsOpen, setGenreIsOpen] = useState<boolean>(false);
+	const [inputTitle, setInputTitle] = useState<string>("");
+	const [choosenTitle, setChoosenTitle] = useState<string>("");
+	const [filteredTitles, setFilteredTitles] = useState<string[]>([]);
+	const [showDropdown, setShowDropdown] = useState<boolean>(false);
+	const [movieTitles, setMovieTitles] = useState<string[]>([]);
 
-	const handleInputTitleChange = (event: any) => {
-		const { value } = event.target;
-		setInputTitle(value);
-		handleInputChange(value);
+	useEffect(() => {
+		const storedTitles = localStorage.getItem("filmsTitles");
+		if (storedTitles) {
+			setMovieTitles(JSON.parse(storedTitles) as string[]);
+		}
+	}, []);
+
+	console.log("movieTitles from FilterBarDesktop", movieTitles);
+
+	useEffect(() => {
+		if (inputTitle) {
+			handleInputChange(inputTitle);
+		} else {
+			handleInputChange(inputTitle);
+		}
+	}, [choosenTitle, setChoosenTitle]);
+
+	const handleInputTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const userInput = event.target.value;
+		setInputTitle(userInput);
+
+		if (userInput) {
+			const filtered = movieTitles.filter((title) => title.toLowerCase().includes(userInput.toLowerCase()));
+			setFilteredTitles(filtered);
+			setShowDropdown(true);
+		} else {
+			setShowDropdown(false);
+		}
 	};
-	const handleInputChange = useCallback(
-		_debounce(async (value) => {
-			console.log("Debounced title:", value);
-			try {
-				dispatch(addTitle(value));
-			} catch (error) {
-				console.error("Error submitting promocode:", error);
-			}
-		}, 2000),
-		[]
-	);
+
+	const handleSelectTitle = (title: string) => {
+		setChoosenTitle(title);
+		setInputTitle(title);
+		setShowDropdown(false);
+	};
+
+	const handleInputChange = (value: string) => {
+		console.log("Debounced title:", value);
+		try {
+			dispatch(addTitle(value));
+		} catch (error) {
+			console.error("Error submitting promocode:", error);
+		}
+	};
 
 	return (
 		<div>
@@ -65,19 +93,13 @@ function FilterBar() {
 							))}
 						</div>
 						<div className="flex gap-1 ">
-							{/* {choosenFilters.filters.title.map((value) => (
-								<FilmTitleCard
-									name={value}
-									key={value}
-									handleOnClick={() => dispatch(removeTitle(value))}
-									isActive={true}
-								/>
-							))} */}
 							{choosenFilters.filters.title && (
 								<FilmTitleCard
 									name={choosenFilters.filters.title}
 									handleOnClick={() => {
 										dispatch(removeTitle(choosenFilters.filters.title));
+										setShowDropdown(false);
+										setChoosenTitle("");
 										setInputTitle("");
 									}}
 									isActive={true}
@@ -91,6 +113,8 @@ function FilterBar() {
 							className="font-gotham_pro_medium underline text-[12px] leading-5 capitalize px-[10px] py-[2px]"
 							onClick={() => {
 								dispatch(resetGenres());
+								setShowDropdown(false);
+								setChoosenTitle("");
 								setInputTitle("");
 							}}
 						>
@@ -99,7 +123,7 @@ function FilterBar() {
 					</div>
 				)}
 			</div>
-			<div className="p-6 flex gap-10 bg-[#F9F8F9] border border-grey_medium border-t-0">
+			<div className="p-6 flex items-center gap-10 bg-[#F9F8F9] border border-grey_medium border-t-0">
 				<button
 					className="flex gap-[6px] items-center uppercase font-druk_wide text-[14px] leading-6"
 					onClick={() => setGenreIsOpen(!genreIsOpen)}
@@ -112,29 +136,31 @@ function FilterBar() {
 					)}
 				</button>
 
-				<button
-					className="flex gap-[6px] font-druk_wide items-center uppercase text-[14px] leading-6"
-					onClick={() => setTitleIsOpen(!titleIsOpen)}
-				>
-					Film title
-					{titleIsOpen ? (
-						<Image src={BotArrow} alt="BotArrow" className="rotate-180" />
-					) : (
-						<Image src={BotArrow} alt="BotArrow" className="" />
-					)}
-				</button>
-				{/* <button
-					className="flex gap-[6px] items-center uppercase font-druk_wide text-[14px] leading-6"
-					onClick={() => setSessionIsOpen(!sessionIsOpen)}
-				>
-					session
-					{sessionIsOpen ? (
-						<Image src={BotArrow} alt="BotArrow" className="rotate-180" />
-					) : (
-						<Image src={BotArrow} alt="BotArrow" className="" />
-					)}
-				</button> */}
 				<CustomDatePicker></CustomDatePicker>
+				<div className="relative w-full max-w-[377px] ">
+					<input
+						type="text"
+						value={inputTitle as string}
+						onChange={(event) => handleInputTitleChange(event)}
+						className="px-4 py-2 font-druk_wide w-full border border-[#00000023] uppercase text-[14px] leading-6"
+						placeholder="FILM TITLE..."
+					></input>
+					{showDropdown && (
+						<ul
+							className={`absolute w-full bg-white font-druk_wide border border-[#00000023] max-h-[120px] overflow-y-auto z-20 uppercase text-[14px] leading-6 rounded-b-lg ${styles.customScrollbar}`}
+						>
+							{filteredTitles.map((title, index) => (
+								<li
+									key={index}
+									className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+									onClick={() => handleSelectTitle(title)}
+								>
+									{title}
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
 			</div>
 			{genreIsOpen && (
 				<div className="flex gap-2 p-6 bg-[#F9F8F9] border border-grey_medium border-t-0">
@@ -154,20 +180,8 @@ function FilterBar() {
 					))}
 				</div>
 			)}
-			{titleIsOpen && (
-				<div className="flex gap-2 p-6 bg-[#F9F8F9] border border-grey_medium border-t-0">
-					{/* {filmsTitles?.map((value: string) => (
-						<FilmTitleCard name={value} key={value} handleOnClick={() => dispatch(addTitle(value))} />
-					))} */}
-					<input
-						type="text"
-						value={inputTitle as string}
-						onChange={(event) => handleInputTitleChange(event)}
-					></input>
-				</div>
-			)}
 		</div>
 	);
 }
 
-export default FilterBar;
+export default FilterBarDesktop;

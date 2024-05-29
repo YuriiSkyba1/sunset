@@ -57,8 +57,8 @@ const getDataSlice = createSlice({
 				if (cookiesLang && currentCountry) {
 					langObj = JSON.parse(cookiesLang);
 					currCountryObj = JSON.parse(currentCountry);
-					state.success?.languages.push(langObj);
-					state.success?.countries.push(currCountryObj);
+					state.success?.languages?.push(langObj);
+					state.success?.countries?.push(currCountryObj);
 				}
 
 				console.log("langObj", langObj);

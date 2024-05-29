@@ -11,154 +11,154 @@ import React from "react";
 import "react-phone-number-input/style.css";
 
 export interface SendData {
-  name: string;
-  phone: string;
-  email: string;
-  message: string;
+	name: string;
+	phone: string;
+	email: string;
+	message: string;
 }
 
 export interface ErrorResponse {
-  message: string;
-  errors: {
-    name?: string[];
-    phone?: string[];
-    email?: string[];
-    question?: string[];
-  };
+	message: string;
+	errors: {
+		name?: string[];
+		phone?: string[];
+		email?: string[];
+		question?: string[];
+	};
 }
 
 function ContactUsForm() {
-  const dispatch = useDispatch();
-  const [phoneInputValue, setPhoneInputValue] = useState("");
+	const dispatch = useDispatch();
+	const [phoneInputValue, setPhoneInputValue] = useState("");
 
-  const button = useSelector((state) => state.data.success?.contact_us_form.translations.submit);
+	const button = useSelector((state) => state.data.success?.contact_us_form.translations.submit);
 
-  const handleSubmit = async (values: SendData, { setErrors }: FormikHelpers<SendData>) => {
-    try {
-      const response = await dispatch(submitContactForm(values));
-      if (response.payload !== undefined) {
-        const errorPayload = response.payload as ErrorResponse;
+	const handleSubmit = async (values: SendData, { setErrors }: FormikHelpers<SendData>) => {
+		try {
+			const response = await dispatch(submitContactForm(values));
+			if (response.payload !== undefined) {
+				const errorPayload = response.payload as ErrorResponse;
 
-        const formattedErrors = Object.fromEntries(
-          Object.entries(errorPayload.errors).map(([key, value]) => [key, value?.[0]])
-        );
-        setErrors(formattedErrors);
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
+				const formattedErrors = Object.fromEntries(
+					Object.entries(errorPayload.errors).map(([key, value]) => [key, value?.[0]])
+				);
+				setErrors(formattedErrors);
+			}
+		} catch (error) {
+			throw error;
+		}
+	};
 
-  interface CustomPhoneInputProps {
-    field: {
-      name: string;
-      value: string;
-      onChange: (value: string) => void;
-      onBlur: () => void;
-    };
-    form: {
-      setFieldValue: (field: string, value: string) => void;
-      touched: { [key: string]: boolean };
-      errors: { [key: string]: string };
-    };
-    label: string;
-    placeholder: string;
-  }
+	interface CustomPhoneInputProps {
+		field: {
+			name: string;
+			value: string;
+			onChange: (value: string) => void;
+			onBlur: () => void;
+		};
+		form: {
+			setFieldValue: (field: string, value: string) => void;
+			touched: { [key: string]: boolean };
+			errors: { [key: string]: string };
+		};
+		label: string;
+		placeholder: string;
+	}
 
-  const CustomPhoneInput: React.FC<CustomPhoneInputProps> = React.memo(
-    ({ field, form: { setFieldValue, touched, errors }, label, placeholder }) => {
-      const handleChange = useCallback(
-        _debounce((value) => {
-          setPhoneInputValue(value);
-          setFieldValue(field.name, value);
-        }, 2000),
-        [field.name, setFieldValue]
-      );
+	const CustomPhoneInput: React.FC<CustomPhoneInputProps> = React.memo(
+		({ field, form: { setFieldValue, touched, errors }, label, placeholder }) => {
+			const handleChange = useCallback(
+				_debounce((value) => {
+					setPhoneInputValue(value);
+					setFieldValue(field.name, value);
+				}, 2000),
+				[field.name, setFieldValue]
+			);
 
-      return (
-        <div className="relative">
-          <PhoneInput
-            {...field}
-            international={true}
-            value={phoneInputValue}
-            onChange={handleChange}
-            placeholder={placeholder}
-            className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500"
-          />
-        </div>
-      );
-    },
-    (prevProps, nextProps) => {
-      return (
-        prevProps.field.value === nextProps.field.value &&
-        prevProps.form.touched[prevProps.field.name] === nextProps.form.touched[prevProps.field.name] &&
-        prevProps.form.errors[prevProps.field.name] === nextProps.form.errors[prevProps.field.name]
-      );
-    }
-  );
+			return (
+				<div className="relative">
+					<PhoneInput
+						{...field}
+						international={true}
+						value={phoneInputValue}
+						onChange={handleChange}
+						placeholder={placeholder}
+						className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500 font-gotham_pro_regular"
+					/>
+				</div>
+			);
+		},
+		(prevProps, nextProps) => {
+			return (
+				prevProps.field.value === nextProps.field.value &&
+				prevProps.form.touched[prevProps.field.name] === nextProps.form.touched[prevProps.field.name] &&
+				prevProps.form.errors[prevProps.field.name] === nextProps.form.errors[prevProps.field.name]
+			);
+		}
+	);
 
-  return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-      {(formik) => {
-        return (
-          <Form className="w-[300px] desktop:w-[648px] flex flex-col items-center gap-6">
-            <div className="w-[300px] desktop:w-full">
-              <Field
-                component="input"
-                id="name"
-                name="name"
-                className="w-full border p-3 border-gray-300 rounded-md placeholder-gray-500"
-                placeholder="Name*"
-              />
-              <ErrorMessage name="name" component={TextErrorMessage} />
-            </div>
-            <div className="flex flex-col desktop:flex-row gap-6">
-              <div className="">
-                <Field
-                  component={CustomPhoneInput}
-                  id="phone"
-                  name="phone"
-                  className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500"
-                  placeholder="Phone number*"
-                />
-                <ErrorMessage name="phone" component={TextErrorMessage} />
-              </div>
-              <div>
-                <Field
-                  component="input"
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500"
-                  placeholder="E-mail"
-                />
-                <ErrorMessage name="email" component={TextErrorMessage} />
-              </div>
-            </div>
-            <Field
-              component="textarea"
-              type="message"
-              id="message"
-              name="message"
-              className="w-[300px] desktop:w-[648px] border p-3 pb-7 border-gray-300 rounded-md resize-none placeholder-gray-500"
-              placeholder="Text your message"
-            />
-            <ErrorMessage name="message" component={TextErrorMessage} />
-            <button
-              type="submit"
-              disabled={!formik.isValid}
-              className="bg-primary text-black_main font-bold py-4 
+	return (
+		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+			{(formik) => {
+				return (
+					<Form className="w-[300px] desktop:w-[648px] flex flex-col items-center gap-6">
+						<div className="w-[300px] desktop:w-full">
+							<Field
+								component="input"
+								id="name"
+								name="name"
+								className="w-full border p-3 border-gray-300 rounded-md placeholder-gray-500 font-gotham_pro_regular"
+								placeholder="Name*"
+							/>
+							<ErrorMessage name="name" component={TextErrorMessage} />
+						</div>
+						<div className="flex flex-col desktop:flex-row gap-6">
+							<div className="">
+								<Field
+									component={CustomPhoneInput}
+									id="phone"
+									name="phone"
+									className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500 font-gotham_pro_regular"
+									placeholder="Phone number*"
+								/>
+								<ErrorMessage name="phone" component={TextErrorMessage} />
+							</div>
+							<div>
+								<Field
+									component="input"
+									type="email"
+									id="email"
+									name="email"
+									className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500 font-gotham_pro_regular"
+									placeholder="E-mail"
+								/>
+								<ErrorMessage name="email" component={TextErrorMessage} />
+							</div>
+						</div>
+						<Field
+							component="textarea"
+							type="message"
+							id="message"
+							name="message"
+							className="w-[300px] desktop:w-[648px] border p-3 pb-7 border-gray-300 rounded-md resize-none placeholder-gray-500 font-gotham_pro_regular"
+							placeholder="Text your message"
+						/>
+						<ErrorMessage name="message" component={TextErrorMessage} />
+						<button
+							type="submit"
+							disabled={!formik.isValid}
+							className="bg-primary text-black_main font-bold py-4 
               max-desktop:w-[300px]
               desktop:px-24 desktop:mt-2 "
-            >
-              <div className="hidden desktop:block uppercase font-druk_wide">{button}</div>
-              <div className="desktop:hidden font-druk_wide">{button}</div>
-            </button>
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+						>
+							<div className="hidden desktop:block uppercase font-druk_wide">{button}</div>
+							<div className="desktop:hidden font-druk_wide">{button}</div>
+						</button>
+					</Form>
+				);
+			}}
+		</Formik>
+	);
 }
 
 export default ContactUsForm;
