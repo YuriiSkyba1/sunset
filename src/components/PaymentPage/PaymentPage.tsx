@@ -92,54 +92,6 @@ function PaymentPage() {
 								<PaymentPageAboutFilmSection />
 								<div className="flex justify-end">
 									<PaymentForm />
-									{/* <div className="desktop:max-w-[536px] w-full">
-										<div role="group" aria-labelledby="my-radio-group" className="mb-[56px]">
-											<h3 className="font-druk_wide text-[18px] leading-6 mb-6 uppercase">
-												Choose Payment Method
-											</h3>
-											{formFields &&
-												Object.entries(
-													formFields.find((field) => field.type === "radio")?.values || {}
-												).map(([key, value]) => (
-													<Field
-														component={CustomRadio}
-														name="payment_method"
-														value={key}
-														image=""
-														label={value}
-													/>
-												))}
-										</div>
-										<div className="flex flex-col gap-6 mb-6">
-											<h3 className="font-druk_wide text-[18px] leading-6 uppercase">
-												Personal information
-											</h3>
-											<Field
-												name="name"
-												label="Name"
-												component={CustomInput}
-												placeholder="Name"
-											/>
-											<Field
-												name="phone"
-												label="Phone"
-												component={CustomInput}
-												placeholder="Phone"
-											/>
-											<Field
-												name="email"
-												label="Email"
-												component={CustomInput}
-												placeholder="Email"
-											/>
-											<div>
-												<label htmlFor="accept_newsletter">
-													<Field type="checkbox" name="accept_newsletter" />
-													<span className="ml-2">Accept newsletter</span>
-												</label>
-											</div>
-										</div>
-									</div> */}
 								</div>
 							</div>
 						)}

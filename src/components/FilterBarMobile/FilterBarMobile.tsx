@@ -9,22 +9,41 @@ import FIlmGenreCard from "../FIlmGenreCard/FIlmGenreCard";
 import { addGenre, addTitle, removeGenre, removeTitle, resetGenres } from "@/redux/getFilteredFilms/getGenersFilms";
 import _debounce from "lodash.debounce";
 import FilmTitleCard from "../FilmTitleCard/FilmTitleCard";
-import CustomDatePickerDesktop from "../CustomDatePicker/CustomDatePicker";
+import CustomDatePickerDesktop from "../CustomDatePicker/CustomDatePickerDesktop";
 import FIlmSessionCard from "../FilmSessionCard/FilmSessionCard";
+import styles from "./FilterBarMobile.module.css";
+import CustomDatePickerMobile from "../CustomDatePickerMobile/CustomDatePickerMobile";
 
 function FilterBarMobile() {
+	const dispatch = useDispatch();
+
 	const [isFilterBarOpen, setFilterBarOpen] = useState<boolean>(false);
 	const [genreIsOpen, setGenreIsOpen] = useState<boolean>(false);
-	const [titleIsOpen, setTitleIsOpen] = useState<boolean>(false);
 	const [sessionIsOpen, setSessionIsOpen] = useState<boolean>(false);
+	const [inputTitle, setInputTitle] = useState<string>("");
+	const [movieTitles, setMovieTitles] = useState<string[]>([]);
+	const [choosenTitle, setChoosenTitle] = useState<string>("");
+	const [filteredTitles, setFilteredTitles] = useState<string[]>([]);
+	const [showDropdownTitleFilter, setShowDropdownTitleFilter] = useState<boolean>(false);
 
 	const filters = useSelector((state) => state.locationView.success?.movies?.filters);
 	const arrayOfGenres = filters?.find((filter) => filter.name === "genre")?.values;
 	const choosenGenres = useSelector((state) => state.genres);
 
-	const [inputTitle, setInputTitle] = useState<string>();
+	useEffect(() => {
+		const storedTitles = localStorage.getItem("filmsTitles");
+		if (storedTitles) {
+			setMovieTitles(JSON.parse(storedTitles) as string[]);
+		}
+	}, []);
 
-	const dispatch = useDispatch();
+	useEffect(() => {
+		if (inputTitle) {
+			handleInputChange(inputTitle);
+		} else {
+			handleInputChange(inputTitle);
+		}
+	}, [choosenTitle, setChoosenTitle]);
 
 	useEffect(() => {
 		if (isFilterBarOpen) {
@@ -34,23 +53,39 @@ function FilterBarMobile() {
 		}
 	}, [isFilterBarOpen]);
 
-	const handleInputTitleChange = (event: any) => {
-		const { value } = event.target;
-		setInputTitle(value);
-		handleInputChange(value);
-	};
-	const handleInputChange = useCallback(
-		_debounce(async (value) => {
-			console.log("Debounced title:", value);
-			try {
-				dispatch(addTitle(value));
-			} catch (error) {
-				console.error("Error submitting promocode:", error);
-			}
-		}, 2000),
-		[]
-	);
+	const handleInputTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const userInput = event.target.value;
+		setInputTitle(userInput);
 
+		if (userInput) {
+			const filtered = movieTitles.filter((title) => title.toLowerCase().includes(userInput.toLowerCase()));
+			setFilteredTitles(filtered);
+			setShowDropdownTitleFilter(true);
+		} else {
+			setShowDropdownTitleFilter(false);
+		}
+	};
+
+	// const handleInputTitleChange = (event: any) => {
+	// 	const { value } = event.target;
+	// 	setInputTitle(value);
+	// 	handleInputChange(value);
+	// };
+
+	const handleSelectTitle = (title: string) => {
+		setChoosenTitle(title);
+		setInputTitle(title);
+		setShowDropdownTitleFilter(false);
+	};
+
+	const handleInputChange = (value: string) => {
+		console.log("Debounced title:", value);
+		try {
+			dispatch(addTitle(value));
+		} catch (error) {
+			console.error("Error submitting promocode:", error);
+		}
+	};
 	return (
 		<div className="mt-4">
 			<button
@@ -101,7 +136,7 @@ function FilterBarMobile() {
 							style={{
 								maxHeight: genreIsOpen ? "300px" : "0",
 								overflow: "hidden",
-								transition: "max-height 0.3s ease-in-out",
+								transition: "all 0.15s ease-in-out",
 							}}
 						>
 							<FIlmGenreCard
@@ -120,46 +155,64 @@ function FilterBarMobile() {
 							))}
 						</div>
 					</div>
-					<div className="py-6 border-b px-4 ">
+					<div
+						className="py-6 border-b px-4 "
+						style={{
+							backgroundColor: sessionIsOpen ? "#FD84C7" : "#FFF",
+							transition: "all 0.15s ease-in-out",
+						}}
+					>
 						<button
 							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
-							onClick={() => setTitleIsOpen(!titleIsOpen)}
+							onClick={() => setSessionIsOpen(!sessionIsOpen)}
 						>
-							Film title
-							{titleIsOpen ? (
-								<Image src={BotArrow} alt="BotArrow" className="rotate-180" />
+							SESSION
+							{sessionIsOpen ? (
+								<Image src={BotArrow} alt="BotArrow" className="rotate-180 fill-[#000]" />
 							) : (
 								<Image src={BotArrow} alt="BotArrow" className="" />
 							)}
 						</button>
 						<div
-							className={`flex gap-2 flex-wrap ${titleIsOpen ? "mt-3" : ""}`}
+							className={`flex justify-center`}
 							style={{
-								maxHeight: titleIsOpen ? "300px" : "0",
+								height: sessionIsOpen ? "275px" : "0",
+								marginTop: sessionIsOpen ? "8px" : "0",
 								overflow: "hidden",
-								transition: "max-height 0.3s ease-in-out",
+								transition: "all 0.15s ease-in-out",
 							}}
 						>
-							<input
-								type="text"
-								value={inputTitle}
-								onChange={(event) => handleInputTitleChange(event)}
-							></input>
+							<CustomDatePickerMobile
+								isOpen={sessionIsOpen}
+								setIsOpen={setSessionIsOpen}
+							></CustomDatePickerMobile>
 						</div>
 					</div>
 					<div className="py-6 border-b px-4 ">
-						{/* <button
-							className="w-full flex justify-between items-center uppercase font-druk_wide text-[14px] leading-6"
-							onClick={() => setSessionIsOpen(!sessionIsOpen)}
-						>
-							session
-							{sessionIsOpen ? (
-								<Image src={BotArrow} alt="BotArrow" className="rotate-180" />
-							) : (
-								<Image src={BotArrow} alt="BotArrow" className="" />
+						<div className="relative w-full max-w-[377px] ">
+							<input
+								type="text"
+								value={inputTitle as string}
+								onChange={(event) => handleInputTitleChange(event)}
+								className="px-4 py-2 font-druk_wide w-full border border-[#00000023] uppercase text-[14px] leading-6"
+								placeholder="FILM TITLE..."
+							></input>
+							{showDropdownTitleFilter && (
+								<ul
+									className={`absolute w-full bg-white font-druk_wide border border-[#00000023] max-h-[120px] overflow-y-auto z-20 uppercase text-[14px] leading-6 rounded-b-lg ${styles.customScrollbar}`}
+								>
+									{filteredTitles.map((title, index) => (
+										<li
+											key={index}
+											className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+											onClick={() => handleSelectTitle(title)}
+										>
+											{title}
+										</li>
+									))}
+								</ul>
 							)}
-						</button> */}
-						<CustomDatePickerDesktop></CustomDatePickerDesktop>
+						</div>
 					</div>
 				</div>
 
@@ -186,6 +239,8 @@ function FilterBarMobile() {
 										name={choosenGenres.filters.title}
 										handleOnClick={() => {
 											dispatch(removeTitle(choosenGenres.filters.title));
+											setShowDropdownTitleFilter(false);
+											setChoosenTitle("");
 											setInputTitle("");
 										}}
 										isActive={true}
@@ -200,6 +255,8 @@ function FilterBarMobile() {
 									className="underline font-gotham_pro_medium text-[12px] leading-5 capitalize px-[10px] py-[2px]"
 									onClick={() => {
 										dispatch(resetGenres());
+										setShowDropdownTitleFilter(false);
+										setChoosenTitle("");
 										setInputTitle("");
 									}}
 								>

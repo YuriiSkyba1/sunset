@@ -25,6 +25,7 @@ function SeatButton({
 	const dispatch = useDispatch();
 
 	const checkedTickets = useSelector((state) => state.sessionSelection.checkedTickets);
+	const sessionSelection = useSelector((state) => state.sessionSelection);
 
 	useEffect(() => {
 		setChecked(checkedTickets.some((t) => t.event_ticket_id === ticketData.event_ticket_id));
@@ -74,7 +75,12 @@ function SeatButton({
 					if (!isChecked) {
 						dispatch(addCheckedTicket({ ticket: ticketData! }));
 						handleTicketAction(ticketData!.event_ticket_id, "add");
-						const sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						let sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						if (sessionSelectionFromStorage === null) {
+							localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
+							sessionSelectionFromStorage = sessionSelection;
+						}
+						console.log("sessionSelectionFromStorage", sessionSelectionFromStorage);
 						sessionSelectionFromStorage.checkedTickets.push(ticketData);
 						console.log("We wanna add to local storage ticket: ", ticketData);
 						console.log("new state of sessionSelectionFromStorage", sessionSelectionFromStorage);
@@ -82,7 +88,11 @@ function SeatButton({
 					} else {
 						dispatch(removeCheckedTicket({ ticket: ticketData! }));
 						handleTicketAction(ticketData!.event_ticket_id, "delete");
-						const sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						let sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
+						if (sessionSelectionFromStorage === null) {
+							localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
+							sessionSelectionFromStorage = sessionSelection;
+						}
 						sessionSelectionFromStorage.checkedTickets = sessionSelectionFromStorage.checkedTickets.filter(
 							(ticket: any) => ticket.event_ticket_id !== ticketData.event_ticket_id
 						);
