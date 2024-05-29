@@ -1,3 +1,5 @@
+import { Event } from "@/redux/getFilmView/types/IGetFilmView";
+
 interface Genre {
 	id: number;
 	name: string;
@@ -37,6 +39,7 @@ export interface Movie {
 	duration: string;
 	price_from: number;
 	description: string;
+	events: Event[];
 }
 
 export interface Filter {

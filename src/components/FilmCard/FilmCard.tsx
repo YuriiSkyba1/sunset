@@ -1,7 +1,10 @@
 import Image from "next/image";
-import FilmPoster from "@/assets/films-section/joker-poster.jpg";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+// import Link from "next/link";
+import { MovieSchedule } from "../FilmsList/FilmsList";
+import FilmCardSelectDropdown from "../FilmCardSelectDropdown/FilmCardSelectDropdown";
+import { compose } from "@reduxjs/toolkit";
 
 interface IFilmCard {
 	slug: string;
@@ -16,17 +19,33 @@ interface IFilmCard {
 	duration: string;
 	price_form: number;
 	description: string;
+	movieSchedule: MovieSchedule;
 }
 
-function FilmCard({ title, poster, slug }: IFilmCard) {
+function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
+	const router = useRouter();
 	const [isHovered, setIsHovered] = useState<boolean>(false);
+	const [selectedDate, setSelectedDate] = useState<string>("");
+	const [selectedTime, setSelectedTime] = useState<string>("");
+
+	console.log("Movie Schedule From Card", title, " : ", movieSchedule);
+	console.log("movieSchedule[title]", movieSchedule);
+
+	console.log("selectedDate", selectedDate);
+
+	const filterNeededTime = (selectedDate: string) => {
+		if (movieSchedule.hasOwnProperty(selectedDate)) {
+			return movieSchedule[selectedDate];
+		} else return [""];
+	};
 
 	return (
-		<Link href={`/location/${slug}`}>
+		<div onClick={() => router.push(`/location/${slug}`)}>
 			<div
 				className="w-full desktop:max-w-[312px] h-full desktop:relative desktop:overflow-hidden "
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
+				style={{ cursor: isHovered ? "pointer" : "default" }}
 			>
 				<div
 					className={` desktop:relative h-full flex flex-col items-stretch ${
@@ -49,8 +68,21 @@ function FilmCard({ title, poster, slug }: IFilmCard) {
 						<div className="uppercase font-druk_wide text-[10px] leading-4 desktop:text-[14px] desktop:leading-5">
 							{title}
 						</div>
-						<div className="flex flex-col gap-2 desktop:flex-row desktop:justify-between">
-							<div>
+						{movieSchedule && (
+							<div className="flex flex-col gap-2 desktop:flex-row desktop:justify-between">
+								<FilmCardSelectDropdown
+									selectedItem={selectedDate}
+									setSelectedItem={setSelectedDate}
+									arrayData={Object.keys(movieSchedule).map((key) => key)}
+									label="Date"
+								/>
+								<FilmCardSelectDropdown
+									selectedItem={selectedTime}
+									setSelectedItem={setSelectedTime}
+									arrayData={selectedDate !== "" ? filterNeededTime(selectedDate) : [""]}
+									label="Time"
+								/>
+								{/* <div>
 								<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
 									Date:
 								</p>
@@ -65,8 +97,9 @@ function FilmCard({ title, poster, slug }: IFilmCard) {
 								<p className="font-gotham_pro_bold text-xs leading-3 bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px] ">
 									19 : 00
 								</p>
+							</div> */}
 							</div>
-						</div>
+						)}
 					</div>
 					<button className="desktop:hidden uppercase font-druk_wide w-full border text-[10px] leading-3 border-black_main bg-primary text-black_main max-h-10 py-[14px]">
 						buy a ticket
@@ -85,7 +118,7 @@ function FilmCard({ title, poster, slug }: IFilmCard) {
 					buy a ticket
 				</button>
 			</div>
-		</Link>
+		</div>
 	);
 }
 

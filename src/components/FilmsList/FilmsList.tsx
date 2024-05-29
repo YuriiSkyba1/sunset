@@ -4,8 +4,37 @@ import FilmCard from "../FilmCard/FilmCard";
 import FilmsPagination from "../FilmsPagination/FilmsPagination";
 import FilterBar from "../FilterBar/FilterBar";
 
+interface MoviesSchedule {
+	[movieTitle: string]: MovieSchedule;
+}
+
+export interface MovieSchedule {
+	[date: string]: string[];
+}
+
 function FilmsList() {
 	const movies = useSelector((state) => state.genres.movies);
+
+	const allMovies = useSelector((state) => state.locationView.success?.movies?.movies);
+
+	const moviesSchedule: MoviesSchedule = {};
+
+	allMovies?.forEach((event) => {
+		const { title, events } = event;
+		if (!moviesSchedule[title]) {
+			moviesSchedule[title] = {};
+		}
+		events.forEach((event) => {
+			const date = event.start_date.split(" ")[0];
+			const time = event.start_date.split(" ")[1];
+			if (!moviesSchedule[title][date]) {
+				moviesSchedule[title][date] = [];
+			}
+			moviesSchedule[title][date].push(time);
+		});
+	});
+
+	console.log("MovieSchedule", moviesSchedule);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [filmsPerPage, setFilmsPerPage] = useState<number>(12);
@@ -36,6 +65,7 @@ function FilmsList() {
 						duration={movie.duration}
 						price_form={movie.price_from}
 						description={movie.description}
+						movieSchedule={moviesSchedule.hasOwnProperty(movie.title) ? moviesSchedule[movie.title] : {}}
 					/>
 				))}
 			</div>

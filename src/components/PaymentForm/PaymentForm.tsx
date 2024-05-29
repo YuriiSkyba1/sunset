@@ -32,7 +32,7 @@ const CustomInput: React.FC<InputProps> = ({ field, form: { touched, errors }, l
 		<input
 			{...field}
 			placeholder={placeholder}
-			className=" font-gotham_pro_bold text-[16px] leading-6 border border-[#DFDDE3] pt-7 pl-3 pb-3 w-full"
+			className=" font-gotham_pro_bold text-[16px] leading-6 border border-[#DFDDE3] pt-7 pl-3 pb-3 w-full "
 		/>
 		{touched[field.name] && errors[field.name] && <div style={{ color: "red" }}>{errors[field.name]}</div>}
 	</div>

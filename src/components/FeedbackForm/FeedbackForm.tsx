@@ -52,7 +52,7 @@ function FeedbackForm() {
 								component="input"
 								id="name"
 								name="name"
-								className="w-full border p-3 py-[11px] border-black_main leading-5"
+								className="w-full border p-3 py-[11px] border-black_main leading-5 font-gotham_pro_medium"
 								placeholder="Name*"
 							></Field>
 							<ErrorMessage name="name" component={TextErrorMessage} />
@@ -63,7 +63,7 @@ function FeedbackForm() {
 									component="input"
 									id="phone"
 									name="phone"
-									className="w-full p-3 py-[11px] border border-black_main leading-5"
+									className="w-full p-3 py-[11px] border border-black_main leading-5 font-gotham_pro_medium"
 									placeholder="Phone number*"
 								></Field>
 								<ErrorMessage name="phone" component={TextErrorMessage} />
@@ -74,7 +74,7 @@ function FeedbackForm() {
 									type="email"
 									id="email"
 									name="email"
-									className="w-full p-3 py-[11px] border border-black_main leading-5"
+									className="w-full p-3 py-[11px] border border-black_main leading-5 font-gotham_pro_medium"
 									placeholder="E-mail"
 								></Field>
 								<ErrorMessage name="email" component={TextErrorMessage} />
@@ -86,7 +86,7 @@ function FeedbackForm() {
 								type="message"
 								id="message"
 								name="message"
-								className="w-full border p-3 pb-7 leading-5 border-black_main resize-none desktop:pb-16"
+								className="w-full border p-3 pb-7 leading-5 border-black_main resize-none desktop:pb-16 font-gotham_pro_medium"
 								placeholder="Text your message"
 							></Field>
 							<ErrorMessage name="message" component={TextErrorMessage} />

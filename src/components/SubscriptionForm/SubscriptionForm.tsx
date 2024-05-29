@@ -31,7 +31,7 @@ function SubscriptionForm() {
 								type="email"
 								id="email"
 								name="email"
-								className="max-desktop:h-[34px] w-[] desktop:w-full pl-3 py-3 border border-grey_medium mr-2"
+								className="max-desktop:h-[34px] w-[] desktop:w-full pl-3 py-3 border border-grey_medium mr-2 font-gotham_pro_regular"
 								placeholder="E-mail"
 							></Field>
 							<div className="hidden desktop:block">

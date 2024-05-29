@@ -48,6 +48,7 @@ function CustomDatePickerDesktop() {
 			}
 			dateFormat="dd-MM-yyyy"
 			disabledKeyboardNavigation
+			calendarClassName="z-50"
 		/>
 	);
 }
