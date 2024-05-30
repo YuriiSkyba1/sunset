@@ -50,11 +50,11 @@ const SessionSelection: React.FC = () => {
 	}, [selectedDataStore.time]);
 
 	const findMaxRow = useMemo(() => {
-		return availableTickets.reduce((maxRow, ticket) => Math.max(maxRow, ticket.row), 0);
+		return availableTickets?.reduce((maxRow, ticket) => Math.max(maxRow, ticket.row), 0);
 	}, [availableTickets]);
 
 	const findMaxSeat = useMemo(() => {
-		return availableTickets.reduce((maxSeat, ticket) => Math.max(maxSeat, ticket.seat), 0);
+		return availableTickets?.reduce((maxSeat, ticket) => Math.max(maxSeat, ticket.seat), 0);
 	}, [availableTickets]);
 
 	const seats = useMemo(() => {
@@ -72,14 +72,14 @@ const SessionSelection: React.FC = () => {
 		for (let rowIndex = 1; rowIndex <= maxRows; rowIndex++) {
 			const rowSeats: JSX.Element[] = [];
 			for (let seatIndex = 1; seatIndex <= maxSeatsPerRow; seatIndex++) {
-				const ticket = availableTickets.find((ticket) => ticket.row === rowIndex && ticket.seat === seatIndex);
+				const ticket = availableTickets?.find((ticket) => ticket.row === rowIndex && ticket.seat === seatIndex);
 
 				if (!ticket) {
-					rowSeats.push(<div className="w-[20px] h-[20px]"></div>);
+					rowSeats.push(<div key={seatIndex} className="w-[20px] h-[20px]"></div>);
 					continue;
 				}
 
-				if (ticket && checkedTickets.includes(ticket)) {
+				if (ticket && checkedTickets?.includes(ticket)) {
 					rowSeats.push(
 						<SeatButton
 							key={seatIndex}
@@ -90,7 +90,7 @@ const SessionSelection: React.FC = () => {
 						/>
 					);
 				}
-				if (ticket && !checkedTickets.includes(ticket)) {
+				if (ticket && !checkedTickets?.includes(ticket)) {
 					rowSeats.push(
 						<SeatButton
 							key={seatIndex}
@@ -103,7 +103,7 @@ const SessionSelection: React.FC = () => {
 				}
 			}
 			rows.push(
-				<div key={rowIndex} className="flex justify-around pb-4">
+				<div key={`${rowIndex}${rowSeats}`} className="flex justify-around pb-4">
 					{rowSeats}
 				</div>
 			);
@@ -143,7 +143,7 @@ const SessionSelection: React.FC = () => {
 			<div className="pb-[20px] border-b border-grey_medium">
 				<div className="flex flex-col gap-2">
 					{tickets.map((ticket) => (
-						<div className="flex gap-3">
+						<div key={ticket.event_ticket_id} className="flex gap-3">
 							<div>
 								<div className="uppercase font-druk_wide text-[10px] leading-[10px] desktop:text-[12px] desktop:leading-[18px]">
 									ROW:
