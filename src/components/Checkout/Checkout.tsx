@@ -99,7 +99,7 @@ function Checkout() {
 				);
 
 				if (!ticket) {
-					rowSeats.push(<div className="w-[20px] h-[20px]"></div>);
+					rowSeats.push(<div key={seatIndex} className="w-[20px] h-[20px]"></div>);
 					continue;
 				}
 
@@ -127,7 +127,7 @@ function Checkout() {
 				}
 			}
 			rows.push(
-				<div key={rowIndex} className="flex justify-around pb-4">
+				<div key={`${rowIndex}${rowSeats}`} className="flex justify-around pb-4">
 					{rowSeats}
 				</div>
 			);

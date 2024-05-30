@@ -24,33 +24,26 @@ interface IFilmCard {
 
 function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
 	const router = useRouter();
-	const [isHovered, setIsHovered] = useState<boolean>(false);
-	const [selectedDate, setSelectedDate] = useState<string>("");
-	const [selectedTime, setSelectedTime] = useState<string>("");
-
-	console.log("Movie Schedule From Card", title, " : ", movieSchedule);
-	console.log("movieSchedule[title]", movieSchedule);
-
-	console.log("selectedDate", selectedDate);
+	const [isHovered, setIsHovered] = useState(false);
+	const [selectedDate, setSelectedDate] = useState("");
+	const [selectedTime, setSelectedTime] = useState("");
 
 	const filterNeededTime = (selectedDate: string) => {
-		if (movieSchedule.hasOwnProperty(selectedDate)) {
-			return movieSchedule[selectedDate];
-		} else return [""];
+		return movieSchedule.hasOwnProperty(selectedDate) ? movieSchedule[selectedDate] : [""];
 	};
 
 	return (
 		<div onClick={() => router.push(`/location/${slug}`)}>
 			<div
-				className="w-full desktop:max-w-[312px] h-full desktop:relative desktop:overflow-hidden "
+				className="w-full desktop:max-w-[312px] h-full desktop:relative desktop:overflow-hidden"
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 				style={{ cursor: isHovered ? "pointer" : "default" }}
 			>
 				<div
-					className={` desktop:relative h-full flex flex-col items-stretch ${
+					className={`desktop:relative h-full flex flex-col items-stretch ${
 						isHovered ? "-top-[50px]" : "top-0"
-					} left-0 overflow-hidden `}
+					} left-0 overflow-hidden`}
 					style={{ transition: "top 0.2s ease-in-out" }}
 				>
 					<div className="flex-1">
@@ -60,44 +53,30 @@ function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
 							width={168}
 							height={200}
 							layout="responsive"
-							unoptimized={true}
+							unoptimized
 							loading="lazy"
 						/>
 					</div>
-					<div className="p-[10px] gap-3 flex flex-1 flex-col justify-between border border-grey_medium desktop:gap-4 desktop:p-6 ">
+					<div className="p-[10px] gap-3 flex flex-1 flex-col justify-between border border-grey_medium desktop:gap-4 desktop:p-6">
 						<div className="uppercase font-druk_wide text-[10px] leading-4 desktop:text-[14px] desktop:leading-5">
 							{title}
 						</div>
 						{movieSchedule && (
 							<div className="flex flex-col gap-2 desktop:flex-row desktop:justify-between">
 								<FilmCardSelectDropdown
+									isHovered={isHovered}
 									selectedItem={selectedDate}
 									setSelectedItem={setSelectedDate}
 									arrayData={Object.keys(movieSchedule).map((key) => key)}
 									label="Date"
 								/>
 								<FilmCardSelectDropdown
+									isHovered={isHovered}
 									selectedItem={selectedTime}
 									setSelectedItem={setSelectedTime}
 									arrayData={selectedDate !== "" ? filterNeededTime(selectedDate) : [""]}
 									label="Time"
 								/>
-								{/* <div>
-								<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
-									Date:
-								</p>
-								<p className="font-gotham_pro_bold text-xs leading-3 bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px]">
-									Mon, 2 November
-								</p>
-							</div>
-							<div className="w-fit">
-								<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
-									Time:
-								</p>
-								<p className="font-gotham_pro_bold text-xs leading-3 bg-addition px-2 py-1 desktop:px-2 desktop:text-[16px] desktop:leading-[22px] ">
-									19 : 00
-								</p>
-							</div> */}
 							</div>
 						)}
 					</div>
@@ -105,13 +84,12 @@ function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
 						buy a ticket
 					</button>
 				</div>
-
 				<button
 					className={`max-desktop:hidden uppercase font-druk_wide w-full border-black_main bg-primary text-black_main desktop:text-white desktop:text-xs desktop:leading-[18px] 
-    							desktop:absolute bottom-0 left-0 ${
+                                desktop:absolute bottom-0 left-0 ${
 									isHovered
 										? "h-[50px] desktop:py-[13px] border"
-										: "h-[0px]  desktop:py-[0px] border-none"
+										: "h-[0px] desktop:py-[0px] border-none"
 								}`}
 					style={{ transition: "height 0.2s ease-in-out, padding 0.2s ease-in-out, border 0.2s ease-in-out" }}
 				>
