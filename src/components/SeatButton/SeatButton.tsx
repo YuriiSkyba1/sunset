@@ -78,12 +78,18 @@ function SeatButton({
 						let sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
 						if (sessionSelectionFromStorage === null) {
 							localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
-							sessionSelectionFromStorage = sessionSelection;
+							sessionSelectionFromStorage = { ...sessionSelection };
 						}
-						console.log("sessionSelectionFromStorage", sessionSelectionFromStorage);
+						if (
+							Object.isFrozen(sessionSelectionFromStorage.checkedTickets) ||
+							Object.isSealed(sessionSelectionFromStorage.checkedTickets)
+						) {
+							sessionSelectionFromStorage.checkedTickets = [
+								...sessionSelectionFromStorage.checkedTickets,
+							];
+						}
 						sessionSelectionFromStorage.checkedTickets.push(ticketData);
-						console.log("We wanna add to local storage ticket: ", ticketData);
-						console.log("new state of sessionSelectionFromStorage", sessionSelectionFromStorage);
+
 						localStorage.setItem("sessionSelection", JSON.stringify(sessionSelectionFromStorage));
 					} else {
 						dispatch(removeCheckedTicket({ ticket: ticketData! }));
@@ -91,7 +97,15 @@ function SeatButton({
 						let sessionSelectionFromStorage = JSON.parse(localStorage.getItem("sessionSelection")!);
 						if (sessionSelectionFromStorage === null) {
 							localStorage.setItem("sessionSelection", JSON.stringify(sessionSelection));
-							sessionSelectionFromStorage = sessionSelection;
+							sessionSelectionFromStorage = { ...sessionSelection };
+						}
+						if (
+							Object.isFrozen(sessionSelectionFromStorage.checkedTickets) ||
+							Object.isSealed(sessionSelectionFromStorage.checkedTickets)
+						) {
+							sessionSelectionFromStorage.checkedTickets = [
+								...sessionSelectionFromStorage.checkedTickets,
+							];
 						}
 						sessionSelectionFromStorage.checkedTickets = sessionSelectionFromStorage.checkedTickets.filter(
 							(ticket: any) => ticket.event_ticket_id !== ticketData.event_ticket_id

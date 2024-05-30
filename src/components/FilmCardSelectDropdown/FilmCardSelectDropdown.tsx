@@ -1,47 +1,78 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { MovieSchedule } from "../FilmsList/FilmsList";
+import ReactDOM from "react-dom";
 
 function FilmCardSelectDropdown({
 	selectedItem,
 	setSelectedItem,
 	arrayData,
 	label,
+	isHovered,
 }: {
 	selectedItem: string;
 	setSelectedItem: Dispatch<SetStateAction<string>>;
 	arrayData: string[];
 	label: string;
+	isHovered: boolean;
 }) {
-	const handleOnChange = (value: string) => {
+	const [isOpen, setIsOpen] = useState(false);
+	const [selectedValue, setSelectedValue] = useState("");
+	const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+	const handleSelect = (value: string) => {
+		setSelectedValue(value);
+		setIsOpen(false);
 		setSelectedItem(value);
 	};
 
+	useEffect(() => {
+		if (!isHovered) {
+			setIsOpen(false);
+		}
+	}, [isHovered]);
+
+	const getDropdownPosition = () => {
+		if (dropdownRef.current) {
+			const rect = dropdownRef.current.getBoundingClientRect();
+			return {
+				top: rect.bottom + window.scrollY,
+				left: rect.left + window.scrollX,
+				width: rect.width,
+			};
+		}
+		return { top: 0, left: 0, width: 0 };
+	};
+
+	const dropdownMenu = isOpen && isHovered && (
+		<ul
+			className="absolute max-h-[120px] overflow-auto border border-[#cccccc] rounded-lg bg-white z-20"
+			style={{
+				top: getDropdownPosition().top,
+				left: getDropdownPosition().left,
+				width: getDropdownPosition().width,
+			}}
+		>
+			{arrayData.map((key, index) => (
+				<li
+					key={index}
+					className="pl-2 py-[10px] uppercase font-gotham_pro_bold cursor-pointer hover:bg-gray-200"
+					onClick={() => handleSelect(key)}
+				>
+					{key}
+				</li>
+			))}
+		</ul>
+	);
+
 	return (
-		<div className="w-full desktop:max-w-[136px] max-w-[152px]" onClick={(e) => e.stopPropagation()}>
-			<p className="font-gotham_pro_regular text-xs leading-3 p-2 desktop:text-[16px] desktop:leading-[22px]">
-				{label}
-			</p>
-			<select
+		<div className="relative w-full" ref={dropdownRef} onClick={(e) => e.stopPropagation()}>
+			<button
 				className="w-full desktop:max-w-[136px] max-w-[152px] border border-[#cccccc] rounded-lg pl-2 py-[10px] uppercase font-gotham_pro_bold text-[12px] leading-[14px]"
-				onChange={(e) => handleOnChange(e.target.value)}
+				onClick={() => setIsOpen(!isOpen)}
 			>
-				<option value="" className="pl-2 py-[10px] uppercase font-gotham_pro_bold">
-					{label}
-				</option>
-				{arrayData &&
-					arrayData.map((key, index) => (
-						<option
-							key={index}
-							onClick={(e) => {
-								console.log("Event", e);
-							}}
-							value={key}
-							className="pl-2 py-[10px] uppercase font-gotham_pro_bold"
-						>
-							{key}
-						</option>
-					))}
-			</select>
+				{selectedValue || label}
+			</button>
+			{isOpen && ReactDOM.createPortal(dropdownMenu, document.body)}
 		</div>
 	);
 }
