@@ -5,8 +5,7 @@ import DateSessionCard from "../DateSessionCard/DateSessionCard";
 import { EventTicket } from "@/redux/getFilmView/types/IGetFilmView";
 import SeatButton from "../SeatButton/SeatButton";
 import AskRegisterModal from "../AskRegisterModal/AskRegisterModal";
-import sessionSelection, {
-	setAvailableDates,
+import {
 	setAvailableTickets,
 	setUniquePriceColorPairs,
 	handleDateChange,
@@ -15,10 +14,10 @@ import sessionSelection, {
 	removeAllCheckedTickets,
 	removeAllCheckedStoreItems,
 } from "@/redux/sessionSelection/sessionSelection";
-import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
-import { move } from "formik";
+import { useSearchParams } from "next/navigation";
 
 const SessionSelection: React.FC = () => {
+	const searchParams = useSearchParams();
 	const dispatch = useDispatch();
 	const locations = useSelector((state) => state.filmView.success?.locations);
 	const movie = useSelector((state) => state.filmView.success?.movie);
@@ -34,7 +33,25 @@ const SessionSelection: React.FC = () => {
 	const [isRegisterOpen, setRegisterOpen] = useState(false);
 
 	useEffect(() => {
-		// dispatch(setAvailableDates({ locations: locations!, events: events! }));
+		const preselectedDate = searchParams?.get("selectedDate");
+		const preselectedTime = searchParams?.get("selectedTime");
+		console.log("preselectedDate", preselectedDate);
+		console.log("preselectedTime", preselectedTime);
+
+		if (preselectedDate && preselectedTime && locations && events) {
+			dispatch(
+				setFirstValues({
+					locations: locations,
+					events: events,
+					selectedData: preselectedDate,
+					selectedTime: preselectedTime,
+				})
+			);
+			dispatch(removeAllCheckedTickets());
+			dispatch(removeAllCheckedStoreItems());
+			return;
+		}
+
 		if (locations && events) {
 			dispatch(setFirstValues({ locations: locations, events: events }));
 			dispatch(removeAllCheckedTickets());
@@ -228,7 +245,7 @@ const SessionSelection: React.FC = () => {
 						</div>
 						{checkedTicketsAdaptive()}
 
-						{availableTickets.length > 0 && (
+						{availableTickets?.length > 0 && (
 							<div className="border border-grey_medium mt-2 flex flex-wrap justify-evenly gap-3 px-[22px] py-3">
 								{uniquePriceColorPairs.length > 1 &&
 									uniquePriceColorPairs.map((pair) => (

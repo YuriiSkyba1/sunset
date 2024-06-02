@@ -36,11 +36,11 @@ const getLocationsListSlice = createSlice({
 		builder
 			.addCase(getLocationsList.pending, (state) => {
 				state.loading = true;
+				state.error = null;
 			})
 			.addCase(getLocationsList.fulfilled, (state, action) => {
 				state.loading = false;
 				state.success = action.payload;
-				state.error = null;
 			})
 			.addCase(getLocationsList.rejected, (state, action) => {
 				state.loading = false;

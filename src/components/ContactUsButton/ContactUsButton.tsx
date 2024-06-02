@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import ContactUsForm from "../ContactUsForm/ContactUsForm";
 import ContactUsModal from "../ContactUsModal/ContactUsModal";
+import ThankYouPopUp from "../ThankYouPopUp/ThankYouPopUp";
 
 function ContactUsButton({ style, width }: { style: "primary" | "black"; width?: "350px" | "200px" }) {
 	const [modalActive, setModalActive] = useState<boolean>(false);
+	const [thankActive, setThankActive] = useState<boolean>(false);
 
 	function handleOnClick() {
 		setModalActive(true);
@@ -17,12 +18,18 @@ function ContactUsButton({ style, width }: { style: "primary" | "black"; width?:
 				<button
 					onClick={handleOnClick}
 					className={
-						"px-8 py-3 text-[12px] leading-18 bg-primary text-black_main font-druk_wide text-[12px] leading-[18px]"
+						"px-8 py-3 leading-18 bg-primary text-black_main font-druk_wide text-[12px] leading-[18px]"
 					}
 				>
 					CONTACT US
 				</button>
-				<ContactUsModal active={modalActive} setActive={setModalActive} />
+				<ContactUsModal
+					active={modalActive}
+					setActive={setModalActive}
+					activeThank={thankActive}
+					setActiveThank={setThankActive}
+				/>
+				<ThankYouPopUp isOpenThank={thankActive} setOpenThank={setThankActive} />
 			</div>
 		);
 	}
@@ -36,7 +43,13 @@ function ContactUsButton({ style, width }: { style: "primary" | "black"; width?:
 				>
 					CONTACT US
 				</button>
-				<ContactUsModal active={modalActive} setActive={setModalActive} />
+				<ContactUsModal
+					active={modalActive}
+					setActive={setModalActive}
+					activeThank={thankActive}
+					setActiveThank={setThankActive}
+				/>
+				<ThankYouPopUp isOpenThank={thankActive} setOpenThank={setThankActive} />
 			</div>
 		);
 	}
@@ -50,7 +63,13 @@ function ContactUsButton({ style, width }: { style: "primary" | "black"; width?:
 				>
 					CONTACT US
 				</button>
-				<ContactUsModal active={modalActive} setActive={setModalActive} />
+				<ContactUsModal
+					active={modalActive}
+					setActive={setModalActive}
+					activeThank={thankActive}
+					setActiveThank={setThankActive}
+				/>
+				<ThankYouPopUp isOpenThank={thankActive} setOpenThank={setThankActive} />
 			</div>
 		);
 	}

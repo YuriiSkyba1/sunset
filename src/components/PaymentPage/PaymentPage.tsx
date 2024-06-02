@@ -20,8 +20,14 @@ function PaymentPage() {
 
 	useEffect(() => {
 		if (!filmView.success) {
-			const filmViewFromStorage = JSON.parse(localStorage.getItem("filmView")!);
-			dispatch(updateFilmViewFromStorage(filmViewFromStorage));
+			const filmViewFromStorage = localStorage.getItem("filmView");
+
+			if (filmViewFromStorage) {
+				const parsedData = JSON.parse(filmViewFromStorage);
+				dispatch(updateFilmViewFromStorage(parsedData));
+			} else {
+				router.push("/location");
+			}
 		}
 	}, []);
 
@@ -86,16 +92,18 @@ function PaymentPage() {
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
 			{() => (
 				<Form>
-					<div className="flex flex-col desktop:flex-row desktop:gap-[136px] gap-8 max-desktop:items-center px-[14px] desktop:px-[60px] max-desktop:mt-8 max-desktop:mb-10 desktop:mb-[104px]">
+					<div>
 						{filmView.success && (
-							<div className="w-full max-w-[348px] desktop:min-w-[760px] ">
-								<PaymentPageAboutFilmSection />
-								<div className="flex justify-end">
-									<PaymentForm />
+							<div className="flex flex-col desktop:flex-row desktop:gap-[136px] gap-8 max-desktop:items-center px-[14px] desktop:px-[60px] max-desktop:mt-8 max-desktop:mb-10 desktop:mb-[104px]">
+								<div className="w-full max-w-[348px] desktop:min-w-[760px] ">
+									<PaymentPageAboutFilmSection />
+									<div className="flex justify-end">
+										<PaymentForm />
+									</div>
 								</div>
+								<PaymentPageRightSide />
 							</div>
 						)}
-						<PaymentPageRightSide />
 					</div>
 				</Form>
 			)}

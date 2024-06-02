@@ -25,8 +25,13 @@ function FilmsList() {
 			moviesSchedule[title] = {};
 		}
 		events.forEach((event) => {
-			const date = event.start_date.split(" ")[0];
-			const time = event.start_date.split(" ")[1];
+			const dateObj = new Date(event.start_date);
+			const date = dateObj.toLocaleDateString(); // Format the date
+			const time = dateObj.toLocaleTimeString("en-US", {
+				hour12: false,
+				hour: "2-digit",
+				minute: "2-digit",
+			}); // Format the time
 			if (!moviesSchedule[title][date]) {
 				moviesSchedule[title][date] = [];
 			}

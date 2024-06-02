@@ -26,7 +26,7 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks, email }: IPayme
 						onClick={(e) => {
 							e.stopPropagation();
 						}}
-						className="bg-white w-full max-w-[375px] desktop:w-[872px] relative pt-[60px] pb-11 px-6 desktop:py-20 desktop:px-10 max-desktop:mx-3"
+						className="bg-white w-full max-w-[375px] desktop:max-w-[872px] relative pt-[60px] pb-11 px-6 desktop:py-20 desktop:px-10 max-desktop:mx-3"
 					>
 						<button onClick={closeModal} className=" absolute right-6 top-6">
 							<Image src={CloseIcon} alt="CloseIcon"></Image>
@@ -49,12 +49,12 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks, email }: IPayme
 									</span>
 								</div>
 							</div>
-							<div className="flex flex-col gap-3">
+							<div className="flex flex-col justify-center items-center gap-3">
 								<Link href={"/"}>
 									<button
 										className="bg-primary font-druk_wide  text-black_main text-[14px] py-4 
 							max-desktop:w-[300px]
-							desktop:px-[33px] desktop:mt-2 uppercase mr-3"
+							desktop:px-[33px] desktop uppercase "
 									>
 										back to homepage
 									</button>
@@ -68,7 +68,7 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks, email }: IPayme
 											target="_blank"
 											className="font-druk_wide text-center uppercase text-[14px] leading-5 underline mb-2"
 										>
-											Download Ticket {index + 1}
+											Download PDF Ticket {index + 1}
 										</a>
 									))
 								) : (
@@ -78,7 +78,7 @@ function PaymentSuccessPopUp({ active, setActive, downloadLinks, email }: IPayme
 										target="_blank"
 										className="font-druk_wide uppercase text-[14px] leading-5 underline"
 									>
-										Download Ticket
+										Download PDF Ticket
 									</a>
 								)}
 							</div>

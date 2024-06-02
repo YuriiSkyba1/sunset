@@ -44,6 +44,9 @@ export default function SuccessPage() {
 			});
 
 			if (!response.ok) {
+				setDownloadLinks([]);
+				setEmail("dummyemail@email.com");
+				setOpenSuccess(true);
 				throw new Error(`HTTP error! status: ${response.status}`);
 			} else {
 				const data = await response.json();

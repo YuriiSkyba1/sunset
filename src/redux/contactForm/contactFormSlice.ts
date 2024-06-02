@@ -19,7 +19,7 @@ export const submitContactForm = createAsyncThunk(
 	"contactForm/submit",
 	async (formData: SendData, { rejectWithValue }) => {
 		try {
-			await apiClient.post('en/contact-us', formData);
+			const response = await apiClient.post("en/contact-us", formData);
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response) {
 				return rejectWithValue(error.response.data);
