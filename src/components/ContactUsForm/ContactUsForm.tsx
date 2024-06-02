@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 import _debounce from "lodash.debounce";
 import React from "react";
 import "react-phone-number-input/style.css";
+import { escape } from "querystring";
 
 export interface SendData {
 	name: string;
@@ -27,7 +28,19 @@ export interface ErrorResponse {
 	};
 }
 
-function ContactUsForm() {
+interface ContactUsFormInterface {
+	activeContactUsModal: boolean;
+	setActiveContactUsModal: React.Dispatch<React.SetStateAction<boolean>>;
+	activeThank: boolean;
+	setActiveThank: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function ContactUsForm({
+	activeContactUsModal,
+	setActiveContactUsModal,
+	activeThank,
+	setActiveThank,
+}: ContactUsFormInterface) {
 	const dispatch = useDispatch();
 	const [phoneInputValue, setPhoneInputValue] = useState("");
 
@@ -36,6 +49,7 @@ function ContactUsForm() {
 	const handleSubmit = async (values: SendData, { setErrors }: FormikHelpers<SendData>) => {
 		try {
 			const response = await dispatch(submitContactForm(values));
+
 			if (response.payload !== undefined) {
 				const errorPayload = response.payload as ErrorResponse;
 
@@ -43,6 +57,9 @@ function ContactUsForm() {
 					Object.entries(errorPayload.errors).map(([key, value]) => [key, value?.[0]])
 				);
 				setErrors(formattedErrors);
+			} else {
+				setActiveContactUsModal(false);
+				setActiveThank(true);
 			}
 		} catch (error) {
 			throw error;

@@ -1,11 +1,13 @@
+"use client";
+
+import React, { useEffect } from "react";
 import BreadCrumbsPayment from "@/components/BreadCrumbsPayment/BreadCrumbsPayment";
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentPage from "@/components/PaymentPage/PaymentPage";
-import React from "react";
 
-export default function page() {
+const page: React.FC = () => {
 	return (
-		<div>
+		<div className="w-full">
 			<HeaderCheckout />
 			<div className="w-full max-w-[375px] desktop:w-full desktop:max-w-[1440px] m-auto">
 				<BreadCrumbsPayment />
@@ -13,4 +15,6 @@ export default function page() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default page;

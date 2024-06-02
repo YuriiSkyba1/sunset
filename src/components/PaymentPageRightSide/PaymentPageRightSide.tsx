@@ -9,6 +9,7 @@ import Image from "next/image";
 import _debounce from "lodash.debounce";
 import { addResponse } from "@/redux/cartResponsesSlice/cartResponsesSlice";
 import { useFormikContext } from "formik";
+import { number } from "yup";
 
 function PaymentPageRightSide() {
 	const dispatch = useDispatch();
@@ -29,11 +30,16 @@ function PaymentPageRightSide() {
 
 			dispatch(addResponse(cartResponsesFromStorage));
 		}
+		const getTimeLeftFromStorage = localStorage.getItem("timeLeft");
+		if (getTimeLeftFromStorage) {
+			setTimeLeft(JSON.parse(getTimeLeftFromStorage));
+		}
 	}, []);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setTimeLeft((prevTime) => prevTime - 1);
+			localStorage.setItem("timeLeft", JSON.stringify(timeLeft - 1));
 		}, 1000);
 
 		return () => clearTimeout(timer);
@@ -42,6 +48,7 @@ function PaymentPageRightSide() {
 	useEffect(() => {
 		if (timeLeft === 0) {
 			router.push("/location");
+			localStorage.removeItem("timeLeft");
 		}
 	}, [timeLeft, router]);
 
