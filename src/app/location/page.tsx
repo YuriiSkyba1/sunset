@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "@/hooks";
 import { useEffect } from "react";
 import { getView } from "@/redux/getLocationsView/getLocationsViewSlice";
 import MainScreen from "@/components/MainScreen/MainScreen";
 import AboutLocation from "@/components/AboutLocation/AboutLocation";
+import { getAllData } from "@/redux/getData/getDataSlice";
 import Faq from "@/components/FAQ/Faq";
 import ContactsSection from "@/components/ContactsSection/ContactsSection";
 import JoinSunsetSection from "@/components/JoinSunsetSection/JoinSunsetSection";
@@ -19,7 +19,8 @@ function TemporaryLocationPage() {
 
 	useEffect(() => {
 		dispatch(getView());
-	}, []);
+		dispatch(getAllData());
+	}, [dispatch]);
 
 	const findFilmsTitles = () => {
 		const filmsTitles: string[] = [];

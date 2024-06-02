@@ -8,9 +8,11 @@ import { useSelector } from "@/hooks";
 interface ContactUsModalInterface {
 	active: boolean;
 	setActive: React.Dispatch<React.SetStateAction<boolean>>;
+	activeThank: boolean;
+	setActiveThank: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ContactUsModal({ active, setActive }: ContactUsModalInterface) {
+function ContactUsModal({ active, setActive, activeThank, setActiveThank }: ContactUsModalInterface) {
 	const closeModal = () => {
 		setActive(false);
 	};
@@ -49,7 +51,12 @@ function ContactUsModal({ active, setActive }: ContactUsModalInterface) {
 									{subtitle}
 								</div>
 							</div>
-							<ContactUsForm />
+							<ContactUsForm
+								activeContactUsModal={active}
+								setActiveContactUsModal={setActive}
+								activeThank={activeThank}
+								setActiveThank={setActiveThank}
+							/>
 						</div>
 					</div>
 				</div>

@@ -3,10 +3,40 @@ import Image from "next/image";
 import Underline from "@/assets/primary_underline.svg";
 import FilmCard from "../FilmCard/FilmCard";
 
+interface MoviesSchedule {
+	[movieTitle: string]: MovieSchedule;
+}
+
+export interface MovieSchedule {
+	[date: string]: string[];
+}
+
 function SeeAlsoSection() {
 	const seeAlso = useSelector((state) => state.filmView.success?.see_also);
 
 	const seeAlsoFilms = seeAlso?.movies.slice(0, 4);
+
+	const moviesSchedule: MoviesSchedule = {};
+
+	seeAlsoFilms?.forEach((event) => {
+		const { title, events } = event;
+		if (!moviesSchedule[title]) {
+			moviesSchedule[title] = {};
+		}
+		events.forEach((event) => {
+			const dateObj = new Date(event.start_date);
+			const date = dateObj.toLocaleDateString(); // Format the date
+			const time = dateObj.toLocaleTimeString("en-US", {
+				hour12: false,
+				hour: "2-digit",
+				minute: "2-digit",
+			}); // Format the time
+			if (!moviesSchedule[title][date]) {
+				moviesSchedule[title][date] = [];
+			}
+			moviesSchedule[title][date].push(time);
+		});
+	});
 
 	return (
 		<div className="px-4 py-10 desktop:px-[60px] desktop:py-20">
@@ -30,8 +60,9 @@ function SeeAlsoSection() {
 						movie_language={movie.movie_language}
 						subtitle_language={movie.subtitle_language}
 						duration={movie.duration}
-						price_form={movie.price_form}
+						price_form={movie.price_from}
 						description={movie.description}
+						movieSchedule={moviesSchedule.hasOwnProperty(movie.title) ? moviesSchedule[movie.title] : {}}
 					/>
 				))}
 			</div>

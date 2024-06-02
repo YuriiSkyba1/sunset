@@ -43,7 +43,15 @@ export const sessionSelectionSlice = createSlice({
 	name: "sessionSelection",
 	initialState,
 	reducers: {
-		setFirstValues: (state, action: PayloadAction<{ locations: Location[]; events: Event[] }>) => {
+		setFirstValues: (
+			state,
+			action: PayloadAction<{
+				locations: Location[];
+				events: Event[];
+				selectedData?: string;
+				selectedTime?: string;
+			}>
+		) => {
 			if (action.payload.locations?.length === 1) {
 				state.selectedData.location = `${action.payload.locations[0].title}`;
 			}
@@ -51,20 +59,49 @@ export const sessionSelectionSlice = createSlice({
 				new Set(action.payload.events!.map((event) => new Date(event.start_date).toLocaleDateString()))
 			);
 			state.availableDates = uniqueDates;
-			state.selectedData.date = state.availableDates[0];
-			const filteredEvents = action.payload.events!.filter(
-				(event) => new Date(event.start_date).toLocaleDateString() === state.availableDates[0]
-			);
-			// Отримуємо години подій для обраної дати
-			const hours = filteredEvents.map((event) =>
-				new Date(event.start_date).toLocaleTimeString("en-US", {
-					hour12: false,
-					hour: "2-digit",
-					minute: "2-digit",
-				})
-			);
-			state.availableHours = hours;
-			state.selectedData.time = state.availableHours[0];
+
+			if (action.payload.selectedData && action.payload.selectedTime) {
+				const indexOfDate = state.availableDates.indexOf(action.payload.selectedData);
+
+				if (indexOfDate >= 0) {
+					state.selectedData.date = state.availableDates[indexOfDate];
+
+					const filteredEvents = action.payload.events!.filter(
+						(event) => new Date(event.start_date).toLocaleDateString() === state.availableDates[indexOfDate]
+					);
+
+					const hours = filteredEvents.map((event) =>
+						new Date(event.start_date).toLocaleTimeString("en-US", {
+							hour12: false,
+							hour: "2-digit",
+							minute: "2-digit",
+						})
+					);
+
+					state.availableHours = hours;
+					const indexOfTime = state.availableHours.indexOf(action.payload.selectedTime);
+
+					console.log("indexOfTime", indexOfTime);
+					if (indexOfTime >= 0) {
+						state.selectedData.time = state.availableHours[indexOfTime];
+					}
+				}
+			} else {
+				state.selectedData.date = state.availableDates[0];
+				const filteredEvents = action.payload.events!.filter(
+					(event) => new Date(event.start_date).toLocaleDateString() === state.availableDates[0]
+				);
+				// Отримуємо години подій для обраної дати
+				const hours = filteredEvents.map((event) =>
+					new Date(event.start_date).toLocaleTimeString("en-US", {
+						hour12: false,
+						hour: "2-digit",
+						minute: "2-digit",
+					})
+				);
+				state.availableHours = hours;
+				state.selectedData.time = state.availableHours[0];
+			}
 		},
 		setAvailableDates: (state, action: PayloadAction<{ locations: Location[]; events: Event[] }>) => {
 			if (action.payload.locations?.length === 1) {

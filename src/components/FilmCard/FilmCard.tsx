@@ -32,8 +32,14 @@ function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
 		return movieSchedule.hasOwnProperty(selectedDate) ? movieSchedule[selectedDate] : [""];
 	};
 
+	console.log("selectedDate", selectedDate);
+
+	const handleOnClick = () => {
+		router.push(`/location/${slug}?selectedDate=${selectedDate}&selectedTime=${selectedTime}`);
+	};
+
 	return (
-		<div onClick={() => router.push(`/location/${slug}`)}>
+		<div onClick={handleOnClick}>
 			<div
 				className="w-full desktop:max-w-[312px] h-full desktop:relative desktop:overflow-hidden"
 				onMouseEnter={() => setIsHovered(true)}
@@ -63,20 +69,27 @@ function FilmCard({ title, poster, slug, movieSchedule }: IFilmCard) {
 						</div>
 						{movieSchedule && (
 							<div className="flex flex-col gap-2 desktop:flex-row desktop:justify-between">
-								<FilmCardSelectDropdown
-									isHovered={isHovered}
-									selectedItem={selectedDate}
-									setSelectedItem={setSelectedDate}
-									arrayData={Object.keys(movieSchedule).map((key) => key)}
-									label="Date"
-								/>
-								<FilmCardSelectDropdown
-									isHovered={isHovered}
-									selectedItem={selectedTime}
-									setSelectedItem={setSelectedTime}
-									arrayData={selectedDate !== "" ? filterNeededTime(selectedDate) : [""]}
-									label="Time"
-								/>
+								<div className="w-full flex flex-col gap-1">
+									<span className="">Date:</span>
+									<FilmCardSelectDropdown
+										isHovered={isHovered}
+										selectedItem={selectedDate}
+										setSelectedItem={setSelectedDate}
+										arrayData={Object.keys(movieSchedule).map((key) => key)}
+										label="Date"
+									/>
+								</div>
+								<div className="w-full flex flex-col gap-1">
+									<span>Time:</span>
+									<FilmCardSelectDropdown
+										isHovered={isHovered}
+										selectedItem={selectedTime}
+										setSelectedItem={setSelectedTime}
+										arrayData={selectedDate !== "" ? filterNeededTime(selectedDate) : [""]}
+										label="Time"
+										isActive={selectedDate === "" ? false : true}
+									/>
+								</div>
 							</div>
 						)}
 					</div>
