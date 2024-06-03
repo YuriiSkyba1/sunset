@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import HeaderCheckout from "@/components/HeaderCheckout/HeaderCheckout";
 import PaymentSuccessPopUp from "@/components/PaymentSuccessPopUp/PaymentSuccessPopUp";
+import { useRouter } from "next/navigation";
 
 export default function SuccessPage() {
 	const [isSuccess, setOpenSuccess] = useState(false);
 	const [orderId, setOrderId] = useState<number>(0);
 	const [downloadLinks, setDownloadLinks] = useState<string[]>([]);
 	const [email, setEmail] = useState<string>("");
+
+	const router = useRouter();
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -30,6 +33,20 @@ export default function SuccessPage() {
 			console.log("Order ID is null, check query parameters and URL formatting");
 		}
 	}, [orderId]);
+
+	useEffect(() => {
+		const handlePopState = (event) => {
+			if (isSuccess) {
+				router.push("/location");
+			}
+		};
+
+		window.addEventListener("popstate", handlePopState);
+
+		return () => {
+			window.removeEventListener("popstate", handlePopState);
+		};
+	}, [isSuccess, router]);
 
 	const handleStatusCheck = async (order_id: number) => {
 		const url = `/api/checkStatus?order_id=${order_id}`;
