@@ -10,7 +10,7 @@ function Select({ options: locations }: { options: Array<Location> }) {
 		<div className="relative">
 			<button onClick={() => setIsOpen(!isOpen)} className="border border-black_main rounded-none p-3 w-full">
 				<div className="flex justify-between font-gotham_pro_regular text-[14px] leading-[20px] text-[#5B5C64]">
-					{locations[0].title}
+					{locations[0]?.title}
 					{locations.length > 1 && (
 						<Image src={Arrow} alt="arrow" className={`${isOpen ? "rotate-180" : ""}`} width={24} />
 					)}

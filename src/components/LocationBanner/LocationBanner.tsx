@@ -14,7 +14,7 @@ import Link from "next/link";
 function LocationBanner({ style }: { style?: string }) {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getLocationsList("FR"));
+		// dispatch(getLocationsList("FR"));
 	}, []);
 	const locationList = useSelector((state) => state.locationList);
 	const [isOpen, setIsOpen] = useState<boolean>(false);

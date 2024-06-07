@@ -36,6 +36,7 @@ export default function SuccessPage() {
 
 	useEffect(() => {
 		const handlePopState = (event) => {
+			console.log('run')
 			if (isSuccess) {
 				router.push("/location");
 			}
