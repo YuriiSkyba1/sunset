@@ -121,7 +121,7 @@ const PaymentForm: React.FC = () => {
 				_debounce((value) => {
 					setPhoneInputValue(value);
 					setFieldValue(field.name, value);
-				}, 1000),
+				}, 6000),
 				[field.name, setFieldValue]
 			);
 
@@ -169,7 +169,7 @@ const PaymentForm: React.FC = () => {
 			<div className="flex flex-col gap-6 mb-6">
 				<h3 className="font-druk_wide text-[18px] leading-6 uppercase">Personal information</h3>
 				<Field name="name" label="Name" component={CustomInput} placeholder="Name" />
-				<Field name="phone" label="Phone" component={CustomPhoneInput} placeholder="Phone" />
+				<Field name="phone" label="Phone" component={CustomPhoneInput} 	placeholder="Phone (include country code)" />
 				<Field name="email" label="Email" component={CustomInput} placeholder="Email" />
 				<div>
 					<label htmlFor="accept_newsletter">
