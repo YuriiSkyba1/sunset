@@ -15,27 +15,35 @@ const initialState: IGetFilmViewState = {
 	success: null,
 };
 
-export const getFilmView = createAsyncThunk("getFilmViewSlice/getFilmView", async (slug: string) => {
-	try {
-		const response = await apiClient.get(`en/movie/${slug}?location=location-title`);
-
-		return response.data;
-	} catch (error) {
-		if (axios.isAxiosError(error) && error.response) {
-			return error.response.data;
+export const getFilmView = createAsyncThunk<IGetFilmView, string, { rejectValue: string }>(
+	"getFilmViewSlice/getFilmView",
+	async (slug: string, { rejectWithValue }) => {
+		try {
+			const response = await apiClient.get(`en/movie/${slug}?location=location-title`);
+			return response.data;
+		} catch (error) {
+			if (axios.isAxiosError(error) && error.response) {
+				return rejectWithValue(error.response.data);
+			}
+			return rejectWithValue('An unexpected error occurred');
 		}
-		throw error;
 	}
-});
+);
 
 const getFilmViewSlice = createSlice({
 	name: "getFilmViewSlice",
 	initialState,
 	reducers: {
 		updateFilmViewFromStorage: (state, action: PayloadAction<IGetFilmViewState>) => {
-			state.error = action.payload.error;
-			state.success = action.payload.success;
-			state.loading = action.payload.loading;
+			if (action.payload) {
+				state.error = action.payload.error;
+				state.success = action.payload.success;
+				state.loading = action.payload.loading;
+			} else {
+				state.error = 'Payload is null or undefined';
+				state.success = null;
+				state.loading = false;
+			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -46,12 +54,12 @@ const getFilmViewSlice = createSlice({
 			.addCase(getFilmView.fulfilled, (state, action) => {
 				state.loading = false;
 				state.success = action.payload;
-				state.error = "";
+				state.error = null;
 				localStorage.setItem("filmView", JSON.stringify(state));
 			})
 			.addCase(getFilmView.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload as string;
+				state.error = action.payload || 'An error occurred';
 				state.success = null;
 			});
 	},

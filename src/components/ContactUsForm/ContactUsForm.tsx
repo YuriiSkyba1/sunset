@@ -88,7 +88,7 @@ function ContactUsForm({
 				_debounce((value) => {
 					setPhoneInputValue(value);
 					setFieldValue(field.name, value);
-				}, 2000),
+				}, 6000),
 				[field.name, setFieldValue]
 			);
 
@@ -131,12 +131,12 @@ function ContactUsForm({
 						</div>
 						<div className="flex flex-col desktop:flex-row gap-6">
 							<div className="">
-								<Field
+							<Field
 									component={CustomPhoneInput}
 									id="phone"
 									name="phone"
 									className="w-[300px] desktop:w-[312px] p-3 border border-gray-300 rounded-md placeholder-gray-500 font-gotham_pro_regular"
-									placeholder="Phone number*"
+									placeholder="Phone (include country code)*"
 								/>
 								<ErrorMessage name="phone" component={TextErrorMessage} />
 							</div>
