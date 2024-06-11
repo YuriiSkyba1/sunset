@@ -3,8 +3,14 @@ import Image from "next/image";
 import Underline from "@/assets/primary_underline.svg";
 import AboutCard from "../AboutCard/AboutCard";
 
-function AboutLocation() {
+function AboutLocation({ filmSectionRef }) {
 	const renderingData = useSelector((state) => state.locationView.success);
+console.log(renderingData, 'renderingData')
+	const scrollToFilmSection = () => {
+		if (filmSectionRef.current) {
+			filmSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
 
 	return (
 		<>
@@ -35,7 +41,7 @@ function AboutLocation() {
 								/>
 							))}
 						</div>
-						<button className="w-full py-[14px] desktop:px-8 desktop:max-w-[200px] bg-primary text-black_main text-xs leading-[18px] uppercase font-druk_wide">
+						<button onClick={scrollToFilmSection} className="w-full py-[14px] desktop:px-8 desktop:max-w-[200px] bg-primary text-black_main text-xs leading-[18px] uppercase font-druk_wide">
 							buy a ticket
 						</button>
 					</div>
