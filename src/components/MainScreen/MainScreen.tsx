@@ -6,7 +6,7 @@ import { useSelector } from "@/hooks";
 import Link from "next/link";
 import { useMemo } from "react";
 
-function MainScreen() {
+function MainScreen({ filmSectionRef }) {
 	const renderingData = useSelector((state) => state.locationView.success);
 
 	const customStyles = useMemo(() => ({
@@ -15,6 +15,12 @@ function MainScreen() {
 	}), [renderingData?.photo]);
 
 	if (!renderingData) return null;
+
+	const scrollToFilmSection = () => {
+		if (filmSectionRef.current) {
+			filmSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
 
 	return (
 		<div className="relative" style={customStyles}>
@@ -38,7 +44,7 @@ function MainScreen() {
 				<div className="font-gotham_pro_regular text-[16px] leading-6 mt-3 desktop:leading-7 desktop:text-lg desktop:mt-2 normal-case">
 					{renderingData.subtitle}
 				</div>
-				<button className="px-20 py-3 mt-10 desktop:py-4 desktop:px-8 desktop:mt-14 bg-addition font-druk_wide text-black_main text-lg leading-6 uppercase font-bold">
+				<button onClick={scrollToFilmSection} className="px-20 py-3 mt-10 desktop:py-4 desktop:px-8 desktop:mt-14 bg-addition font-druk_wide text-black_main text-lg leading-6 uppercase font-bold">
 					buy a ticket
 				</button>
 			</div>
