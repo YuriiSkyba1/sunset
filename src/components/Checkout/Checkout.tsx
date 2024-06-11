@@ -88,7 +88,7 @@ function Checkout() {
 
 	const seats = useMemo(() => {
 		const maxRows = findMaxRow;
-		const maxSeatsPerRow = findMaxSeat;
+		const maxSeatsPerRow = findMaxSeat === 12 ? 13 : findMaxSeat;
 		const rows = [];
 
 		for (let rowIndex = 1; rowIndex <= maxRows; rowIndex++) {
