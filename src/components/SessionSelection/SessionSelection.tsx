@@ -76,13 +76,7 @@ const SessionSelection: React.FC = () => {
 
 	const seats = useMemo(() => {
 		const maxRows = findMaxRow;
-		let maxSeatsPerRow = findMaxSeat;
-
-		console.log("maxRows", maxRows);
-		console.log("maxSeatsPerRow", maxSeatsPerRow);
-		if (maxSeatsPerRow === 12) {
-			maxSeatsPerRow = 13;
-		}
+		const maxSeatsPerRow = findMaxSeat === 12 ? 13 : findMaxSeat;
 
 		const rows = [];
 
