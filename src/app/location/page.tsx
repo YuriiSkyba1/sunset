@@ -1,7 +1,7 @@
 "use client";
 
 import { useDispatch, useSelector } from "@/hooks";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getView } from "@/redux/getLocationsView/getLocationsViewSlice";
 import MainScreen from "@/components/MainScreen/MainScreen";
 import AboutLocation from "@/components/AboutLocation/AboutLocation";
@@ -16,6 +16,7 @@ import Footer from "@/components/Footer/Footer";
 
 function TemporaryLocationPage() {
 	const dispatch = useDispatch();
+	const filmSectionRef = useRef(null); // Create a ref for the FilmSection component
 
 	useEffect(() => {
 		dispatch(getView());
@@ -23,7 +24,7 @@ function TemporaryLocationPage() {
 	}, [dispatch]);
 
 	const findFilmsTitles = () => {
-		const filmsTitles: string[] = [];
+		const filmsTitles = [];
 		locationData.success?.movies?.movies?.forEach((movie) => {
 			filmsTitles.push(movie.title);
 		});
@@ -42,9 +43,11 @@ function TemporaryLocationPage() {
 			<Header />
 			{!locationData.loading && locationData.success ? (
 				<div className="w-full max-w-[375px] desktop:w-full desktop:max-w-[1440px] m-auto desktop:relative">
-					<MainScreen />
-					<FilmSection />
-					<AboutLocation />
+					<MainScreen filmSectionRef={filmSectionRef} /> 
+					<div ref={filmSectionRef}>
+						<FilmSection />
+					</div>
+					<AboutLocation filmSectionRef={filmSectionRef} /> {/* Pass the ref as a prop */}
 					<Faq />
 					<ContactsSection />
 					<JoinSunsetSection style="yellow" />

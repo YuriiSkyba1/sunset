@@ -2,7 +2,6 @@ import Image from "next/image";
 import Underline from "@/assets/primary_underline.svg";
 import FilmsList from "../FilmsList/FilmsList";
 import { useSelector } from "@/hooks";
-import { useMemo } from "react";
 
 function FilmSection() {
 	const renderingData = useSelector((state) => state.locationView.success);

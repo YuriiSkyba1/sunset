@@ -10,7 +10,6 @@ function CountryDropdownSmall() {
 	const [country, setCountry] = useState("");
 
 	const availableCountries = useSelector((state) => state.data.success?.countries);
-
 	useEffect(() => {
 		const storedCountry = Cookies.get("country");
 		if (storedCountry) {
