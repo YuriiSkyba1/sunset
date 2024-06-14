@@ -1,16 +1,16 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import CountryDropdown from "../CountryDropdown/CountryDropdown";
 import LanguageDropdown from "../LanguageDropdown/LanguageDropdown";
-import { useSelector } from "@/hooks";
+import { useSelector, useDispatch } from "react-redux";
+import { setLanguage } from "@/redux/getData/getDataSlice";
 
 export default function PopUpCountry() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [country, setCountry] = useState("");
-	const [language, setLanguage] = useState("");
-
+	const dispatch = useDispatch();
+	const language = useSelector((state) => state.data.language);
 	const availableCountries = useSelector((state) => state.data.success?.countries);
 	const availableLanguages = useSelector((state) => state.data.success?.languages);
 
@@ -20,15 +20,18 @@ export default function PopUpCountry() {
 
 		if (!storedCountry || !storedLanguage) {
 			setShowPopup(true);
+		} else {
+			if (storedCountry) setCountry(storedCountry);
+			if (storedLanguage) dispatch(setLanguage(storedLanguage));
 		}
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (availableCountries && availableLanguages) {
-			setLanguage(availableLanguages[availableLanguages.length - 1].name);
-			setCountry(availableCountries[availableCountries.length - 1].name);
+			dispatch(setLanguage(availableLanguages[0].iso_code));
+			setCountry(availableCountries[0].name);
 		}
-	}, [availableCountries, availableLanguages]);
+	}, [availableCountries, availableLanguages, dispatch]);
 
 	const handleSave = () => {
 		Cookies.set("country", country, { expires: 7 });

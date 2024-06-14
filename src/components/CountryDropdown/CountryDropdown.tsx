@@ -16,6 +16,17 @@ function CountryDropdown({
 }) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
+	const normalizedAvailableCountries = availableCountries.map(country => ({
+		...country,
+		iso_code: country.iso_code || country.isoCode,
+	}));
+
+	const uniqueAvailableCountries = normalizedAvailableCountries.filter(
+		(value, index, self) =>
+			index === self.findIndex((t) => t.iso_code === value.iso_code)
+	);
+
+
 	return (
 		<div className="relative">
 			<button
@@ -34,7 +45,7 @@ function CountryDropdown({
 
 			{isOpen && (
 				<div className="absolute z-20 bg-white flex flex-col w-full border-x-2 border-b-2">
-					{availableCountries?.map((country) => (
+					{uniqueAvailableCountries?.map((country) => (
 						<div key={country.iso_code}>
 							<button
 								className="font-druk_wide text-[10px] desktop:[12px] px-3 py-[6px] text-start "
