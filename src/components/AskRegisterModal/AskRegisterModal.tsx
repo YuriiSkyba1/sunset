@@ -29,11 +29,11 @@ function AskRegisterModal({ isActive, setIsActive }: IAskRegisterModal) {
 							<Image src={CloseIcon} alt="CloseIcon"></Image>
 						</button>
 						<div className="flex flex-col items-center mb-[56px] desktop:mb-[48px]">
-							<h2 className="text-[18px] leading-6 desktop:text-[32px] desktop:leading-10 uppercase font-bold">
+							<h2 className="text-[18px] leading-6 desktop:text-[32px] desktop:leading-10 uppercase font-druk_wide text-center">
 								do you want to register?
 							</h2>
-							<Image src={Underline} alt="Underline" className="desktop:mb-2" />
-							<p className="text-[14px] leading-[22px] mt-3">
+							<Image src={Underline} alt="Underline" className="desktop:mb-2 desktop:w-[542px]" />
+							<p className="text-[14px] leading-[22px] mt-3 font-gotham_pro_regular text-center">
 								After registering on the site, you can accumulate and spend bonuses, interact with the
 								loyalty system
 							</p>
@@ -41,13 +41,13 @@ function AskRegisterModal({ isActive, setIsActive }: IAskRegisterModal) {
 						<div className="flex flex-col-reverse desktop:flex-col items-center gap-4 desktop:gap-6">
 							<Link
 								href={`${currentPath}/checkout`}
-								className="uppercase font-bold text-[12px] leading-[18px] py-[14px] px-[113px] desktop:text-[14px] desktop:leading-5 bg-primary text-black_main desktop:py-[14px] desktop:px-[78px]"
+								className="uppercase font-druk_wide text-[12px] leading-[18px] py-[14px] px-[113px] desktop:text-[14px] desktop:leading-5 bg-primary text-black_main desktop:py-[14px] desktop:px-[78px]"
 							>
 								SIGN UP
 							</Link>
 							<Link
 								href={`${currentPath}/checkout`}
-								className="uppercase underline font-bold text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5"
+								className="uppercase underline font-druk_wide text-[12px] leading-[18px] desktop:text-[14px] desktop:leading-5"
 							>
 								buy a ticket as a guest
 							</Link>
