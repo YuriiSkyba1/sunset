@@ -121,7 +121,7 @@ const PaymentForm: React.FC = () => {
 				_debounce((value) => {
 					setPhoneInputValue(value);
 					setFieldValue(field.name, value);
-				}, 6000),
+				}, 1000),
 				[field.name, setFieldValue]
 			);
 

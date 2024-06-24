@@ -28,7 +28,7 @@ function MenuDropdown() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		// dispatch(getLocationsList("FR"));
+		dispatch(getLocationsList("CZ"));
 	}, []);
 
 	return (

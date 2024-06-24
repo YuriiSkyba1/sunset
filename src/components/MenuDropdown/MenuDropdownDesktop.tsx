@@ -17,36 +17,51 @@ function MenuDropdownDesktop() {
 	const [isLocationDropdownOpen, setLocationDropdownOpen] = useState<boolean>();
 
 	const locationsList = useSelector((state) => state.locationList.success);
+	console.log("locationsList from menuDropdownDesktop:", locationsList);
 
 	return (
 		<div className="hidden desktop:block">
 			<div className="absolute h-screen max-h-[800px] overflow-y-scroll z-10 left-0  bg-pink_light flex desktop:flex-row  desktop:max-w-[1440px] desktop:top-[82px]  ">
 				<div className="pt-10 mx-[60px] w-[601px] h-[800px]">
 					<div className=" font-bold text-[24px] leading-8 mb-20 font-druk_wide">
-						<div className="mb-8">
-							<button
-								className="flex justify-between w-full"
-								onClick={() => setLocationDropdownOpen(!isLocationDropdownOpen)}
-							>
-								<div>LOCATIONS</div>
-								<Image
-									src={BottomBlackArrow}
-									alt="BottomBlackArrow"
-									width={32}
-									height={32}
-									className={`${isLocationDropdownOpen ? "rotate-180" : ""}`}
-								></Image>
-							</button>
-							{isLocationDropdownOpen && (
-								<div>
-									{locationsList?.map((location) => (
-										<div className=" mt-4">
-											<Link href={"/location"}>{location.title}</Link>
-										</div>
-									))}
+						{locationsList && locationsList.length === 1 && (
+							<div>
+								<div className=" my-8">
+									<Link
+										href={"/location"}
+										className=" font-bold text-[24px] leading-8 mb-20 font-druk_wide uppercase"
+									>
+										{locationsList[0].title}
+									</Link>
 								</div>
-							)}
-						</div>
+							</div>
+						)}
+						{locationsList && locationsList.length > 1 && (
+							<div className="mb-8">
+								<button
+									className="flex justify-between w-full"
+									onClick={() => setLocationDropdownOpen(!isLocationDropdownOpen)}
+								>
+									<div>LOCATIONS</div>
+									<Image
+										src={BottomBlackArrow}
+										alt="BottomBlackArrow"
+										width={32}
+										height={32}
+										className={`${isLocationDropdownOpen ? "rotate-180" : ""}`}
+									></Image>
+								</button>
+								{isLocationDropdownOpen && (
+									<div>
+										{locationsList?.map((location) => (
+											<div className=" mt-4">
+												<Link href={"/location"}>{location.title}</Link>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						)}
 
 						<Link href={""} className="block mb-8 ">
 							SUNSET FAMILY
