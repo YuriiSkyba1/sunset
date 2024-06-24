@@ -44,7 +44,7 @@ export default function CheckoutListStoreItem({ storeItem, withButton = true }: 
 
 	return (
 		<div>
-			<div className="border bg-white py-[12px] desktop:px-[16px] px-[12px] flex justify-between font-gotham_pro_regular text-[14px] leading-[14px] desktop:text-[16px] desktop:leading-6">
+			<div className="border bg-white py-[12px] desktop:px-[16px] px-[12px] flex justify-between items-center font-gotham_pro_regular text-[14px] leading-[14px] desktop:text-[16px] desktop:leading-6">
 				<div className="flex gap-1 desktop:gap-2 ">
 					<span className="text-grey_dark">Item:</span>
 					<span>Small popcorn meal</span>
